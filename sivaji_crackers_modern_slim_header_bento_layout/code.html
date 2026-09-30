@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_standard" name="shell-type"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#6a020a",
+            "crimson-deep": "#8b1e1e",
+            "crimson-vibrant": "#b91c1c",
+            "gold-amber": "#c48b28",
+            "amber-gold": "#F59E0B",
+            "amber-subtle": "#FEF3C7",
+            "surface-cream": "#FAF8F5",
+            "safety-tag": "#059669",
+            "brand-dark": "#0f172a",
+            "brand-slate": "#1e293b",
+            "brand-card": "#ffffff"
+          },
+          fontFamily: {
+            "display": ["Cinzel", "serif"],
+            "sans": ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        scroll-behavior: smooth;
+      }
+    }
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(196, 139, 40, 0.16);
+    }
+  </style>
+</head>
+<body class="bg-surface-cream font-sans text-brand-dark antialiased selection:bg-gold-amber/20 selection:text-crimson-deep">
+<!-- TOP STATUTORY & BOOKING STRIP -->
+<aside aria-label="Announcement" class="bg-crimson-deep text-white/95 text-xs font-medium tracking-wide border-b border-gold-amber/30 relative z-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-col md:flex-row items-center justify-between gap-2">
+<div class="flex items-center gap-2 text-center md:text-left">
+<span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-gold-amber/20 text-gold-amber text-[12px]">
+<span class="material-symbols-outlined text-[13px]">auto_awesome</span>
+</span>
+<span class="text-[11px] sm:text-xs">Diwali 2025 Bookings Open <span class="text-gold-amber/90 font-semibold">• 100% Green Certified Fireworks</span> • Sivakasi Factory Direct Hub</span>
+</div>
+<div class="flex items-center gap-4 text-xs font-semibold">
+<span class="hidden sm:inline-flex items-center gap-1.5 text-emerald-300 text-[11px]">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+          PESO Certified (SC Compliant)
+        </span>
+<span class="text-white/40 hidden sm:inline">|</span>
+<a class="inline-flex items-center gap-1.5 text-white hover:text-gold-amber transition-colors text-[11px]" href="tel:+918318270300">
+<span class="material-symbols-outlined text-[14px]">call</span>
+          +91 8318270300
+        </a>
+</div>
+</div>
+</aside>
+<!-- STREAMLINED SAAS-STYLE SLIM HEADER (Height ~68px) -->
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200/90 shadow-xs transition-all duration-200">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-[68px] gap-4">
+<!-- Brand Logo with https://lh3.googleusercontent.com/aida/AEtjO1W6ssFXz0sAnfbXHwoiDhNGYJ2e4-qCwBVZhx-lGbNp9v9t-n5Llu9iQxFPAX4n--LD_YesZxkI7sagKMT2kpkBOww2DVGatxIu9BZFj68r6rZIWZcXtTvLfpP5v8xX-87MABCe9HVjtkQFmlaEDawFCEc0Y-kPscvqJ57FekYjvf-smPw0X0hCcyx2XPiDDWG6OqNjtoHd8faOhKag6suB73mo9KvKsXnndw8qvAeT2llkArFWpMDVXDg -->
+<a class="flex items-center gap-3 group shrink-0" data-path="home" href="#">
+<img alt="Sivaji Crackers Sivakasi Crest" class="h-10 w-10 rounded-full ring-2 ring-gold-amber/40 shadow-xs group-hover:scale-105 transition-transform object-contain bg-white" src="https://lh3.googleusercontent.com/aida/AEtjO1W6ssFXz0sAnfbXHwoiDhNGYJ2e4-qCwBVZhx-lGbNp9v9t-n5Llu9iQxFPAX4n--LD_YesZxkI7sagKMT2kpkBOww2DVGatxIu9BZFj68r6rZIWZcXtTvLfpP5v8xX-87MABCe9HVjtkQFmlaEDawFCEc0Y-kPscvqJ57FekYjvf-smPw0X0hCcyx2XPiDDWG6OqNjtoHd8faOhKag6suB73mo9KvKsXnndw8qvAeT2llkArFWpMDVXDg"/>
+<div class="flex flex-col">
+<span class="font-display font-black text-lg tracking-wider text-crimson-deep leading-none">SIVAJI CRACKERS</span>
+<span class="text-[9px] uppercase font-bold tracking-[0.22em] text-gold-amber mt-0.5">Sivakasi Direct Hub</span>
+</div>
+</a>
+<!-- Center Grouped Subtle Modern Pill Navigation Links -->
+<nav class="hidden lg:flex items-center gap-1 bg-stone-100/80 p-1 rounded-full border border-stone-200/70 text-[13px] font-semibold text-stone-600">
+<a class="px-3.5 py-1.5 text-crimson-deep font-bold bg-white rounded-full shadow-xs" data-path="home" href="#">Home</a>
+<a class="px-3.5 py-1.5 hover:text-crimson-deep rounded-full transition-colors" data-path="price-list-estimate" href="#estimate-builder">Price List / Estimate</a>
+<a class="px-3.5 py-1.5 hover:text-crimson-deep rounded-full transition-colors" data-path="categories" href="#catalogue">Catalogue</a>
+<a class="px-3.5 py-1.5 hover:text-crimson-deep rounded-full transition-colors" data-path="safety-and-process" href="#safety">Safety</a>
+<a class="px-3.5 py-1.5 hover:text-crimson-deep rounded-full transition-colors" data-path="about-us" href="#about">About Us</a>
+<a class="px-3.5 py-1.5 hover:text-crimson-deep rounded-full transition-colors" data-path="contact" href="#contact">Contact</a>
+</nav>
+<!-- Clean Right Utilities: Direct WhatsApp & Instant Action Button -->
+<div class="flex items-center gap-3 shrink-0">
+<a class="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100/70 px-3 py-1.5 rounded-lg border border-emerald-200/80 transition-all" href="https://wa.me/918318270300?text=Hi%20Sivaji%20Crackers,%20please%20send%20me%20the%20Diwali%202025%20Price%20List%20and%20Estimate%20Sheet" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[16px] text-safety-tag">chat</span>
+<span>WhatsApp</span>
+</a>
+<a class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-crimson-deep hover:bg-primary text-white text-xs font-bold uppercase tracking-wider shadow-sm hover:shadow-md transition-all active:scale-95" href="#estimate-builder">
+<span class="material-symbols-outlined text-[16px]">calculate</span>
+<span>Get Quick Estimate</span>
+</a>
+</div>
+</div>
+</div>
+</header>
+<main class="w-full">
+<!-- HERO SECTION: BENTO-GRID HERO COMPOSITION WITH INTERACTIVE CARD DECK -->
+<section class="relative overflow-hidden pt-8 pb-16 lg:py-16 bg-gradient-to-b from-stone-50 via-surface-cream to-white">
+<div class="absolute -top-32 -left-20 w-[550px] h-[550px] bg-gold-amber/10 blur-[130px] rounded-full pointer-events-none"></div>
+<div class="absolute top-1/3 -right-20 w-[500px] h-[500px] bg-crimson-deep/8 blur-[120px] rounded-full pointer-events-none"></div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
+<!-- Hero Left Column: Central Bold Proposition -->
+<div class="lg:col-span-7 flex flex-col justify-center gap-6">
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-subtle/90 border border-gold-amber/30 text-amber-950 text-xs font-bold tracking-wide w-fit">
+<span class="w-2 h-2 rounded-full bg-gold-amber animate-pulse"></span>
+<span>Direct Sivakasi Manufacturer • Up to 70% Off Wholesale</span>
+</div>
+<h1 class="font-display text-4xl sm:text-5xl lg:text-[3.25rem] font-bold tracking-tight text-brand-dark leading-[1.12]">
+              Ignite Celebrations with <br class="hidden sm:inline"/>
+<span class="text-crimson-deep relative">
+                Sivakasi's Finest
+                <span class="absolute left-0 bottom-1 w-full h-[6px] bg-gold-amber/25 rounded-full -z-10"></span>
+</span>
+<span class="gold-gradient-text block mt-1">Green Crackers</span>
+</h1>
+<p class="text-base sm:text-lg text-stone-600 leading-relaxed max-w-xl font-normal">
+              100% Legal &amp; Safe Fireworks dispatched directly from authorized Sivakasi explosive godowns. Fully compliant with Hon'ble Supreme Court directives and CSIR-NEERI green pyrotechnic certifications. Zero middlemen markups.
+            </p>
+<!-- Action Buttons -->
+<div class="flex flex-wrap items-center gap-4 pt-1">
+<a class="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-crimson-deep hover:bg-primary text-white font-bold text-sm tracking-wide shadow-md hover:shadow-lg shadow-crimson-deep/20 transition-all" href="#estimate-builder">
+<span class="material-symbols-outlined text-[19px]">receipt_long</span>
+<span>Instant Estimate Builder</span>
+</a>
+<a class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white border border-stone-200 hover:border-gold-amber hover:bg-stone-50 text-brand-dark font-bold text-sm tracking-wide shadow-xs transition-all" href="#price-list">
+<span class="material-symbols-outlined text-[19px] text-gold-amber">download_for_offline</span>
+<span>Download 2025 Price List (PDF)</span>
+</a>
+</div>
+<!-- Guarantee Badges Horizontal Bar -->
+<div class="flex flex-wrap items-center gap-6 pt-4 text-xs font-semibold text-stone-600 border-t border-stone-200/80">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-safety-tag" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span>CSIR-NEERI Green QR Code</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-gold-amber" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+<span>Insured Lorry Transport</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-crimson-deep" style="font-variation-settings: 'FILL' 1;">price_check</span>
+<span>Direct Factory Invoice</span>
+</div>
+</div>
+</div>
+<!-- Hero Right Column: 2-Stack Bento Card Deck -->
+<div class="lg:col-span-5 flex flex-col gap-4">
+<!-- Card Deck Top: Nocturnal Fireworks + Live Margin -->
+<div class="relative bg-white rounded-3xl p-4 shadow-xl border border-stone-200/90 overflow-hidden group">
+<div class="relative h-56 sm:h-60 w-full rounded-2xl overflow-hidden shadow-inner">
+<img alt="Festive Diwali Aerial Fireworks Display" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQXmjYNnFd_NqJwXa7RXRdB3PSj_YIMYgM82dwW6UYssWqyTcn7P5T8sulXVl4eJslpKl4uR469TnVm0rwwcwhr1NcNj2Cg0_17WkBBGIV3NkThZiqVZaCMn-MMziYWmJBwnM-IG94Ced2KSBRd9dMHvRG5JBqo1tOJOHh6IdpncroQpBv3OnDyrQxNXHDg_SIC5TS8GCQjUjCjS8KqDdO4oxrAL_wTTC9NxQ0BAWNhXTTtk7J_VTP"/>
+<div class="absolute inset-0 bg-gradient-to-t from-brand-dark/95 via-brand-dark/30 to-transparent flex flex-col justify-end p-4 text-white">
+<div class="flex items-center justify-between mb-1">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gold-amber text-brand-dark font-extrabold text-[10px] tracking-wider uppercase">
+                    2025 Reserve Edition
+                  </span>
+<span class="text-[11px] text-white/80 font-medium">Sivakasi Master Shed</span>
+</div>
+<h3 class="font-display text-base font-bold text-white">Royal Symphony 240-Shot Cake</h3>
+<p class="text-[11px] text-stone-200/90 font-light mt-0.5 line-clamp-2">High altitude kaleidoscopic peony &amp; willow bursts with low particulate emissions.</p>
+</div>
+</div>
+<!-- Embedded Live Discount Ribbon -->
+<div class="mt-3.5 p-3 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/70 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-gold-amber text-white flex items-center justify-center font-black text-xs shadow-xs">
+                  %
+                </div>
+<div>
+<h4 class="text-[11px] font-extrabold uppercase tracking-wider text-amber-950">Early Bird Wholesale Margin</h4>
+<p class="text-[11px] text-amber-800/90">Flat 70% off factory listed MRP on bulk quotes</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-md bg-white border border-amber-300 text-crimson-deep font-extrabold text-[11px]">
+                Active
+              </span>
+</div>
+</div>
+<!-- Card Deck Bottom: Interactive Stats & Instant Download Dock -->
+<div class="bg-white rounded-2xl p-4 shadow-md border border-stone-200 flex flex-col justify-between gap-3">
+<div class="grid grid-cols-4 gap-2 text-center">
+<div class="p-1.5 bg-stone-50 rounded-lg">
+<div class="text-base font-black text-crimson-deep">15+</div>
+<div class="text-[9px] font-bold text-stone-500 uppercase tracking-tight">Years Legacy</div>
+</div>
+<div class="p-1.5 bg-stone-50 rounded-lg">
+<div class="text-base font-black text-gold-amber">250+</div>
+<div class="text-[9px] font-bold text-stone-500 uppercase tracking-tight">Varieties</div>
+</div>
+<div class="p-1.5 bg-stone-50 rounded-lg">
+<div class="text-base font-black text-safety-tag">100%</div>
+<div class="text-[9px] font-bold text-stone-500 uppercase tracking-tight">Verified</div>
+</div>
+<div class="p-1.5 bg-stone-50 rounded-lg">
+<div class="text-base font-black text-brand-dark">50k+</div>
+<div class="text-[9px] font-bold text-stone-500 uppercase tracking-tight">Families</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-stone-100 text-xs">
+<span class="text-stone-500 font-medium">Ready to order wholesale?</span>
+<a class="inline-flex items-center gap-1 font-bold text-crimson-deep hover:text-primary" href="#estimate-builder">
+<span>Launch Estimator</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION: WHY CHOOSE SIVAKASI DIRECT -->
+<section class="py-16 bg-white border-y border-stone-200/70">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center max-w-3xl mx-auto mb-12">
+<span class="text-xs font-extrabold uppercase tracking-[0.2em] text-gold-amber">Craftsmanship &amp; Provenance</span>
+<h2 class="font-display text-3xl sm:text-4xl font-bold text-brand-dark mt-2 tracking-tight">
+            Why Choose Sivakasi Direct Factory Dispatch?
+          </h2>
+<p class="text-stone-600 text-sm sm:text-base mt-2">
+            Celebrate festivities with genuine Sivakasi heritage, guaranteed safety standards, and verified supply chain integrity.
+          </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+<!-- Card 1 -->
+<div class="glass-card rounded-2xl p-5 shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
+<div>
+<div class="w-11 h-11 rounded-xl bg-crimson-deep/10 text-crimson-deep flex items-center justify-center mb-4 group-hover:bg-crimson-deep group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[24px]">factory</span>
+</div>
+<h3 class="font-sans font-bold text-base text-brand-dark mb-1.5">Direct Factory Wholesale</h3>
+<p class="text-xs text-stone-600 leading-relaxed">
+                Save up to 70% by eliminating local city distributors, brokers, and retail storage surcharges. Authentic Sivakasi factory rate guaranteed.
+              </p>
+</div>
+<div class="mt-5 pt-3 border-t border-stone-100 flex items-center justify-between text-xs font-bold text-crimson-deep">
+<span>Zero Middlemen</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-card rounded-2xl p-5 shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
+<div>
+<div class="w-11 h-11 rounded-xl bg-emerald-50 text-safety-tag flex items-center justify-center mb-4 group-hover:bg-safety-tag group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<h3 class="font-sans font-bold text-base text-brand-dark mb-1.5">CSIR-NEERI Green Certified</h3>
+<p class="text-xs text-stone-600 leading-relaxed">
+                Manufactured using government-approved formulas with 30-40% reduced particulate matter, zero toxic barium nitrate, and authorized green QR verification.
+              </p>
+</div>
+<div class="mt-5 pt-3 border-t border-stone-100 flex items-center justify-between text-xs font-bold text-safety-tag">
+<span>100% Eco Safe</span>
+<span class="material-symbols-outlined text-[15px]">verified</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="glass-card rounded-2xl p-5 shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
+<div>
+<div class="w-11 h-11 rounded-xl bg-amber-50 text-gold-amber flex items-center justify-center mb-4 group-hover:bg-gold-amber group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[24px]">stars</span>
+</div>
+<h3 class="font-sans font-bold text-base text-brand-dark mb-1.5">250+ Handpicked Varieties</h3>
+<p class="text-xs text-stone-600 leading-relaxed">
+                From child-friendly cold sparklers and musical chakkars to 240-shot panoramic repeater cakes and luxury brass hampers.
+              </p>
+</div>
+<div class="mt-5 pt-3 border-t border-stone-100 flex items-center justify-between text-xs font-bold text-gold-amber">
+<span>Widest Catalogue</span>
+<span class="material-symbols-outlined text-[15px]">celebration</span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="glass-card rounded-2xl p-5 shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
+<div>
+<div class="w-11 h-11 rounded-xl bg-slate-100 text-brand-slate flex items-center justify-center mb-4 group-hover:bg-brand-slate group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[24px]">local_shipping</span>
+</div>
+<h3 class="font-sans font-bold text-base text-brand-dark mb-1.5">Insured Lorry Transport</h3>
+<p class="text-xs text-stone-600 leading-relaxed">
+                Heavy-duty reinforced 5-ply corrugated packing with safety straw cushioning, transported safely to your nearest district logistics godown.
+              </p>
+</div>
+<div class="mt-5 pt-3 border-t border-stone-100 flex items-center justify-between text-xs font-bold text-brand-slate">
+<span>District Hub Pickup</span>
+<span class="material-symbols-outlined text-[15px]">shield</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION: FEATURED COLLECTIONS / DYNAMIC CARD DECK -->
+<section class="py-16 bg-surface-cream" id="catalogue">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+<div>
+<span class="text-xs font-extrabold uppercase tracking-[0.2em] text-crimson-deep">Sivakasi Inventory 2025</span>
+<h2 class="font-display text-3xl sm:text-4xl font-bold text-brand-dark mt-1">Featured Pyrotechnic Lines</h2>
+<p class="text-stone-600 text-sm mt-1">Explore our government certified green cracker categories at factory direct rates.</p>
+</div>
+<a class="inline-flex items-center gap-1.5 text-crimson-deep hover:text-primary font-bold text-sm group" href="#estimate-builder">
+<span>Open Estimate Builder</span>
+<span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<!-- 3-Column Card Deck -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Category 1 -->
+<div class="bg-white rounded-2xl overflow-hidden border border-stone-200/80 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group">
+<div class="relative h-52 w-full overflow-hidden bg-stone-100">
+<img alt="Sparklers and chakkars" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6uHlBJdp9gYK83VMmTNjFh5rBcXqy6B5bHEVfYc4QlzFGQlm1n785WnvYCKPKWsBqg7SmhETMcoPbJzO8b3LbiN3oAWXHoXqyR4qtHNijYDXeldvjDiKEfpMi6bWetrb0zppoYh9iri7DRclbX5Kx-6ZEkAUUwvSrr_TSbNNvwKtQdn1v83HfOEd8-srWTNvsYjdByjc3br3vAaSdCBIt-GISWIYBFN6nw-6bMwbfrpThxUwCZ-TV"/>
+<span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-crimson-deep text-white font-extrabold text-[10px] uppercase tracking-wider">Kids Safe</span>
+<span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-md bg-white/95 text-stone-800 font-bold text-xs shadow-xs">Eco Smoke</span>
+</div>
+<div class="p-5 flex flex-col flex-grow justify-between gap-4">
+<div>
+<h3 class="font-bold text-base text-brand-dark group-hover:text-crimson-deep transition-colors">Sparklers &amp; Chakkars</h3>
+<p class="text-xs text-stone-600 mt-1 leading-relaxed">Electric colors (10cm, 15cm, 30cm, 50cm), whistle sparklers, and smooth rotating ground wheels.</p>
+</div>
+<div class="pt-3 border-t border-stone-100 flex items-center justify-between">
+<div>
+<span class="text-[10px] text-stone-400 block uppercase font-bold">Wholesale Rate</span>
+<span class="font-extrabold text-base text-crimson-deep">From ₹25 <span class="text-xs font-normal text-stone-500">/ box</span></span>
+</div>
+<a class="px-3.5 py-1.5 rounded-lg bg-stone-100 hover:bg-crimson-deep hover:text-white text-brand-dark text-xs font-bold transition-colors" href="#estimate-builder">
+                  Add to Estimate
+                </a>
+</div>
+</div>
+</div>
+<!-- Category 2 -->
+<div class="bg-white rounded-2xl overflow-hidden border border-stone-200/80 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group">
+<div class="relative h-52 w-full overflow-hidden bg-stone-100">
+<img alt="Ground flower pots and spinners" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA96JO1wxgxizH3S2hFJvuA6yOOxE5M5Y_QamkPPh6cKun7zoCF5OPZ6kPS9dmoLrlFYSCN0o0hTmcJwz8l-otcCuv-vprfJX9j9en9BEq8JoEppbFq0A8w1oaT--xECGy1brTcJA1kI6g2UL4zK51GJjLo49PJWuUaSAQhm8F_LiS-u4Mq8cByTt7yKWUYnn3oTZndfmB7icUoNhoQ5eGvvcvumGdOxlDRFMkcjhuuJP6u4csozs9d"/>
+<span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-gold-amber text-brand-dark font-extrabold text-[10px] uppercase tracking-wider">Traditional Core</span>
+<span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-md bg-white/95 text-stone-800 font-bold text-xs shadow-xs">100% Green</span>
+</div>
+<div class="p-5 flex flex-col flex-grow justify-between gap-4">
+<div>
+<h3 class="font-bold text-base text-brand-dark group-hover:text-crimson-deep transition-colors">Flower Pots &amp; Ground Spinners</h3>
+<p class="text-xs text-stone-600 mt-1 leading-relaxed">Special Ashoka, Tri-Colour Flower Pots, Deluxe Ground Chakkarams, and Giant Whirlers with sustained sparks.</p>
+</div>
+<div class="pt-3 border-t border-stone-100 flex items-center justify-between">
+<div>
+<span class="text-[10px] text-stone-400 block uppercase font-bold">Wholesale Rate</span>
+<span class="font-extrabold text-base text-crimson-deep">From ₹45 <span class="text-xs font-normal text-stone-500">/ box</span></span>
+</div>
+<a class="px-3.5 py-1.5 rounded-lg bg-stone-100 hover:bg-crimson-deep hover:text-white text-brand-dark text-xs font-bold transition-colors" href="#estimate-builder">
+                  Add to Estimate
+                </a>
+</div>
+</div>
+</div>
+<!-- Category 3 -->
+<div class="bg-white rounded-2xl overflow-hidden border border-stone-200/80 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group">
+<div class="relative h-52 w-full overflow-hidden bg-stone-100">
+<img alt="Night Aerial Fireworks repeater cakes" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMeQT7-hMtoiTrgja83dMDr5kzdAhjBAtQuG5b-TW-MmTk_jTgzOPYSu9-aGl7aHSV_Mc3OkazAyOzVkybiKR2pp_883M_Gztkc9TxC6E3ET7xIst0axhwFIkiKaQ_zv4HNEiL24DEda7qLFBTb1hUK7pzKICQwPhYqct1E-CVnaAKhPwHGMUSvW8vOaUCnORlo09yB6dR9VvPUEK3NpFSB3DE5M_oyaTY-x4HRUXawnn3I5uwjT-5"/>
+<span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-brand-slate text-white font-extrabold text-[10px] uppercase tracking-wider">Night Sky Marvels</span>
+<span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-md bg-white/95 text-stone-800 font-bold text-xs shadow-xs">High Altitude</span>
+</div>
+<div class="p-5 flex flex-col flex-grow justify-between gap-4">
+<div>
+<h3 class="font-bold text-base text-brand-dark group-hover:text-crimson-deep transition-colors">Aerial Cakes &amp; Sky Showstoppers</h3>
+<p class="text-xs text-stone-600 mt-1 leading-relaxed">12, 30, 60, 120 and 240 continuous multi-shot fancy aerial displays with crackling tails and palm bursts.</p>
+</div>
+<div class="pt-3 border-t border-stone-100 flex items-center justify-between">
+<div>
+<span class="text-[10px] text-stone-400 block uppercase font-bold">Wholesale Rate</span>
+<span class="font-extrabold text-base text-crimson-deep">From ₹280 <span class="text-xs font-normal text-stone-500">/ unit</span></span>
+</div>
+<a class="px-3.5 py-1.5 rounded-lg bg-stone-100 hover:bg-crimson-deep hover:text-white text-brand-dark text-xs font-bold transition-colors" href="#estimate-builder">
+                  Add to Estimate
+                </a>
+</div>
+</div>
+</div>
+<!-- Category 4 -->
+<div class="bg-white rounded-2xl overflow-hidden border border-stone-200/80 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group">
+<div class="relative h-52 w-full overflow-hidden bg-stone-100">
+<img alt="Sound crackers bijili" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDK3n4qbtW_we3-WOvKmivP3EtivXE6xpOX9qIBbdoYh55Ol2gZYDz0kfrb4ISN2pV3AWND_DNkAlggzynmS_K_p8Qt427ewK8p8q2Dxk8BG2LnGd_ntam3bgCqtOKWd7TdN7_guShYmsRkg6J4fw-XiGEfDug_cl_LDIRyGf7C_W70cYWt2T8f8V_WdMZrEpBLMgIQXbV-9vADLT2Ll_1fDrw-Ph94L2vvK27XoKsNTC_cJ_2XRtqh"/>
+<span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-crimson-vibrant text-white font-extrabold text-[10px] uppercase tracking-wider">Festival Sound</span>
+<span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-md bg-white/95 text-stone-800 font-bold text-xs shadow-xs">Decibel Safe</span>
+</div>
+<div class="p-5 flex flex-col flex-grow justify-between gap-4">
+<div>
+<h3 class="font-bold text-base text-brand-dark group-hover:text-crimson-deep transition-colors">Sound Crackers &amp; Traditional Delights</h3>
+<p class="text-xs text-stone-600 mt-1 leading-relaxed">Red bijili strippers, classic atom bombs, hydro bombs, 28 chorsa, and 56 giant crackers formulated within statutory limits.</p>
+</div>
+<div class="pt-3 border-t border-stone-100 flex items-center justify-between">
+<div>
+<span class="text-[10px] text-stone-400 block uppercase font-bold">Wholesale Rate</span>
+<span class="font-extrabold text-base text-crimson-deep">From ₹18 <span class="text-xs font-normal text-stone-500">/ pkt</span></span>
+</div>
+<a class="px-3.5 py-1.5 rounded-lg bg-stone-100 hover:bg-crimson-deep hover:text-white text-brand-dark text-xs font-bold transition-colors" href="#estimate-builder">
+                  Add to Estimate
+                </a>
+</div>
+</div>
+</div>
+<!-- Category 5 -->
+<div class="bg-white rounded-2xl overflow-hidden border border-stone-200/80 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group">
+<div class="relative h-52 w-full overflow-hidden bg-stone-100">
+<img alt="Diwali gift box hampers" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKy0Jx-nI7lTNnttDIEFlzVGwJMIagmQzQP_0W5ca1MXwoJfcIWBAEU31zZQw5rMhY8tTLHWDIvULli3yso080kAmv2XXFPRa3YwaCnrA40wo-oVWdAOGlQ5szpi44OUMxk8dSM7sLx3tHLMWlPjIqIe-SHAITucXZGCflbsneagC3P-as9PEZDWexq0mYTmFzkPEA2P1HZhNC3znlybBYgPOMBA7xVd92lQCkMJdpZCYq-9jMybNp"/>
+<span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-safety-tag text-white font-extrabold text-[10px] uppercase tracking-wider">Family Combo</span>
+<span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-md bg-white/95 text-stone-800 font-bold text-xs shadow-xs">All-in-One Box</span>
+</div>
+<div class="p-5 flex flex-col flex-grow justify-between gap-4">
+<div>
+<h3 class="font-bold text-base text-brand-dark group-hover:text-crimson-deep transition-colors">Curated Diwali VIP Gift Hampers</h3>
+<p class="text-xs text-stone-600 mt-1 leading-relaxed">Hand-packed gift boxes ranging from 25-item beginner family packs to 60-item royal festival hampers in luxury packaging.</p>
+</div>
+<div class="pt-3 border-t border-stone-100 flex items-center justify-between">
+<div>
+<span class="text-[10px] text-stone-400 block uppercase font-bold">Wholesale Rate</span>
+<span class="font-extrabold text-base text-crimson-deep">From ₹499 <span class="text-xs font-normal text-stone-500">/ box</span></span>
+</div>
+<a class="px-3.5 py-1.5 rounded-lg bg-stone-100 hover:bg-crimson-deep hover:text-white text-brand-dark text-xs font-bold transition-colors" href="#estimate-builder">
+                  Add to Estimate
+                </a>
+</div>
+</div>
+</div>
+<!-- Category 6 -->
+<div class="bg-white rounded-2xl overflow-hidden border border-stone-200/80 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group">
+<div class="relative h-52 w-full overflow-hidden bg-stone-100">
+<img alt="Novelty rainbow color smoke" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9SIxlTBLEcR4WeSKsrnEyY8yYsApdz6Y1GW46QZPtb5Dg1XiJ7qtFlakpsTrd6RGlQeOWUCaQCfpgEybolg08dTkQzwMxHBxVpa48Cdf65b11gUA44blagy87sEzNfQLn1_DY1Xmoihv2NZGaryrH9Yg1SEmByJtiXC1KeqB7s4jt1_h-IV5raOL_5rNzyEZWtEJ46kf675w1kk6CaEiOVe3ArS5qwgl7qnZDU4spD612Br9zwhPw"/>
+<span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-gold-amber text-brand-dark font-extrabold text-[10px] uppercase tracking-wider">Daylight Novelty</span>
+<span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-md bg-white/95 text-stone-800 font-bold text-xs shadow-xs">Vibrant Clouds</span>
+</div>
+<div class="p-5 flex flex-col flex-grow justify-between gap-4">
+<div>
+<h3 class="font-bold text-base text-brand-dark group-hover:text-crimson-deep transition-colors">Novelty Rainbow Smoke &amp; Confetti</h3>
+<p class="text-xs text-stone-600 mt-1 leading-relaxed">Daylight photo-shoot smoke fountains, crackling ball fountains, party pop snappers, and child safe cold spark torches.</p>
+</div>
+<div class="pt-3 border-t border-stone-100 flex items-center justify-between">
+<div>
+<span class="text-[10px] text-stone-400 block uppercase font-bold">Wholesale Rate</span>
+<span class="font-extrabold text-base text-crimson-deep">From ₹35 <span class="text-xs font-normal text-stone-500">/ box</span></span>
+</div>
+<a class="px-3.5 py-1.5 rounded-lg bg-stone-100 hover:bg-crimson-deep hover:text-white text-brand-dark text-xs font-bold transition-colors" href="#estimate-builder">
+                  Add to Estimate
+                </a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION: INTERACTIVE ESTIMATE TEASER / CALCULATOR BOX -->
+<section class="py-16 bg-white relative overflow-hidden" id="estimate-builder">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<div class="bg-gradient-to-br from-brand-dark via-brand-slate to-crimson-deep/90 rounded-3xl p-6 sm:p-10 text-white shadow-2xl relative overflow-hidden border border-gold-amber/30">
+<div class="absolute -right-20 -top-20 w-80 h-80 bg-gold-amber/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+<div class="lg:col-span-6 flex flex-col gap-4">
+<span class="text-xs font-bold tracking-widest text-gold-amber uppercase">Instant Savings Estimator</span>
+<h2 class="font-display text-3xl sm:text-4xl font-bold tracking-tight">
+                Calculate Factory Wholesale Discount
+              </h2>
+<p class="text-stone-300 text-sm sm:text-base leading-relaxed font-light">
+                Select your celebration scale below to see your factory bill vs typical retail shop pricing. We will generate your personalized PDF estimate in seconds.
+              </p>
+<!-- Interactive Selector Buttons -->
+<div class="flex flex-col gap-3 pt-2" id="tier-selector">
+<span class="text-xs font-semibold text-stone-400 uppercase tracking-wider">Select Celebration Budget Tier:</span>
+<div class="grid grid-cols-3 gap-2 sm:gap-3">
+<button class="tier-btn active px-3 py-3 rounded-xl border border-gold-amber bg-gold-amber/20 text-white font-bold text-xs sm:text-sm text-center transition-all focus:outline-none" onclick="setTier(3000, 10000, 'Family Starter Pack (28 Varieties)')" type="button">
+                    ₹3,000 Tier
+                  </button>
+<button class="tier-btn px-3 py-3 rounded-xl border border-white/20 hover:border-gold-amber/50 bg-white/5 text-stone-300 font-bold text-xs sm:text-sm text-center transition-all focus:outline-none" onclick="setTier(5000, 16500, 'Grand Celebration Box (45 Varieties)')" type="button">
+                    ₹5,000 Tier
+                  </button>
+<button class="tier-btn px-3 py-3 rounded-xl border border-white/20 hover:border-gold-amber/50 bg-white/5 text-stone-300 font-bold text-xs sm:text-sm text-center transition-all focus:outline-none" onclick="setTier(10000, 34000, 'Royal VIP Hamper (65+ Varieties)')" type="button">
+                    ₹10,000+ VIP
+                  </button>
+</div>
+</div>
+</div>
+<!-- Savings Preview & WhatsApp Callback Trigger -->
+<div class="lg:col-span-6">
+<div class="bg-white rounded-2xl p-6 sm:p-7 text-brand-dark shadow-xl border border-stone-200">
+<div class="flex items-center justify-between pb-3.5 border-b border-stone-200">
+<div>
+<span class="text-xs text-stone-500 font-semibold uppercase">Pack Selected</span>
+<h4 class="font-bold text-base text-brand-dark" id="tier-name">Family Starter Pack (28 Varieties)</h4>
+</div>
+<span class="px-2.5 py-1 rounded bg-emerald-100 text-safety-tag text-xs font-black uppercase">70% Off</span>
+</div>
+<div class="grid grid-cols-2 gap-4 my-5">
+<div class="p-3 bg-stone-50 rounded-xl">
+<span class="text-[11px] text-stone-500 block uppercase font-semibold">Retail Shop Price</span>
+<span class="text-lg font-bold text-stone-400 line-through" id="retail-price">₹10,000</span>
+</div>
+<div class="p-3 bg-amber-50 rounded-xl border border-amber-200">
+<span class="text-[11px] text-amber-900 block uppercase font-bold">Sivakasi Direct Rate</span>
+<span class="text-2xl font-black text-crimson-deep" id="factory-price">₹3,000</span>
+</div>
+</div>
+<form class="flex flex-col gap-3" id="calculator-lead-form">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<input class="px-3.5 py-2.5 text-xs rounded-lg border border-stone-200 focus:outline-none focus:ring-2 focus:ring-crimson-deep/20 text-brand-dark" placeholder="Your Name" required="" type="text"/>
+<input class="px-3.5 py-2.5 text-xs rounded-lg border border-stone-200 focus:outline-none focus:ring-2 focus:ring-crimson-deep/20 text-brand-dark" placeholder="WhatsApp Number" required="" type="tel"/>
+</div>
+<input class="px-3.5 py-2.5 text-xs rounded-lg border border-stone-200 focus:outline-none focus:ring-2 focus:ring-crimson-deep/20 text-brand-dark" placeholder="Destination City (e.g. Chennai, Bangalore, Hyderabad)" required="" type="text"/>
+<button class="mt-1 w-full py-3.5 px-4 rounded-xl bg-crimson-deep hover:bg-primary text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-all" type="submit">
+<span class="material-symbols-outlined text-[18px]">send_to_mobile</span>
+<span>Send Me WhatsApp Quote Sheet</span>
+</button>
+</form>
+<p class="text-[11px] text-stone-400 text-center mt-3">Strictly compliant with 2018 Supreme Court fireworks regulations. No online payments taken on website.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION: THE 5-STEP ORDER JOURNEY -->
+<section class="py-16 bg-stone-50 border-y border-stone-200">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center max-w-2xl mx-auto mb-12">
+<span class="text-xs font-extrabold uppercase tracking-[0.2em] text-crimson-deep">Transparent Logistics</span>
+<h2 class="font-display text-3xl sm:text-4xl font-bold text-brand-dark mt-2">
+            The 5-Step Order Journey
+          </h2>
+<p class="text-stone-600 text-sm mt-2">
+            How Sivaji Crackers safely fulfills orders directly from Sivakasi town to your doorstep district hub.
+          </p>
+</div>
+<!-- Horizontal Stepper -->
+<div class="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
+<!-- Step 1 -->
+<div class="bg-white p-5 rounded-2xl border border-stone-200/90 shadow-xs flex flex-col justify-between relative group hover:border-gold-amber transition-colors">
+<div>
+<div class="w-9 h-9 rounded-full bg-crimson-deep text-white font-bold text-sm flex items-center justify-center mb-4 ring-4 ring-crimson-deep/10">
+                1
+              </div>
+<h4 class="font-bold text-sm text-brand-dark">Browse &amp; Select</h4>
+<p class="text-xs text-stone-500 mt-1.5 leading-relaxed">
+                Choose from 250+ certified fireworks on our estimate sheet according to your celebration budget.
+              </p>
+</div>
+<span class="text-[11px] text-stone-400 font-semibold mt-4 block uppercase tracking-wider">Online Builder</span>
+</div>
+<!-- Step 2 -->
+<div class="bg-white p-5 rounded-2xl border border-stone-200/90 shadow-xs flex flex-col justify-between relative group hover:border-gold-amber transition-colors">
+<div>
+<div class="w-9 h-9 rounded-full bg-gold-amber text-brand-dark font-bold text-sm flex items-center justify-center mb-4 ring-4 ring-gold-amber/20">
+                2
+              </div>
+<h4 class="font-bold text-sm text-brand-dark">Instant Quotation</h4>
+<p class="text-xs text-stone-500 mt-1.5 leading-relaxed">
+                Receive an itemized wholesale invoice preview showing factory rate, discounts, and estimated weight.
+              </p>
+</div>
+<span class="text-[11px] text-stone-400 font-semibold mt-4 block uppercase tracking-wider">Transparent Bill</span>
+</div>
+<!-- Step 3 -->
+<div class="bg-white p-5 rounded-2xl border border-stone-200/90 shadow-xs flex flex-col justify-between relative group hover:border-gold-amber transition-colors">
+<div>
+<div class="w-9 h-9 rounded-full bg-brand-slate text-white font-bold text-sm flex items-center justify-center mb-4 ring-4 ring-slate-200">
+                3
+              </div>
+<h4 class="font-bold text-sm text-brand-dark">Phone Verification</h4>
+<p class="text-xs text-stone-500 mt-1.5 leading-relaxed">
+                Our Sivakasi executive calls within 2 hours to confirm items and designated lorry transport hub charges.
+              </p>
+</div>
+<span class="text-[11px] text-stone-400 font-semibold mt-4 block uppercase tracking-wider">SC Compliant</span>
+</div>
+<!-- Step 4 -->
+<div class="bg-white p-5 rounded-2xl border border-stone-200/90 shadow-xs flex flex-col justify-between relative group hover:border-gold-amber transition-colors">
+<div>
+<div class="w-9 h-9 rounded-full bg-amber-600 text-white font-bold text-sm flex items-center justify-center mb-4 ring-4 ring-amber-100">
+                4
+              </div>
+<h4 class="font-bold text-sm text-brand-dark">Reinforced Packing</h4>
+<p class="text-xs text-stone-500 mt-1.5 leading-relaxed">
+                Packaged securely in 5-ply waterproof corrugated export boxes from our licensed godown with batch seals.
+              </p>
+</div>
+<span class="text-[11px] text-stone-400 font-semibold mt-4 block uppercase tracking-wider">Safety Packing</span>
+</div>
+<!-- Step 5 -->
+<div class="bg-white p-5 rounded-2xl border border-stone-200/90 shadow-xs flex flex-col justify-between relative group hover:border-gold-amber transition-colors">
+<div>
+<div class="w-9 h-9 rounded-full bg-safety-tag text-white font-bold text-sm flex items-center justify-center mb-4 ring-4 ring-emerald-100">
+                5
+              </div>
+<h4 class="font-bold text-sm text-brand-dark">Parcel Hub Pickup</h4>
+<p class="text-xs text-stone-500 mt-1.5 leading-relaxed">
+                Delivered safely to your district transport lorry office. Receive LR consignment docket for easy collection.
+              </p>
+</div>
+<span class="text-[11px] text-safety-tag font-semibold mt-4 block uppercase tracking-wider">Lorry LR Dispatch</span>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION: LOCATION & SHOWROOM -->
+<section class="py-16 bg-surface-cream border-t border-stone-200" id="about">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+<div class="lg:col-span-6 flex flex-col gap-4">
+<span class="text-xs font-extrabold uppercase tracking-widest text-gold-amber">Authentic Sivakasi Location</span>
+<h3 class="font-display text-2xl sm:text-3xl font-bold text-brand-dark">Visit Our Factory Outlet &amp; Dispatch Godown</h3>
+<p class="text-stone-600 text-sm leading-relaxed">
+              Planning a direct visit to Sivakasi town for bulk festive purchases? You are warmly welcomed to inspect our green cracker test displays and factory reserve packaging directly at our bypass outlet.
+            </p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+<div class="p-4 bg-white rounded-xl border border-stone-200">
+<span class="material-symbols-outlined text-crimson-deep text-[22px] mb-1">location_on</span>
+<h5 class="font-bold text-xs text-brand-dark uppercase">Showroom Address</h5>
+<p class="text-xs text-stone-600 mt-1">3/142-A, Sivakasi-Sattur Main Road, Paraipatti, Sivakasi - 626189, Tamil Nadu</p>
+</div>
+<div class="p-4 bg-white rounded-xl border border-stone-200">
+<span class="material-symbols-outlined text-gold-amber text-[22px] mb-1">schedule</span>
+<h5 class="font-bold text-xs text-brand-dark uppercase">Working Hours</h5>
+<p class="text-xs text-stone-600 mt-1">Mon - Sun: 8:00 AM – 10:00 PM<br/>(Diwali season open 24/7)</p>
+</div>
+</div>
+</div>
+<div class="lg:col-span-6">
+<div class="w-full h-72 rounded-2xl overflow-hidden shadow-lg border border-stone-200 bg-cover bg-center relative" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuApL1tyjr4fxq9YMCFmbVwBZsnF4z_03KRGRh1Q8rcs7NbNGR0jwrE6m-X07vUSkmx1EJRlXC2aPd-6eoQcZqYXvTtwTHoOQvAwhCGyDjAdWaXwLUYxURi26-EFFAxPztPfX5ikbnCe75PFm_Q-X2I03HvGthlX04sI6EFfeeq2ntXzdNaUP_-LEfVu_B1q7C803c5aqGW7rkn5xCS9nyp_g0np6GhN0Caa5fQjGb9iRTdygKgfb7BN');">
+<div class="absolute inset-0 bg-stone-900/30"></div>
+<div class="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md px-4 py-2 rounded-xl shadow-xs flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+<span class="text-xs font-bold text-brand-dark">Main Godown: Sivakasi Bypass, TN</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION: LEGAL & COMPLIANCE TRUST BANNER -->
+<section class="py-12 bg-white" id="safety">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="rounded-2xl p-6 sm:p-7 bg-amber-50/70 border border-gold-amber/30 flex flex-col md:flex-row items-start md:items-center gap-6">
+<div class="w-12 h-12 rounded-xl bg-amber-500/20 text-gold-amber flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[28px]">gavel</span>
+</div>
+<div class="flex-grow">
+<div class="flex flex-wrap items-center gap-3">
+<h3 class="font-bold text-sm sm:text-base text-brand-dark">Statutory Regulatory &amp; Supreme Court Order Compliance Notice</h3>
+<span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-safety-tag text-[11px] font-bold">PESO License: E/SC/TN/22/8193</span>
+</div>
+<p class="text-xs text-stone-600 mt-1.5 leading-relaxed">
+              In strict adherence to the Supreme Court order dated 23-10-2018 (Writ Petition (Civil) No. 728/2015), online sales of firecrackers through payment gateways and courier doorstep delivery are strictly prohibited. Sivaji Crackers operates this portal exclusively as a wholesale quotation estimator. All consignments are confirmed via telephonic verification and dispatched strictly via licensed transport freight lorries.
+            </p>
+</div>
+<a class="shrink-0 px-4 py-2.5 rounded-xl bg-white border border-stone-300 hover:border-gold-amber text-xs font-bold text-stone-700 flex items-center gap-2 transition-colors" href="tel:+918318270300">
+<span class="material-symbols-outlined text-[16px] text-crimson-deep">call</span>
+<span>Helpline Support</span>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- MODERN PREMIUM FOOTER -->
+<footer class="bg-brand-dark text-white border-t border-stone-800" id="contact">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-12">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
+<!-- Brand Summary -->
+<div class="lg:col-span-4 flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<img alt="Sivaji Crackers Logo" class="h-10 w-10 rounded-full bg-white object-contain p-0.5" src="https://lh3.googleusercontent.com/aida/AEtjO1W6ssFXz0sAnfbXHwoiDhNGYJ2e4-qCwBVZhx-lGbNp9v9t-n5Llu9iQxFPAX4n--LD_YesZxkI7sagKMT2kpkBOww2DVGatxIu9BZFj68r6rZIWZcXtTvLfpP5v8xX-87MABCe9HVjtkQFmlaEDawFCEc0Y-kPscvqJ57FekYjvf-smPw0X0hCcyx2XPiDDWG6OqNjtoHd8faOhKag6suB73mo9KvKsXnndw8qvAeT2llkArFWpMDVXDg"/>
+<div>
+<span class="font-display font-bold text-lg text-white">SIVAJI CRACKERS</span>
+<span class="block text-[10px] uppercase font-bold text-gold-amber tracking-widest">Sivakasi Direct Hub</span>
+</div>
+</div>
+<p class="text-xs text-stone-400 leading-relaxed font-light">
+            Sivakasi's premier fireworks source offering verified green pyrotechnics at genuine manufacturer rates. Safe festive joy delivered via registered parcel carriers across India.
+          </p>
+<div class="flex items-center gap-2 text-xs font-semibold text-emerald-400 mt-1">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>CSIR-NEERI &amp; PESO License: E/SC/TN/22/8193</span>
+</div>
+</div>
+<!-- Quick Links -->
+<div class="lg:col-span-2 flex flex-col gap-2.5 text-xs">
+<h4 class="font-bold uppercase tracking-wider text-gold-amber text-xs mb-1">Quick Links</h4>
+<a class="text-stone-300 hover:text-white transition-colors" href="#estimate-builder">Instant Estimate</a>
+<a class="text-stone-300 hover:text-white transition-colors" href="#catalogue">Product Catalogue</a>
+<a class="text-stone-300 hover:text-white transition-colors" href="#safety">Green Crackers QR</a>
+<a class="text-stone-300 hover:text-white transition-colors" href="#safety">Transport &amp; Hub Policy</a>
+<a class="text-stone-300 hover:text-white transition-colors" href="#about">Factory Showroom</a>
+</div>
+<!-- Factory Contact Details -->
+<div class="lg:col-span-3 flex flex-col gap-2.5 text-xs">
+<h4 class="font-bold uppercase tracking-wider text-gold-amber text-xs mb-1">Dispatch Office</h4>
+<p class="text-stone-300 leading-relaxed">
+            3/142-A, Sivakasi-Sattur Main Road, Paraipatti, Sivakasi - 626189, Tamil Nadu, India.
+          </p>
+<div class="flex flex-col gap-1.5 mt-1 text-stone-300">
+<a class="hover:text-gold-amber transition-colors flex items-center gap-2" href="tel:+918318270300">
+<span class="material-symbols-outlined text-[15px] text-gold-amber">call</span>
+              +91 8318270300 / 04562 274810
+            </a>
+<a class="hover:text-gold-amber transition-colors flex items-center gap-2" href="mailto:orders@sivajicrackers.com">
+<span class="material-symbols-outlined text-[15px] text-gold-amber">mail</span>
+              orders@sivajicrackers.com
+            </a>
+</div>
+</div>
+<!-- Quick Estimate Callback Mini-Form -->
+<div class="lg:col-span-3 flex flex-col gap-2.5">
+<h4 class="font-bold uppercase tracking-wider text-gold-amber text-xs mb-1">Direct WhatsApp Callback</h4>
+<p class="text-xs text-stone-400">Receive today's Sivakasi wholesale price sheet directly on WhatsApp.</p>
+<form class="flex flex-col gap-2 mt-1" id="footer-callback-form">
+<input class="px-3.5 py-2.5 text-xs rounded-lg bg-stone-900 border border-stone-700 text-white placeholder:text-stone-500 focus:outline-none focus:border-gold-amber" placeholder="Enter WhatsApp Number" required="" type="tel"/>
+<button class="py-2.5 px-3 rounded-lg bg-crimson-deep hover:bg-primary text-white font-bold text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 shadow-xs" type="submit">
+<span class="material-symbols-outlined text-[16px]">send</span>
+<span>Request Call</span>
+</button>
+</form>
+</div>
+</div>
+<!-- Bottom Bar -->
+<div class="border-t border-stone-800/80 mt-10 pt-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
+<p>© 2025 Sivaji Crackers Sivakasi. All Rights Reserved. Eco-Friendly Green Fireworks.</p>
+<div class="flex items-center gap-4">
+<a class="hover:text-stone-400 transition-colors" href="#safety">Supreme Court Order 2018</a>
+<span>•</span>
+<a class="hover:text-stone-400 transition-colors" href="#safety">Dispatch Terms</a>
+<span>•</span>
+<a class="hover:text-stone-400 transition-colors" href="tel:+918318270300">Support</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- FLOATING QUICK WHATSAPP BUTTON -->
+<div class="fixed bottom-6 right-6 z-50">
+<a class="flex items-center gap-2.5 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-full shadow-2xl transition-all hover:scale-105 active:scale-95 ring-4 ring-emerald-500/20" href="https://wa.me/918318270300?text=Hi%20Sivaji%20Crackers,%20please%20send%20me%20the%20Diwali%202025%20Price%20List%20and%20Estimate%20Sheet" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[22px]">chat</span>
+<span class="text-xs font-bold tracking-wide">WhatsApp Us</span>
+</a>
+</div>
+<!-- JAVASCRIPT FOR INTERACTIVE ESTIMATE TEASER -->
+<script>
+    function setTier(factoryPrice, retailPrice, tierName) {
+      document.getElementById('factory-price').innerText = '₹' + factoryPrice.toLocaleString('en-IN');
+      document.getElementById('retail-price').innerText = '₹' + retailPrice.toLocaleString('en-IN');
+      document.getElementById('tier-name').innerText = tierName;
+
+      // Update button styling
+      const buttons = document.querySelectorAll('.tier-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-gold-amber/20', 'border-gold-amber', 'text-white');
+        btn.classList.add('bg-white/5', 'border-white/20', 'text-stone-300');
+      });
+      event.currentTarget.classList.remove('bg-white/5', 'border-white/20', 'text-stone-300');
+      event.currentTarget.classList.add('bg-gold-amber/20', 'border-gold-amber', 'text-white');
+    }
+
+    // Lead Form Handling
+    document.getElementById('calculator-lead-form')?.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('button[type="submit"]');
+      if (btn) {
+        btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">done</span> Quote Generated! Sivakasi Team Contacting.';
+        btn.classList.remove('bg-crimson-deep');
+        btn.classList.add('bg-safety-tag');
+      }
+    });
+
+    document.getElementById('footer-callback-form')?.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('button[type="submit"]');
+      if (btn) {
+        btn.innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span> Sent!';
+        btn.classList.add('bg-safety-tag');
+      }
+    });
+  </script>
+</body></html>

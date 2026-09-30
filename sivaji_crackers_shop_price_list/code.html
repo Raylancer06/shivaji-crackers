@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"secondary-fixed-dim":"#ffb68b","tertiary-fixed":"#d8e3fb","inverse-on-surface":"#eef0ff","on-error":"#ffffff","on-tertiary-container":"#adb8cf","surface-variant":"#dae2fd","background":"#faf8ff","on-tertiary-fixed":"#111c2d","on-primary-fixed-variant":"#891c1d","on-secondary-fixed":"#321200","crimson-deep":"#6A1414","inverse-surface":"#283044","slate-surface":"#F1F5F9","inverse-primary":"#ffb3ad","surface-container-high":"#e2e7ff","secondary":"#994700","marigold-light":"#FFF7ED","surface-cream":"#FAFAF8","error":"#ba1a1a","success-green":"#16A34A","on-primary-fixed":"#410003","on-background":"#131b2e","on-secondary-container":"#592600","primary-fixed":"#ffdad6","outline-variant":"#dfbfbc","error-container":"#ffdad6","tertiary-container":"#3e495c","outline":"#8b716e","on-secondary-fixed-variant":"#753400","amber-gold":"#F59E0B","safety-tag":"#059669","on-surface":"#131b2e","tertiary-fixed-dim":"#bcc7de","surface-bright":"#faf8ff","surface-container-lowest":"#ffffff","on-secondary":"#ffffff","surface-dim":"#d2d9f4","secondary-container":"#fb7800","primary-container":"#8b1e1e","on-tertiary":"#ffffff","surface-tint":"#aa3531","crimson-vibrant":"#B91C1C","on-error-container":"#93000a","surface":"#faf8ff","tertiary":"#283245","surface-container":"#eaedff","on-primary-container":"#ff9d95","on-tertiary-fixed-variant":"#3c475a","on-surface-variant":"#58413f","surface-container-low":"#f2f3ff","secondary-fixed":"#ffdbc8","on-primary":"#ffffff","surface-container-highest":"#dae2fd","primary":"#6a020a","primary-fixed-dim":"#ffb3ad"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"space-sm":"0.5rem","gutter":"1.5rem","space-lg":"1.5rem","space-xs":"0.25rem","gutter-mobile":"1rem","margin-mobile":"1rem","margin":"2rem","space-md":"1rem","space-xl":"2.5rem"},fontFamily:{"body-lg":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"display-lg-mobile":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"price-xl":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"]},fontSize:{"body-lg":["1.125rem",{lineHeight:"1.6",fontWeight:"400"}],"label-md":["0.75rem",{lineHeight:"1.2",letterSpacing:"0.04em",fontWeight:"700"}],"headline-md":["1.5rem",{lineHeight:"1.3",fontWeight:"700"}],"display-lg-mobile":["2.25rem",{lineHeight:"1.2",letterSpacing:"-0.02em",fontWeight:"800"}],"body-sm":["0.8125rem",{lineHeight:"1.4",fontWeight:"400"}],"label-lg":["0.875rem",{lineHeight:"1.2",letterSpacing:"0.02em",fontWeight:"600"}],"body-md":["0.9375rem",{lineHeight:"1.5",fontWeight:"400"}],"headline-sm":["1.125rem",{lineHeight:"1.4",fontWeight:"600"}],"headline-xl":["2.5rem",{lineHeight:"1.2",letterSpacing:"-0.02em",fontWeight:"700"}],"price-xl":["1.5rem",{lineHeight:"1.2",letterSpacing:"-0.01em",fontWeight:"800"}],"display-lg":["3.5rem",{lineHeight:"1.15",letterSpacing:"-0.03em",fontWeight:"800"}],"headline-xl-mobile":["1.75rem",{lineHeight:"1.25",letterSpacing:"-0.01em",fontWeight:"700"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="bg-marigold-light text-on-surface border-b border-secondary-fixed/40"><div class="max-w-7xl mx-auto px-gutter flex flex-wrap items-center justify-between py-1.5 gap-2 text-label-md font-label-md"><div class="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap"><span class="flex h-2 w-2 rounded-full bg-safety-tag animate-pulse shrink-0"></span><span class="text-secondary font-semibold">Diwali 2025 Bookings Open</span><span class="text-outline-variant hidden sm:inline">•</span><span class="text-on-surface-variant hidden sm:inline">100% Legal CSIR-NEERI Green Certified</span><span class="text-outline-variant hidden md:inline">•</span><span class="text-crimson-vibrant font-medium hidden md:inline">Direct Sivakasi Factory Rates</span></div><div class="flex items-center gap-2 shrink-0"><span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-lowest text-safety-tag font-bold tracking-tight shadow-sm">PESO License: E/SC/TN/22/8193</span></div></div></div><div class="h-20 max-w-7xl mx-auto px-gutter flex items-center justify-between gap-6"><a class="flex items-center gap-3 shrink-0" data-path="home" href="#"><img alt="Regal premium fireworks brand logo for 'Sivaji Crackers' Sivakasi. Elegant crown crest with dynamic bursting firework spark rays, bold royal red and golden amber gradient, clean modern emblem style, high quality vector mark.. Design context: - Primary color: #8b1e1e
+- Font: plusJakartaSans
+- Mode: light
+- Roundness: rounded-md
+. The logo should be visually consistent with these brand tokens." class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1W6ssFXz0sAnfbXHwoiDhNGYJ2e4-qCwBVZhx-lGbNp9v9t-n5Llu9iQxFPAX4n--LD_YesZxkI7sagKMT2kpkBOww2DVGatxIu9BZFj68r6rZIWZcXtTvLfpP5v8xX-87MABCe9HVjtkQFmlaEDawFCEc0Y-kPscvqJ57FekYjvf-smPw0X0hCcyx2XPiDDWG6OqNjtoHd8faOhKag6suB73mo9KvKsXnndw8qvAeT2llkArFWpMDVXDg"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary-container tracking-tight">Sivaji Crackers</span><span class="font-label-md text-label-md text-on-surface-variant tracking-wider uppercase">Sivakasi Direct Hub</span></div></a><nav class="hidden lg:flex items-center gap-1 xl:gap-2 px-2 py-1" data-active-classes="text-primary font-bold bg-primary-fixed/50 rounded-lg"><a class="px-3.5 py-2 font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors" data-path="home" href="#">Home</a><a aria-current="page" class="px-3.5 py-2 transition-colors text-primary font-bold bg-primary-fixed/50 rounded-lg" data-path="shop" href="#">Shop / Estimate</a><a class="px-3.5 py-2 font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors" data-path="about-us" href="#">About Us</a><a class="px-3.5 py-2 font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors" data-path="contact-us" href="#">Contact Us</a></nav><div class="flex items-center gap-3 shrink-0"><a class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors font-label-lg text-label-lg" href="https://wa.me/918318270300"><span class="material-symbols-outlined text-safety-tag text-[18px]">chat</span><span>+91 8318270300</span></a><a class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary-container text-on-primary hover:bg-crimson-deep font-label-lg text-label-lg shadow-sm transition-colors" data-path="shop" href="#"><span class="material-symbols-outlined text-[18px]">calculate</span><span class="whitespace-nowrap">Get Quick Estimate</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-28 bg-surface"><div class="flex flex-col w-full">
+<section class="w-full bg-gradient-to-b from-marigold-light/50 via-surface to-surface pb-8">
+<div class="max-w-7xl mx-auto px-gutter">
+<div class="pt-2 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="flex flex-col gap-2 max-w-2xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high w-fit">
+<span class="inline-block w-2 h-2 rounded-full bg-safety-tag animate-pulse"></span>
+<span class="font-label-md text-label-md uppercase tracking-wider text-secondary">Diwali 2025 Direct Sivakasi Factory Allocation</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-primary-container tracking-tight">Wholesale Crackers Price List &amp; Estimate Calculator</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Select box quantities across all licensed categories to build your instant custom wholesale quotation. Stamped CSIR-NEERI Green Certified pyrotechnics dispatched directly from our Paraipatti godown.</p>
+</div>
+<div class="flex flex-wrap items-center gap-3 shrink-0">
+<button class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors font-label-lg text-label-lg shadow-sm" onclick="window.print()" type="button">
+<span class="material-symbols-outlined text-[20px] text-primary">picture_as_pdf</span>
+<span>Download 2025 Price List (PDF)</span>
+</button>
+<a class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-marigold-light text-secondary hover:bg-secondary-fixed transition-colors font-label-lg text-label-lg shadow-sm" href="#society-tiers">
+<span class="material-symbols-outlined text-[20px]">apartment</span>
+<span>Society &amp; Corporate Tiers</span>
+</a>
+</div>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-4">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+<div class="md:col-span-8 relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-lg bg-surface-container-low text-on-surface placeholder:text-outline-variant text-body-md font-body-md outline-none focus:bg-white focus:shadow-[0_0_0_2px_#F59E0B] transition-all" id="catalog-search" placeholder="Search by cracker name, SKU code (e.g. SPK-10, FLW-04), or Tamil name..." type="text"/>
+</div>
+<div class="md:col-span-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-outline-variant text-[20px] shrink-0">sort</span>
+<select class="w-full py-3 px-3 rounded-lg bg-surface-container-low text-on-surface text-label-lg font-label-lg outline-none focus:bg-white focus:shadow-[0_0_0_2px_#F59E0B] transition-all" id="catalog-sort">
+<option value="popular">Sort: Most Popular Diwali Picks</option>
+<option value="price-asc">Price: Low to High (Wholesale)</option>
+<option value="price-desc">Price: High to Low (Wholesale)</option>
+<option value="margin">Wholesale Discount (Highest Savings)</option>
+</select>
+</div>
+</div>
+<div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none" id="category-pills">
+<button class="category-pill px-4 py-2 rounded-full font-label-md text-label-md whitespace-nowrap bg-primary-container text-on-primary shadow-sm transition-all" data-cat="all">All Categories (250+)</button>
+<button class="category-pill px-4 py-2 rounded-full font-label-md text-label-md whitespace-nowrap bg-surface-container-low hover:bg-surface-container text-on-surface-variant transition-all" data-cat="sparklers">Sparklers &amp; Chakkars</button>
+<button class="category-pill px-4 py-2 rounded-full font-label-md text-label-md whitespace-nowrap bg-surface-container-low hover:bg-surface-container text-on-surface-variant transition-all" data-cat="pots">Flower Pots</button>
+<button class="category-pill px-4 py-2 rounded-full font-label-md text-label-md whitespace-nowrap bg-surface-container-low hover:bg-surface-container text-on-surface-variant transition-all" data-cat="spinners">Ground Spinners</button>
+<button class="category-pill px-4 py-2 rounded-full font-label-md text-label-md whitespace-nowrap bg-surface-container-low hover:bg-surface-container text-on-surface-variant transition-all" data-cat="sound">Sound Crackers</button>
+<button class="category-pill px-4 py-2 rounded-full font-label-md text-label-md whitespace-nowrap bg-surface-container-low hover:bg-surface-container text-on-surface-variant transition-all" data-cat="aerial">Aerial Repeaters &amp; Sky Shots</button>
+<button class="category-pill px-4 py-2 rounded-full font-label-md text-label-md whitespace-nowrap bg-surface-container-low hover:bg-surface-container text-on-surface-variant transition-all" data-cat="novelty">Novelty &amp; Smoke</button>
+<button class="category-pill px-4 py-2 rounded-full font-label-md text-label-md whitespace-nowrap bg-surface-container-low hover:bg-surface-container text-on-surface-variant transition-all" data-cat="hampers">Family Gift Boxes</button>
+</div>
+</div>
+</div>
+</section>
+<section class="w-full pb-16">
+<div class="max-w-7xl mx-auto px-gutter">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<div class="lg:col-span-8 flex flex-col gap-4">
+<div class="flex items-center justify-between px-2">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface">Factory Direct Inventory</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md" id="item-count-badge">8 Products Displayed</span>
+</div>
+<div class="flex items-center gap-2 text-label-md font-label-md text-safety-tag">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>100% CSIR-NEERI Approved</span>
+</div>
+</div>
+<div class="flex flex-col gap-3.5" id="products-list">
+<div class="product-row p-4 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row items-center gap-4" data-cat="sparklers" data-id="SKU-101" data-mrp="140" data-name="10cm Electric Sparklers" data-price="42" data-tamil="கம்பி மத்தாப்பு">
+<div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-lg overflow-hidden shrink-0 bg-surface-container-low">
+<img class="w-full h-full object-cover" data-alt="Close up photograph of vibrant golden Diwali electric sparklers with crackling dazzling sparks in a festive evening setting, sharp sparkles, soft cinematic bokeh, warm royal crimson and amber studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCX5DCcofIiAjAQdBUYR2YWNV8SswqXXbrf37V5q8qIcl6GIHt0B0DRiwLyCqR-Z1F8gVdwrhAuUpzK-VEuxJddiCsapWAYtwQCci1JEzBryndItMCMcBL2DW3t_J8ho_ib9LhnfWKCCCCUskpJw3N7scSROcpBz7fKiGbHxhqiN6CzjV610tJh1yQDsXEmHm0RAXVIj5TZf98FmtKOsddyV8m46hBXFUA7_ufDNstb8DUPkN9rPVuL"/>
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-crimson-vibrant text-on-primary font-label-md text-[10px] font-bold">70% OFF</span>
+</div>
+<div class="flex-1 flex flex-col justify-between w-full">
+<div class="flex flex-wrap items-start justify-between gap-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">SKU: SPK-101</span>
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container text-safety-tag font-label-md text-[10px]">
+<span class="material-symbols-outlined text-[12px]">qr_code_scanner</span> Green QR
+                      </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">10cm Electric Sparklers <span class="font-body-md text-body-md text-on-surface-variant font-normal">/ கம்பி மத்தாப்பு</span></h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Low smoke, non-sulfur formulation with continuous 65-second radiant golden sparkle.</p>
+</div>
+<div class="text-right flex sm:flex-col items-baseline sm:items-end justify-between sm:justify-start w-full sm:w-auto">
+<span class="font-body-sm text-body-sm text-on-surface-variant line-through">MRP ₹140</span>
+<span class="font-price-xl text-price-xl text-primary-container font-extrabold">₹42</span>
+<span class="font-label-md text-[11px] text-safety-tag font-bold">Save ₹98 / Box</span>
+</div>
+</div>
+<div class="mt-3 pt-3 flex flex-wrap items-center justify-between gap-3 bg-surface-cream rounded-lg p-2">
+<div class="flex items-center gap-3 text-label-md font-label-md text-on-surface-variant">
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-amber-gold">inventory_2</span> 10 Pcs / Box</span>
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-safety-tag">volume_mute</span> &lt;75 dB Low Sound</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center rounded-lg bg-surface-container-lowest p-1 shadow-sm">
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="updateQty('SKU-101', -1)" type="button">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<input class="w-12 text-center font-headline-sm text-headline-sm text-on-surface bg-transparent outline-none appearance-none font-bold" id="qty-SKU-101" min="0" onchange="manualQty('SKU-101', this.value)" type="number" value="0"/>
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="updateQty('SKU-101', 1)" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-primary-container text-on-primary hover:bg-crimson-deep text-label-md font-label-md shadow-sm transition-all" onclick="quickAdd('SKU-101', 5)" type="button">+5 Boxes</button>
+</div>
+</div>
+</div>
+</div>
+<div class="product-row p-4 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row items-center gap-4" data-cat="pots" data-id="SKU-204" data-mrp="450" data-name="Giant Ashoka Flower Pots" data-price="135" data-tamil="அசோகா பூந்தொட்டி">
+<div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-lg overflow-hidden shrink-0 bg-surface-container-low">
+<img class="w-full h-full object-cover" data-alt="Traditional conical Indian flower pot cracker bursting with voluminous showers of golden amber sparks ascending upwards into midnight sky, dramatic celebratory photography with warm sparks." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeuxqmSzaI-NxlT9uiHu8bP4bkrl-7fYK8YCEmp4HYozGYtBZJrWzwyCUOiJXVmjgBnPAE6DTsQSb3OrZYdLW2_jUsVvGYvKx3C3QVM4cmLyZtY1fEqHgHg0wrqZmD4bS8QknoLL4N-KSwEieiX0tGZjv-Su3F8DJwMyKfCegGEBCCsWebuBOiRXnNw87F_vVPPme3Ozyt2vUou-W4FPr8qDr6OPHrUIccjcNKFPs7md2-suNyp_Qs"/>
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-crimson-vibrant text-on-primary font-label-md text-[10px] font-bold">70% OFF</span>
+</div>
+<div class="flex-1 flex flex-col justify-between w-full">
+<div class="flex flex-wrap items-start justify-between gap-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">SKU: POT-204</span>
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container text-safety-tag font-label-md text-[10px]">
+<span class="material-symbols-outlined text-[12px]">qr_code_scanner</span> Green QR
+                      </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Giant Ashoka Flower Pots <span class="font-body-md text-body-md text-on-surface-variant font-normal">/ அசோகா பூந்தொட்டி</span></h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Majestic 15-foot high amber fountain with multi-layered titanium silver crackling finish.</p>
+</div>
+<div class="text-right flex sm:flex-col items-baseline sm:items-end justify-between sm:justify-start w-full sm:w-auto">
+<span class="font-body-sm text-body-sm text-on-surface-variant line-through">MRP ₹450</span>
+<span class="font-price-xl text-price-xl text-primary-container font-extrabold">₹135</span>
+<span class="font-label-md text-[11px] text-safety-tag font-bold">Save ₹315 / Box</span>
+</div>
+</div>
+<div class="mt-3 pt-3 flex flex-wrap items-center justify-between gap-3 bg-surface-cream rounded-lg p-2">
+<div class="flex items-center gap-3 text-label-md font-label-md text-on-surface-variant">
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-amber-gold">inventory_2</span> 10 Pcs / Pack</span>
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-safety-tag">local_fire_department</span> Heavy Base Shell</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center rounded-lg bg-surface-container-lowest p-1 shadow-sm">
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="updateQty('SKU-204', -1)" type="button">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<input class="w-12 text-center font-headline-sm text-headline-sm text-on-surface bg-transparent outline-none appearance-none font-bold" id="qty-SKU-204" min="0" onchange="manualQty('SKU-204', this.value)" type="number" value="0"/>
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="updateQty('SKU-204', 1)" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-primary-container text-on-primary hover:bg-crimson-deep text-label-md font-label-md shadow-sm transition-all" onclick="quickAdd('SKU-204', 5)" type="button">+5 Boxes</button>
+</div>
+</div>
+</div>
+</div>
+<div class="product-row p-4 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row items-center gap-4" data-cat="spinners" data-id="SKU-312" data-mrp="320" data-name="Whistling Deluxe Chakkaram" data-price="96" data-tamil="விசிலிங் சக்கரம்">
+<div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-lg overflow-hidden shrink-0 bg-surface-container-low">
+<img class="w-full h-full object-cover" data-alt="High velocity spinning ground chakkaram firework rotating with concentric circular rings of golden fire and bright ruby embers on paved courtyard ground at night." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1AMq3doRSLLvgu7QkK8EdgDgHoJutcH_hroYIUl5CzWR1kI-dLJQ9q1uHDnfjAg7DD6cb0wC3wAa2rtOqYHJo0aj9N1bdx-35PYZEQGwqfO1Fu9p4VmQTYpI_MBmg8uGkr3aM7RJDkVcYcMCY2EcwibezIL8KdpFpQef6YKoqRioihGKR4TLaInLnNg1DRGh6284s2QXRuALlMhIs_7gLME-nHUlYynFPL1EXX0Sl-nqMH8DCqgvv"/>
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-crimson-vibrant text-on-primary font-label-md text-[10px] font-bold">70% OFF</span>
+</div>
+<div class="flex-1 flex flex-col justify-between w-full">
+<div class="flex flex-wrap items-start justify-between gap-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">SKU: SPN-312</span>
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container text-safety-tag font-label-md text-[10px]">
+<span class="material-symbols-outlined text-[12px]">qr_code_scanner</span> Green QR
+                      </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Whistling Deluxe Chakkaram <span class="font-body-md text-body-md text-on-surface-variant font-normal">/ விசிலிங் சக்கரம்</span></h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Fast concentric rotational wheel with melodious whistle effect followed by emerald glitter.</p>
+</div>
+<div class="text-right flex sm:flex-col items-baseline sm:items-end justify-between sm:justify-start w-full sm:w-auto">
+<span class="font-body-sm text-body-sm text-on-surface-variant line-through">MRP ₹320</span>
+<span class="font-price-xl text-price-xl text-primary-container font-extrabold">₹96</span>
+<span class="font-label-md text-[11px] text-safety-tag font-bold">Save ₹224 / Box</span>
+</div>
+</div>
+<div class="mt-3 pt-3 flex flex-wrap items-center justify-between gap-3 bg-surface-cream rounded-lg p-2">
+<div class="flex items-center gap-3 text-label-md font-label-md text-on-surface-variant">
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-amber-gold">inventory_2</span> 10 Pcs / Box</span>
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-secondary">music_note</span> Whistle Tone</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center rounded-lg bg-surface-container-lowest p-1 shadow-sm">
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="updateQty('SKU-312', -1)" type="button">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<input class="w-12 text-center font-headline-sm text-headline-sm text-on-surface bg-transparent outline-none appearance-none font-bold" id="qty-SKU-312" min="0" onchange="manualQty('SKU-312', this.value)" type="number" value="0"/>
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="updateQty('SKU-312', 1)" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-primary-container text-on-primary hover:bg-crimson-deep text-label-md font-label-md shadow-sm transition-all" onclick="quickAdd('SKU-312', 5)" type="button">+5 Boxes</button>
+</div>
+</div>
+</div>
+</div>
+<div class="product-row p-4 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row items-center gap-4" data-cat="aerial" data-id="SKU-405" data-mrp="2600" data-name="240 Shot Multi-Sky Symphony" data-price="780" data-tamil="வானவேடிக்கை 240 ஷாட்">
+<div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-lg overflow-hidden shrink-0 bg-surface-container-low">
+<img class="w-full h-full object-cover" data-alt="Grand multi-colored aerial firework repeater display bursting simultaneously across the night sky, vibrant peonies, brocade crowns in gold and deep crimson, festive celebration wide angle photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgopGhC4bWiSV-VsuCrttVDHPGorxIofQ62JwUKMcoSk-ZK5XIHjwSIVenSO80-FaoIJVOK900KmTQ6JHsdrBuUCtornWHjoi5axlVTHSXL7yvknZhCBc1qLh5KSQC34mHMiSW97LeEV7A5rWUtEgCPIYjgsnuVIVgCs2ETYAfS3L_VZFGGskcXPCyg1Vg5LaiLaaqlhb8joVAIRaXt8ELdihpTCKr2F8zzxyaRxiqxkjZX1o0KG6C"/>
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-crimson-vibrant text-on-primary font-label-md text-[10px] font-bold">70% OFF</span>
+</div>
+<div class="flex-1 flex flex-col justify-between w-full">
+<div class="flex flex-wrap items-start justify-between gap-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">SKU: AER-405</span>
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-marigold-light text-secondary font-label-md text-[10px] font-bold">
+<span class="material-symbols-outlined text-[12px]">star</span> Best Seller
+                      </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">240 Shot Multi-Sky Symphony <span class="font-body-md text-body-md text-on-surface-variant font-normal">/ வானவேடிக்கை</span></h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Continuous 3.5 minute aerial cake with palm trees, willow brocades, and grand finale thunder crown.</p>
+</div>
+<div class="text-right flex sm:flex-col items-baseline sm:items-end justify-between sm:justify-start w-full sm:w-auto">
+<span class="font-body-sm text-body-sm text-on-surface-variant line-through">MRP ₹2,600</span>
+<span class="font-price-xl text-price-xl text-primary-container font-extrabold">₹780</span>
+<span class="font-label-md text-[11px] text-safety-tag font-bold">Save ₹1,820 / Unit</span>
+</div>
+</div>
+<div class="mt-3 pt-3 flex flex-wrap items-center justify-between gap-3 bg-surface-cream rounded-lg p-2">
+<div class="flex items-center gap-3 text-label-md font-label-md text-on-surface-variant">
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-amber-gold">widgets</span> 1 Unit Multi-Tube Box</span>
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-crimson-vibrant">north</span> 120ft Altitude</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center rounded-lg bg-surface-container-lowest p-1 shadow-sm">
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="updateQty('SKU-405', -1)" type="button">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<input class="w-12 text-center font-headline-sm text-headline-sm text-on-surface bg-transparent outline-none appearance-none font-bold" id="qty-SKU-405" min="0" onchange="manualQty('SKU-405', this.value)" type="number" value="0"/>
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="updateQty('SKU-405', 1)" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-primary-container text-on-primary hover:bg-crimson-deep text-label-md font-label-md shadow-sm transition-all" onclick="quickAdd('SKU-405', 2)" type="button">+2 Units</button>
+</div>
+</div>
+</div>
+</div>
+<div class="product-row p-4 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row items-center gap-4" data-cat="sound" data-id="SKU-502" data-mrp="280" data-name="Red Fort 28 Giant Sound Cracker" data-price="84" data-tamil="28 சவுண்ட் வெடி">
+<div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-lg overflow-hidden shrink-0 bg-surface-container-low">
+<img class="w-full h-full object-cover" data-alt="Traditional red paper-wrapped crackers arranged neatly in authentic packaging ready for festive celebration, sharp texture, authentic Sivakasi pyrotechnic product photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTo7MCjYQ61fF29DnnxyWukngEvBI-yPpGfd5CZtwEbKJC3NJ8m0qD2uHHcdVg3AplXEYnNxwxddETmFwykfo9sOgFJkvN4F-Zs3mnnNI4ztBGsQdaBhr0T7pSK9HiqRYoHr3Xk0jacHvZGKRZQ8ne1sH_MXUgJAxgM3iQ4-QOScpB2u6kIx3GdnTqFnDx79AzF1-kH0aHJavSW-VF1C2tEwkyuWBOzdo6A3T7Ud7ITIVZZFzvehHr"/>
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-crimson-vibrant text-on-primary font-label-md text-[10px] font-bold">70% OFF</span>
+</div>
+<div class="flex-1 flex flex-col justify-between w-full">
+<div class="flex flex-wrap items-start justify-between gap-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">SKU: SND-502</span>
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container text-safety-tag font-label-md text-[10px]">
+<span class="material-symbols-outlined text-[12px]">qr_code_scanner</span> Green QR
+                      </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Red Fort 28 Giant Sound Cracker <span class="font-body-md text-body-md text-on-surface-variant font-normal">/ 28 சவுண்ட் வெடி</span></h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Crisp synchronized rhythmic report adhering to statutory 120 dB PESO safety threshold.</p>
+</div>
+<div class="text-right flex sm:flex-col items-baseline sm:items-end justify-between sm:justify-start w-full sm:w-auto">
+<span class="font-body-sm text-body-sm text-on-surface-variant line-through">MRP ₹280</span>
+<span class="font-price-xl text-price-xl text-primary-container font-extrabold">₹84</span>
+<span class="font-label-md text-[11px] text-safety-tag font-bold">Save ₹196 / Box</span>
+</div>
+</div>
+<div class="mt-3 pt-3 flex flex-wrap items-center justify-between gap-3 bg-surface-cream rounded-lg p-2">
+<div class="flex items-center gap-3 text-label-md font-label-md text-on-surface-variant">
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-amber-gold">inventory_2</span> 1 Packet (28 Crackers)</span>
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-safety-tag">speed</span> Instant Lead Fuse</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center rounded-lg bg-surface-container-lowest p-1 shadow-sm">
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="updateQty('SKU-502', -1)" type="button">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<input class="w-12 text-center font-headline-sm text-headline-sm text-on-surface bg-transparent outline-none appearance-none font-bold" id="qty-SKU-502" min="0" onchange="manualQty('SKU-502', this.value)" type="number" value="0"/>
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="updateQty('SKU-502', 1)" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-primary-container text-on-primary hover:bg-crimson-deep text-label-md font-label-md shadow-sm transition-all" onclick="quickAdd('SKU-502', 5)" type="button">+5 Packets</button>
+</div>
+</div>
+</div>
+</div>
+<div class="product-row p-4 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row items-center gap-4" data-cat="novelty" data-id="SKU-610" data-mrp="200" data-name="Peacock Feather Color Smoke Pots" data-price="60" data-tamil="மயில் இறகு கலர் புகை">
+<div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-lg overflow-hidden shrink-0 bg-surface-container-low">
+<img class="w-full h-full object-cover" data-alt="Dense billowing plumes of rich daylight colored smoke in vibrant saffron, crimson, and turquoise drifting elegantly against a warm clear sky during festive outdoor celebrations." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4wLA214adwHpTE0_-B-eiPwitaVkDHJzkEY8fXRMrW9tcr89lKlrrAm6kO1BWkm_3MGCr888dSsDmw8ujJG3gZZ96rGCWKyx0PKiKEfyC8_Z74Vh6QeG0QCUiWYTLlikD_LCuLUhrEojx7SOt8vnWzHA3uGVoI5DavurWu3C6kmqiboK9aan7RlC2RFVcgCXGj76sDOPw4XtcKG0j_4rWknegDFy11P8tzGc-nIhbmBLHi2igc9GJ"/>
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-crimson-vibrant text-on-primary font-label-md text-[10px] font-bold">70% OFF</span>
+</div>
+<div class="flex-1 flex flex-col justify-between w-full">
+<div class="flex flex-wrap items-start justify-between gap-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">SKU: NOV-610</span>
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container text-safety-tag font-label-md text-[10px]">
+<span class="material-symbols-outlined text-[12px]">eco</span> Kid-Friendly
+                      </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Peacock Feather Color Smoke Pots <span class="font-body-md text-body-md text-on-surface-variant font-normal">/ கலர் புகை</span></h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Daytime celebratory dense organic colored smoke emitting 5 dynamic spectrum hues.</p>
+</div>
+<div class="text-right flex sm:flex-col items-baseline sm:items-end justify-between sm:justify-start w-full sm:w-auto">
+<span class="font-body-sm text-body-sm text-on-surface-variant line-through">MRP ₹200</span>
+<span class="font-price-xl text-price-xl text-primary-container font-extrabold">₹60</span>
+<span class="font-label-md text-[11px] text-safety-tag font-bold">Save ₹140 / Box</span>
+</div>
+</div>
+<div class="mt-3 pt-3 flex flex-wrap items-center justify-between gap-3 bg-surface-cream rounded-lg p-2">
+<div class="flex items-center gap-3 text-label-md font-label-md text-on-surface-variant">
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-amber-gold">inventory_2</span> 5 Assorted Colors / Box</span>
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-safety-tag">nature_people</span> Organic Dye</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center rounded-lg bg-surface-container-lowest p-1 shadow-sm">
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="updateQty('SKU-610', -1)" type="button">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<input class="w-12 text-center font-headline-sm text-headline-sm text-on-surface bg-transparent outline-none appearance-none font-bold" id="qty-SKU-610" min="0" onchange="manualQty('SKU-610', this.value)" type="number" value="0"/>
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="updateQty('SKU-610', 1)" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-primary-container text-on-primary hover:bg-crimson-deep text-label-md font-label-md shadow-sm transition-all" onclick="quickAdd('SKU-610', 5)" type="button">+5 Boxes</button>
+</div>
+</div>
+</div>
+</div>
+<div class="product-row p-4 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row items-center gap-4" data-cat="hampers" data-id="SKU-701" data-mrp="4300" data-name="Curated Royal Family Mega Hamper" data-price="1290" data-tamil="ராயல் பேமிலி ஸ்பெஷல் கிப்ட் பாக்ஸ்">
+<div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-lg overflow-hidden shrink-0 bg-surface-container-low">
+<img class="w-full h-full object-cover" data-alt="Luxurious golden and crimson rigid Diwali gift hamper box loaded with assorted fireworks, sparklers, flower pots, and spinners, opulent festival packaging with golden foil accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBe3oChZVRiTBfglf-MlLzkAYi4azqFtOIY9L45TbOmduqFDt3fvQi7mh3zvjwv1kTNOqhUIDrybCLUi_7oRoqex-OglqFLQFs5FO9wO9X2STfvBJ_bVo3HH5rje8z3hzXV-UT3CwQ7y5eIrAvS2yfFW-pagfpzui4jz4C6N9F8IskhGnLBndlj9iFhCIhZ_CoWCLlUpFNOA0yVH6IX_2zcoIXsCyfWwK7WvAL8wa5zn8UEBIsnE7JQ"/>
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-crimson-vibrant text-on-primary font-label-md text-[10px] font-bold">70% OFF</span>
+</div>
+<div class="flex-1 flex flex-col justify-between w-full">
+<div class="flex flex-wrap items-start justify-between gap-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">SKU: HMP-701</span>
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-marigold-light text-secondary font-label-md text-[10px] font-bold">
+<span class="material-symbols-outlined text-[12px]">celebration</span> All-in-One Box
+                      </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Curated Royal Family Mega Hamper <span class="font-body-md text-body-md text-on-surface-variant font-normal">/ ராயல் கிப்ட் பாக்ஸ்</span></h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Complete family festive assortment: 32 varieties covering sparklers, spinners, pots, sound, and sky-shots.</p>
+</div>
+<div class="text-right flex sm:flex-col items-baseline sm:items-end justify-between sm:justify-start w-full sm:w-auto">
+<span class="font-body-sm text-body-sm text-on-surface-variant line-through">MRP ₹4,300</span>
+<span class="font-price-xl text-price-xl text-primary-container font-extrabold">₹1,290</span>
+<span class="font-label-md text-[11px] text-safety-tag font-bold">Save ₹3,010 / Box</span>
+</div>
+</div>
+<div class="mt-3 pt-3 flex flex-wrap items-center justify-between gap-3 bg-surface-cream rounded-lg p-2">
+<div class="flex items-center gap-3 text-label-md font-label-md text-on-surface-variant">
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-amber-gold">inventory_2</span> 32 Premium Items</span>
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-safety-tag">card_giftcard</span> Luxury Gift Packaging</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center rounded-lg bg-surface-container-lowest p-1 shadow-sm">
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="updateQty('SKU-701', -1)" type="button">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<input class="w-12 text-center font-headline-sm text-headline-sm text-on-surface bg-transparent outline-none appearance-none font-bold" id="qty-SKU-701" min="0" onchange="manualQty('SKU-701', this.value)" type="number" value="0"/>
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="updateQty('SKU-701', 1)" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-primary-container text-on-primary hover:bg-crimson-deep text-label-md font-label-md shadow-sm transition-all" onclick="quickAdd('SKU-701', 2)" type="button">+2 Boxes</button>
+</div>
+</div>
+</div>
+</div>
+<div class="product-row p-4 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row items-center gap-4" data-cat="aerial" data-id="SKU-802" data-mrp="700" data-name="Titanium Sky Comet Rockets" data-price="210" data-tamil="டைட்டானியம் ராக்கெட்">
+<div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-lg overflow-hidden shrink-0 bg-surface-container-low">
+<img class="w-full h-full object-cover" data-alt="High altitude whistling rocket taking off into the dusky evening sky with a long golden tail, cinematic motion lighting, festive pyrotechnic display." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-3bHmuvbp6-lC3eMXXGAP8nWb7WkSSBockY6DaHc82DqZRl-8VJv2t3llOFWYHyGqcBgdlEu9ZjuzAIRZfj_QLjkBTcdua5TjQJ3tlgYGmOBW8dErMgU06bUoSv4dDytdUAqEFWkIqm5MoV3DuPh0rCxCZJJQQ3TvEVEZFKQy9mqBsB5z2dVZjmse1-c9mwkkKMEVIALfr6zH-eJD3hOSqkmvV1YZwpy99GVlJzuEHAe0zYeMGr4R"/>
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-crimson-vibrant text-on-primary font-label-md text-[10px] font-bold">70% OFF</span>
+</div>
+<div class="flex-1 flex flex-col justify-between w-full">
+<div class="flex flex-wrap items-start justify-between gap-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">SKU: RKT-802</span>
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container text-safety-tag font-label-md text-[10px]">
+<span class="material-symbols-outlined text-[12px]">qr_code_scanner</span> Green QR
+                      </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Titanium Sky Comet Rockets <span class="font-body-md text-body-md text-on-surface-variant font-normal">/ ராக்கெட்</span></h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">High-thrust balanced trajectory with deafening report and silver flash canopy burst.</p>
+</div>
+<div class="text-right flex sm:flex-col items-baseline sm:items-end justify-between sm:justify-start w-full sm:w-auto">
+<span class="font-body-sm text-body-sm text-on-surface-variant line-through">MRP ₹700</span>
+<span class="font-price-xl text-price-xl text-primary-container font-extrabold">₹210</span>
+<span class="font-label-md text-[11px] text-safety-tag font-bold">Save ₹490 / Box</span>
+</div>
+</div>
+<div class="mt-3 pt-3 flex flex-wrap items-center justify-between gap-3 bg-surface-cream rounded-lg p-2">
+<div class="flex items-center gap-3 text-label-md font-label-md text-on-surface-variant">
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-amber-gold">inventory_2</span> 10 Pcs / Pack</span>
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-secondary">flight_takeoff</span> 150ft Thrust</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center rounded-lg bg-surface-container-lowest p-1 shadow-sm">
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="updateQty('SKU-802', -1)" type="button">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<input class="w-12 text-center font-headline-sm text-headline-sm text-on-surface bg-transparent outline-none appearance-none font-bold" id="qty-SKU-802" min="0" onchange="manualQty('SKU-802', this.value)" type="number" value="0"/>
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="updateQty('SKU-802', 1)" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-primary-container text-on-primary hover:bg-crimson-deep text-label-md font-label-md shadow-sm transition-all" onclick="quickAdd('SKU-802', 5)" type="button">+5 Packs</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 p-4 rounded-xl bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[24px]">contact_support</span>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">Need a specialty firework not in this quick list?</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">We stock 250+ varieties including Peacock Fountains, 500-shot cakes, and temple mega crackers.</p>
+</div>
+</div>
+<a class="px-4 py-2 rounded-lg bg-surface-container-lowest text-secondary font-label-md text-label-md font-bold shadow-sm hover:bg-white transition-all shrink-0" href="https://wa.me/918318270300?text=I%20need%20custom%20crackers%20price%20list">Ask Factory Desk</a>
+</div>
+</div>
+<div class="lg:col-span-4 sticky top-32">
+<div class="rounded-2xl bg-surface-container-lowest p-6 shadow-xl flex flex-col gap-5">
+<div class="flex items-center justify-between pb-3 bg-surface-cream -mx-6 -mt-6 p-6 rounded-t-2xl">
+<div>
+<span class="font-label-md text-label-md text-secondary uppercase tracking-wider font-bold">Live Calculator</span>
+<h2 class="font-headline-sm text-headline-sm text-primary-container font-bold">Your Celebration Estimate</h2>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-lowest text-safety-tag font-label-md text-label-md font-bold shadow-sm" id="summary-pill">0 Items Selected</span>
+</div>
+<div class="flex flex-col gap-2.5">
+<div class="flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant">
+<span>Total Catalog MRP</span>
+<span class="line-through font-medium" id="sum-mrp">₹0</span>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm text-safety-tag font-bold">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">savings</span>
+                  Factory Discount (70% Off)
+                </span>
+<span id="sum-savings">-₹0</span>
+</div>
+<div class="pt-3 flex items-baseline justify-between">
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-extrabold">Direct Factory Total</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Excluding door lorry transport</p>
+</div>
+<span class="font-headline-xl text-headline-xl text-primary font-extrabold" id="sum-total">₹0</span>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-low flex flex-col gap-1.5" id="moq-box">
+<div class="flex items-center justify-between text-label-md font-label-md">
+<span class="text-on-surface font-bold">Wholesale Minimum Dispatch Booking</span>
+<span class="text-secondary font-bold" id="moq-progress-text">₹0 / ₹3,000</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-amber-gold h-2 rounded-full transition-all duration-300" id="moq-bar" style="width: 0%"></div>
+</div>
+<p class="text-[11px] font-body-sm text-on-surface-variant" id="moq-status-note">Add ₹3,000 more to unlock heavy-transport booking from Sivakasi godown.</p>
+</div>
+<form class="flex flex-col gap-3" id="estimate-form" onsubmit="event.preventDefault(); submitQuotation();">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant font-bold">Quotation Recipient Details</span>
+<div>
+<input class="w-full px-3.5 py-2.5 rounded-lg bg-surface-container-low text-on-surface placeholder:text-outline-variant text-body-sm font-body-sm outline-none focus:bg-white focus:shadow-[0_0_0_2px_#F59E0B]" id="cust-name" placeholder="Full Name / Society Name *" required="" type="text"/>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+<input class="w-full px-3.5 py-2.5 rounded-lg bg-surface-container-low text-on-surface placeholder:text-outline-variant text-body-sm font-body-sm outline-none focus:bg-white focus:shadow-[0_0_0_2px_#F59E0B]" id="cust-phone" placeholder="WhatsApp Number *" required="" type="tel"/>
+<input class="w-full px-3.5 py-2.5 rounded-lg bg-surface-container-low text-on-surface placeholder:text-outline-variant text-body-sm font-body-sm outline-none focus:bg-white focus:shadow-[0_0_0_2px_#F59E0B]" id="cust-city" placeholder="City &amp; State *" required="" type="text"/>
+</div>
+<div>
+<textarea class="w-full px-3.5 py-2 rounded-lg bg-surface-container-low text-on-surface placeholder:text-outline-variant text-body-sm font-body-sm outline-none focus:bg-white focus:shadow-[0_0_0_2px_#F59E0B] resize-none" id="cust-notes" placeholder="Delivery transport hub preference or special packaging instructions (optional)" rows="2"></textarea>
+</div>
+<button class="w-full mt-2 py-3.5 px-4 rounded-lg bg-primary-container hover:bg-crimson-deep active:scale-[0.99] text-on-primary font-headline-sm text-headline-sm font-bold shadow-md transition-all flex items-center justify-center gap-2" id="submit-btn" type="submit">
+<span class="material-symbols-outlined text-[20px]">send</span>
+<span>Submit for WhatsApp Estimate</span>
+</button>
+</form>
+<div class="p-3 rounded-lg bg-marigold-light text-on-surface text-[11px] font-body-sm flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary shrink-0 text-[18px]">verified_user</span>
+<p><strong class="font-semibold">Supreme Court &amp; PESO Compliant:</strong> This calculator generates a non-binding formal estimate. Dispatches are strictly confirmed via direct telephonic verification before licensed road parcel dispatch from Sivakasi, Tamil Nadu.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="w-full py-12 bg-surface-container-low" id="society-tiers">
+<div class="max-w-7xl mx-auto px-gutter flex flex-col gap-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<span class="inline-block px-3 py-1 rounded-full bg-marigold-light text-secondary font-label-md text-label-md font-bold uppercase tracking-wider mb-2">Volume Procurement</span>
+<h2 class="font-headline-xl text-headline-xl text-primary-container">Apartment Societies, Temple Trusts &amp; Corporate Tiers</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Special customized consolidated invoicing with point-to-point dedicated lorry transit across South &amp; Central India.</p>
+</div>
+<a class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-container text-on-primary font-label-lg text-label-lg hover:bg-crimson-deep shadow-sm transition-all shrink-0" href="https://wa.me/918318270300?text=I%20want%20to%20inquire%20about%20Bulk%20Society%20Pricing">
+<span class="material-symbols-outlined text-[18px]">support_agent</span>
+<span>Contact Wholesale Officer</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="p-6 rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex flex-col gap-3">
+<div class="w-12 h-12 rounded-xl bg-marigold-light flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[28px]">apartment</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Gated Society Consortia</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Ideal for RWA resident bulk purchases of 25-100 families combining orders for wholesale pricing.</p>
+<div class="flex flex-col gap-2 pt-2">
+<span class="flex items-center gap-2 text-label-md font-label-md text-on-surface">
+<span class="material-symbols-outlined text-safety-tag text-[18px]">check_circle</span>
+<span>Minimum Order: ₹25,000</span>
+</span>
+<span class="flex items-center gap-2 text-label-md font-label-md text-on-surface">
+<span class="material-symbols-outlined text-safety-tag text-[18px]">check_circle</span>
+<span>Pre-sorted family-wise packing boxes</span>
+</span>
+<span class="flex items-center gap-2 text-label-md font-label-md text-on-surface">
+<span class="material-symbols-outlined text-safety-tag text-[18px]">check_circle</span>
+<span>Additional 5% Society Rebate</span>
+</span>
+</div>
+</div>
+<div class="mt-6 pt-4 bg-surface-cream -mx-6 -mb-6 p-6 rounded-b-2xl flex items-center justify-between">
+<span class="font-label-md text-label-md text-secondary uppercase font-bold">Tier 1 Benefits</span>
+<span class="font-label-lg text-label-lg text-primary-container font-extrabold">Free Wooden Palletizing</span>
+</div>
+</div>
+<div class="p-6 rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex flex-col gap-3">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[28px]">temple_hindu</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Temple &amp; Festival Trusts</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">High-cadence sky aerial celebrations, multi-shot cakes, and ground display packages for festive gatherings.</p>
+<div class="flex flex-col gap-2 pt-2">
+<span class="flex items-center gap-2 text-label-md font-label-md text-on-surface">
+<span class="material-symbols-outlined text-safety-tag text-[18px]">check_circle</span>
+<span>Minimum Order: ₹50,000</span>
+</span>
+<span class="flex items-center gap-2 text-label-md font-label-md text-on-surface">
+<span class="material-symbols-outlined text-safety-tag text-[18px]">check_circle</span>
+<span>Priority Sivakasi godown dispatch slot</span>
+</span>
+<span class="flex items-center gap-2 text-label-md font-label-md text-on-surface">
+<span class="material-symbols-outlined text-safety-tag text-[18px]">check_circle</span>
+<span>Pyrotechnic firing supervisor advice</span>
+</span>
+</div>
+</div>
+<div class="mt-6 pt-4 bg-surface-cream -mx-6 -mb-6 p-6 rounded-b-2xl flex items-center justify-between">
+<span class="font-label-md text-label-md text-secondary uppercase font-bold">Tier 2 Benefits</span>
+<span class="font-label-lg text-label-lg text-primary-container font-extrabold">Direct Lorry Parcel Consignment</span>
+</div>
+</div>
+<div class="p-6 rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex flex-col gap-3">
+<div class="w-12 h-12 rounded-xl bg-marigold-light flex items-center justify-center text-amber-gold">
+<span class="material-symbols-outlined text-[28px]">business_center</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Corporate Gifting Hampers</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Customized branded rigid gift boxes for employees, key stakeholders, dealers, and corporate partners.</p>
+<div class="flex flex-col gap-2 pt-2">
+<span class="flex items-center gap-2 text-label-md font-label-md text-on-surface">
+<span class="material-symbols-outlined text-safety-tag text-[18px]">check_circle</span>
+<span>Minimum Order: 50 Hamper Units</span>
+</span>
+<span class="flex items-center gap-2 text-label-md font-label-md text-on-surface">
+<span class="material-symbols-outlined text-safety-tag text-[18px]">check_circle</span>
+<span>Custom sleeve branding &amp; greeting insert</span>
+</span>
+<span class="flex items-center gap-2 text-label-md font-label-md text-on-surface">
+<span class="material-symbols-outlined text-safety-tag text-[18px]">check_circle</span>
+<span>Multi-city corporate hub freight booking</span>
+</span>
+</div>
+</div>
+<div class="mt-6 pt-4 bg-surface-cream -mx-6 -mb-6 p-6 rounded-b-2xl flex items-center justify-between">
+<span class="font-label-md text-label-md text-secondary uppercase font-bold">Tier 3 Benefits</span>
+<span class="font-label-lg text-label-lg text-primary-container font-extrabold">GST Input Tax Credit Invoice</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<div class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4" id="quotation-modal">
+<div class="bg-surface-container-lowest rounded-2xl p-6 max-w-lg w-full shadow-2xl flex flex-col gap-4">
+<div class="flex items-center justify-between pb-3 bg-surface-cream -mx-6 -mt-6 p-6 rounded-t-2xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-safety-tag text-[28px]">check_circle</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Estimate Ready for Dispatch</h3>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high" onclick="closeModal()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-2 font-body-sm text-body-sm text-on-surface-variant">
+<p>Your celebration estimate has been calculated with direct Sivakasi factory wholesale pricing. Clicking below will instantly forward your complete bill of quantities to our factory desk on WhatsApp.</p>
+<div class="p-3 rounded-lg bg-surface-container-low flex flex-col gap-1 font-label-md text-label-md text-on-surface" id="modal-summary-content">
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-3 pt-2">
+<a class="flex-1 py-3 px-4 rounded-lg bg-safety-tag text-white font-label-lg text-label-lg font-bold flex items-center justify-center gap-2 shadow-sm hover:opacity-95 transition-opacity" href="#" id="modal-whatsapp-link" target="_blank">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+<span>Forward via WhatsApp</span>
+</a>
+<button class="py-3 px-4 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-colors" onclick="closeModal()" type="button">Review More Items</button>
+</div>
+</div>
+</div>
+<script>
+    const orderState = {};
+    const MOQ = 3000;
+
+    function getProductData(id) {
+      const el = document.querySelector(`[data-id="${id}"]`);
+      if (!el) return null;
+      return {
+        id,
+        price: parseInt(el.getAttribute('data-price') || '0', 10),
+        mrp: parseInt(el.getAttribute('data-mrp') || '0', 10),
+        name: el.getAttribute('data-name') || '',
+        tamil: el.getAttribute('data-tamil') || ''
+      };
+    }
+
+    function updateQty(id, delta) {
+      const input = document.getElementById(`qty-${id}`);
+      if (!input) return;
+      let val = parseInt(input.value || '0', 10) + delta;
+      if (val < 0) val = 0;
+      input.value = val;
+      orderState[id] = val;
+      recalculateEstimate();
+    }
+
+    function quickAdd(id, count) {
+      updateQty(id, count);
+    }
+
+    function manualQty(id, value) {
+      let val = parseInt(value || '0', 10);
+      if (isNaN(val) || val < 0) val = 0;
+      document.getElementById(`qty-${id}`).value = val;
+      orderState[id] = val;
+      recalculateEstimate();
+    }
+
+    function recalculateEstimate() {
+      let totalItems = 0;
+      let totalBoxes = 0;
+      let totalMRP = 0;
+      let totalWholesale = 0;
+
+      for (const id in orderState) {
+        const qty = orderState[id];
+        if (qty > 0) {
+          const prod = getProductData(id);
+          if (prod) {
+            totalItems++;
+            totalBoxes += qty;
+            totalMRP += prod.mrp * qty;
+            totalWholesale += prod.price * qty;
+          }
+        }
+      }
+
+      const totalSavings = totalMRP - totalWholesale;
+
+      document.getElementById('sum-mrp').innerText = '₹' + totalMRP.toLocaleString('en-IN');
+      document.getElementById('sum-savings').innerText = '-₹' + totalSavings.toLocaleString('en-IN');
+      document.getElementById('sum-total').innerText = '₹' + totalWholesale.toLocaleString('en-IN');
+      document.getElementById('summary-pill').innerText = `${totalBoxes} Boxes (${totalItems} Items)`;
+
+      const moqBar = document.getElementById('moq-bar');
+      const moqText = document.getElementById('moq-progress-text');
+      const moqStatus = document.getElementById('moq-status-note');
+      const submitBtn = document.getElementById('submit-btn');
+
+      const pct = Math.min(100, Math.round((totalWholesale / MOQ) * 100));
+      moqBar.style.width = pct + '%';
+      moqText.innerText = `₹${totalWholesale.toLocaleString('en-IN')} / ₹${MOQ.toLocaleString('en-IN')}`;
+
+      if (totalWholesale >= MOQ) {
+        moqBar.classList.remove('bg-amber-gold');
+        moqBar.classList.add('bg-safety-tag');
+        moqStatus.innerText = '✓ Minimum order fulfilled! Eligible for direct road parcel booking from Sivakasi.';
+        moqStatus.classList.add('text-safety-tag', 'font-bold');
+      } else {
+        moqBar.classList.add('bg-amber-gold');
+        moqBar.classList.remove('bg-safety-tag');
+        const remaining = MOQ - totalWholesale;
+        moqStatus.innerText = `Add ₹${remaining.toLocaleString('en-IN')} more to unlock direct heavy-transport parcel dispatch.`;
+        moqStatus.classList.remove('text-safety-tag', 'font-bold');
+      }
+    }
+
+    function submitQuotation() {
+      let totalWholesale = 0;
+      let itemsLines = [];
+
+      for (const id in orderState) {
+        const qty = orderState[id];
+        if (qty > 0) {
+          const prod = getProductData(id);
+          if (prod) {
+            const lineTotal = prod.price * qty;
+            totalWholesale += lineTotal;
+            itemsLines.push(`• ${prod.name} x ${qty} boxes = ₹${lineTotal}`);
+          }
+        }
+      }
+
+      if (itemsLines.length === 0) {
+        alert('Please add at least one product box to your estimate before submitting.');
+        return;
+      }
+
+      const name = document.getElementById('cust-name').value.trim();
+      const phone = document.getElementById('cust-phone').value.trim();
+      const city = document.getElementById('cust-city').value.trim();
+      const notes = document.getElementById('cust-notes').value.trim();
+
+      const summaryModal = document.getElementById('modal-summary-content');
+      summaryModal.innerHTML = `
+        <div class="flex justify-between"><span>Customer:</span><strong class="text-on-surface">${name}</strong></div>
+        <div class="flex justify-between"><span>WhatsApp:</span><strong class="text-on-surface">${phone}</strong></div>
+        <div class="flex justify-between"><span>Destination:</span><strong class="text-on-surface">${city}</strong></div>
+        <div class="flex justify-between border-t border-surface-container pt-1 mt-1 font-bold text-primary"><span>Total Estimate:</span><span>₹${totalWholesale.toLocaleString('en-IN')}</span></div>
+      `;
+
+      let waText = `*DIWALI 2025 ESTIMATE INQUIRY - SIVAJI CRACKERS SIVAKASI*\n`;
+      waText += `*Name:* ${name}\n*Phone:* ${phone}\n*Location:* ${city}\n\n`;
+      waText += `*Selected Products:*\n` + itemsLines.join('\n') + '\n\n';
+      waText += `*Total Estimate:* ₹${totalWholesale.toLocaleString('en-IN')}\n`;
+      if (notes) waText += `*Notes:* ${notes}\n`;
+      waText += `\nPlease confirm transport hub availability and licensed dispatch slot.`;
+
+      const encoded = encodeURIComponent(waText);
+      const waUrl = `https://wa.me/918318270300?text=${encoded}`;
+      
+      document.getElementById('modal-whatsapp-link').href = waUrl;
+      const modal = document.getElementById('quotation-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('quotation-modal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
+
+    // Filter by Category
+    const categoryButtons = document.querySelectorAll('.category-pill');
+    categoryButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        categoryButtons.forEach(b => {
+          b.classList.remove('bg-primary-container', 'text-on-primary');
+          b.classList.add('bg-surface-container-low', 'text-on-surface-variant');
+        });
+        btn.classList.add('bg-primary-container', 'text-on-primary');
+        btn.classList.remove('bg-surface-container-low', 'text-on-surface-variant');
+
+        const cat = btn.getAttribute('data-cat');
+        filterProducts();
+      });
+    });
+
+    // Search and Sort
+    const searchInput = document.getElementById('catalog-search');
+    const sortSelect = document.getElementById('catalog-sort');
+
+    searchInput.addEventListener('input', filterProducts);
+    sortSelect.addEventListener('change', filterProducts);
+
+    function filterProducts() {
+      const activeBtn = document.querySelector('.category-pill.bg-primary-container');
+      const cat = activeBtn ? activeBtn.getAttribute('data-cat') : 'all';
+      const term = (searchInput.value || '').toLowerCase().trim();
+      const sortVal = sortSelect.value;
+
+      const rows = Array.from(document.querySelectorAll('.product-row'));
+      let visibleCount = 0;
+
+      rows.forEach(row => {
+        const rowCat = row.getAttribute('data-cat');
+        const name = (row.getAttribute('data-name') || '').toLowerCase();
+        const tamil = (row.getAttribute('data-tamil') || '').toLowerCase();
+        const id = (row.getAttribute('data-id') || '').toLowerCase();
+
+        const matchCat = (cat === 'all' || rowCat === cat);
+        const matchSearch = (!term || name.includes(term) || tamil.includes(term) || id.includes(term));
+
+        if (matchCat && matchSearch) {
+          row.style.display = 'flex';
+          visibleCount++;
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      document.getElementById('item-count-badge').innerText = `${visibleCount} Products Displayed`;
+
+      // Sorting visible rows
+      const container = document.getElementById('products-list');
+      const sorted = rows.filter(r => r.style.display !== 'none').sort((a, b) => {
+        const priceA = parseInt(a.getAttribute('data-price') || '0', 10);
+        const priceB = parseInt(b.getAttribute('data-price') || '0', 10);
+        const mrpA = parseInt(a.getAttribute('data-mrp') || '0', 10);
+        const mrpB = parseInt(b.getAttribute('data-mrp') || '0', 10);
+        
+        if (sortVal === 'price-asc') return priceA - priceB;
+        if (sortVal === 'price-desc') return priceB - priceA;
+        if (sortVal === 'margin') return (mrpB - priceB) - (mrpA - priceA);
+        return 0; // Default/Popular
+      });
+
+      sorted.forEach(row => container.appendChild(row));
+    }
+  </script>
+</div></main><footer class="w-full bg-surface-container-lowest mt-space-xl border-t border-surface-container"><div class="max-w-7xl mx-auto px-gutter pt-12 pb-8"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 mb-12"><div class="lg:col-span-4 flex flex-col gap-4"><div class="flex items-center gap-3"><img alt="Regal premium fireworks brand logo for 'Sivaji Crackers' Sivakasi. Elegant crown crest with dynamic bursting firework spark rays, bold royal red and golden amber gradient, clean modern emblem style, high quality vector mark.. Design context: - Primary color: #8b1e1e
+- Font: plusJakartaSans
+- Mode: light
+- Roundness: rounded-md
+. The logo should be visually consistent with these brand tokens." class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1W6ssFXz0sAnfbXHwoiDhNGYJ2e4-qCwBVZhx-lGbNp9v9t-n5Llu9iQxFPAX4n--LD_YesZxkI7sagKMT2kpkBOww2DVGatxIu9BZFj68r6rZIWZcXtTvLfpP5v8xX-87MABCe9HVjtkQFmlaEDawFCEc0Y-kPscvqJ57FekYjvf-smPw0X0hCcyx2XPiDDWG6OqNjtoHd8faOhKag6suB73mo9KvKsXnndw8qvAeT2llkArFWpMDVXDg"/><span class="font-headline-sm text-headline-sm text-primary-container">Sivaji Crackers</span></div><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">Direct factory wholesale pyrotechnics and festival gift boxes crafted in Sivakasi. Delivering authentic celebrations across India with guaranteed NEERI-certified green chemistries and strict regulatory compliance.</p><div class="flex flex-wrap items-center gap-2 pt-1"><span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-marigold-light text-secondary font-label-md text-label-md"><span class="material-symbols-outlined text-[16px]">verified</span> Licensed Sivakasi Dispatch</span><span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-slate-surface text-tertiary font-label-md text-label-md"><span class="material-symbols-outlined text-[16px]">local_shipping</span> Registered Transport Only</span></div></div><div class="lg:col-span-2 flex flex-col gap-3"><span class="font-label-lg text-label-lg text-on-surface font-bold">Quick Navigation</span><nav class="flex flex-col gap-2.5 font-body-sm text-body-sm" data-active-classes="text-primary font-bold"><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-path="home" href="#">Home</a><a aria-current="page" class="transition-colors text-primary font-bold" data-path="shop" href="#">Shop Products</a><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-path="about-us" href="#">About Us</a><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-path="contact-us" href="#">Contact Us</a></nav></div><div class="lg:col-span-2 flex flex-col gap-3"><span class="font-label-lg text-label-lg text-on-surface font-bold">Wholesale &amp; Proof</span><div class="flex flex-col gap-2.5 font-body-sm text-body-sm"><a class="inline-flex items-center gap-1.5 text-on-surface-variant hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[16px] text-primary">picture_as_pdf</span><span>Price List PDF</span></a><a class="inline-flex items-center gap-1.5 text-on-surface-variant hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[16px] text-safety-tag">qr_code_scanner</span><span>Green Crackers QR</span></a><span class="text-on-surface-variant/80">MOQ: ₹3,000 for Dispatch</span><span class="text-on-surface-variant/80">Tier Bulk Discounts</span></div></div><div class="lg:col-span-4 flex flex-col gap-4"><span class="font-label-lg text-label-lg text-on-surface font-bold">Factory Godown &amp; Hub</span><div class="flex items-start gap-2 text-body-sm font-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary-container shrink-0 mt-0.5 text-[20px]">location_on</span><p>3/142-A, Sivakasi-Sattur Main Road, Paraipatti, Sivakasi - 626189, Tamil Nadu, India.</p></div><div class="p-3.5 rounded-lg bg-surface-container-low flex flex-col gap-2"><span class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1.5"><span class="material-symbols-outlined text-safety-tag text-[18px]">support_agent</span> Instant WhatsApp Callback</span><p class="font-body-sm text-body-sm text-on-surface-variant">Submit inquiries directly to factory sales desk for instant bulk quotations.</p><a class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded bg-surface-container-lowest hover:bg-white text-secondary font-label-md text-label-md font-bold shadow-sm transition-colors" href="https://wa.me/918318270300"><span class="material-symbols-outlined text-safety-tag text-[16px]">call</span> +91 8318270300</a></div></div></div><div class="p-4 rounded-xl bg-marigold-light/80 border border-secondary-fixed/50 mb-8"><div class="flex items-start gap-3"><span class="material-symbols-outlined text-secondary shrink-0 mt-0.5 text-[20px]">gavel</span><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed"><strong class="text-on-surface font-semibold">Statutory Compliance Notice:</strong> In compliance with the Hon'ble Supreme Court of India Order (Civil Appeal No. 235-236/2018), Sivaji Crackers manufactures and distributes only CSIR-NEERI certified low-emission Green Crackers. Pyrotechnics cannot be shipped through domestic air courier agencies. All dispatches take place via approved regional heavy transport carriers from Sivakasi, Tamil Nadu.</p></div></div><div class="pt-6 border-t border-surface-container flex flex-col sm:flex-row items-center justify-between gap-4 font-body-sm text-body-sm text-on-surface-variant"><p>© 2025 Sivaji Crackers Sivakasi. All Rights Reserved. PESO Lic: E/SC/TN/22/8193.</p><div class="flex items-center gap-6"><a class="hover:text-on-surface transition-colors" data-path="contact-us" href="#">Terms &amp; Dispatch Policy</a><a class="hover:text-on-surface transition-colors" data-path="about-us" href="#">Safety Guidelines</a></div></div></div></footer></body></html>

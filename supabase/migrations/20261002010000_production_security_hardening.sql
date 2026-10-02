@@ -38,11 +38,13 @@ GRANT EXECUTE ON FUNCTION public.is_admin() TO anon, authenticated, service_role
 -- 3. Pin search_path on public.order_exists()
 CREATE OR REPLACE FUNCTION public.order_exists(p_order_id uuid)
 RETURNS boolean
-LANGUAGE sql
+LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = public, pg_temp
 AS $$
-  SELECT EXISTS(SELECT 1 FROM public.orders WHERE id = p_order_id);
+BEGIN
+  RETURN EXISTS(SELECT 1 FROM public.orders WHERE id = p_order_id);
+END;
 $$;
 GRANT EXECUTE ON FUNCTION public.order_exists(uuid) TO anon, authenticated, service_role;
 

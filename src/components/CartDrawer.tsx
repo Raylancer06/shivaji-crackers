@@ -199,9 +199,14 @@ export const CartDrawer: React.FC = () => {
                               <p className="text-[11px] text-gray-500">
                                 {item.product.subtitle}
                               </p>
-                              <span className="text-[10px] text-[#B85D00] font-bold">
-                                ₹{item.product.price} / box
-                              </span>
+                              <div className="flex items-center gap-2 mt-0.5">
+                                <span className="text-[10px] text-[#B85D00] font-bold">
+                                  ₹{item.product.price} / box
+                                </span>
+                                <span className="text-[10px] font-bold text-[#550C12] bg-[#FFF8ED] px-1.5 py-0.5 rounded border border-[#C98E2A]/30">
+                                  {item.product.pieces}
+                                </span>
+                              </div>
                             </div>
 
                             <button

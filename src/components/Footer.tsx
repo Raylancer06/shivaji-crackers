@@ -99,13 +99,13 @@ export const Footer: React.FC = () => {
                   Submit inquiries or test cart orders directly:
                 </p>
                 <a
-                  href="https://wa.me/918318270300"
+                  href="https://wa.me/918374044445"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-1.5 w-full py-2 bg-[#07542C] hover:bg-[#054022] text-white rounded-xl font-bold text-xs transition-colors shadow-sm"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
-                  <span>+91 8318270300</span>
+                  <span>+91 83740 44445</span>
                 </a>
               </div>
             </div>

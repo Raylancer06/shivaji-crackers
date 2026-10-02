@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
-import { ShoppingBag, MessageCircle, ShieldCheck, Search } from 'lucide-react';
+import { ShoppingBag, MessageCircle, ShieldCheck, Search, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ onSearchChange }) => {
@@ -37,18 +38,18 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
             <span className="text-white/30 hidden sm:inline">•</span>
             <span className="text-white/80 hidden sm:inline">100% CSIR-NEERI Green Certified</span>
             <span className="text-white/30 hidden md:inline">•</span>
-            <span className="text-[#F0B543] hidden md:inline">Flat 70% Sivakasi Factory Rate</span>
+            <span className="text-[#F0B543] hidden md:inline">Up to 80% Sivakasi Factory Rate</span>
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
             <a
-              href="https://wa.me/918318270300"
+              href="https://wa.me/918374044445"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-[#F0B543] hover:text-white transition-colors text-xs font-bold whitespace-nowrap"
             >
               <MessageCircle className="w-3.5 h-3.5 text-[#10B981]" />
-              <span>WhatsApp Helpline: +91 8318270300</span>
+              <span>WhatsApp Admin: +91 83740 44445</span>
             </a>
           </div>
         </div>
@@ -114,9 +115,15 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
             >
               Contact Us
             </a>
+            <Link
+              href="/account"
+              className="hover:text-[#550C12] hover:border-b-2 hover:border-[#C98E2A] pb-0.5 transition-all whitespace-nowrap text-[#B85D00]"
+            >
+              My Account
+            </Link>
           </div>
 
-          {/* Actions: Search, WhatsApp & Cart */}
+          {/* Actions: Search, Account, WhatsApp & Cart */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {/* Search Input */}
             <div className="relative hidden md:block">
@@ -130,15 +137,24 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
               />
             </div>
 
-            {/* Quick WhatsApp Test Button */}
+            {/* Account Icon Button */}
+            <Link
+              href="/account"
+              className="p-2 rounded-xl bg-white border border-[#E2D7C5] text-[#550C12] hover:bg-[#FFF8ED] transition shadow-sm"
+              title="Customer Account & Orders"
+            >
+              <User className="w-4 h-4 text-[#550C12]" />
+            </Link>
+
+            {/* Quick WhatsApp Admin Button */}
             <a
-              href="https://wa.me/918318270300"
+              href="https://wa.me/918374044445"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#EBF7F0] border border-[#A7E2BE] text-[#07542C] text-xs font-bold hover:bg-[#D5EFE0] transition-colors shadow-sm whitespace-nowrap"
             >
               <MessageCircle className="w-3.5 h-3.5 text-[#10B981]" />
-              <span>WhatsApp</span>
+              <span>WhatsApp Admin</span>
             </a>
 
             {/* Premium Cart Trigger */}

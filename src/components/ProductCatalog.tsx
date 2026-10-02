@@ -2,8 +2,10 @@
 
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 import { Product, PRODUCTS, CATEGORIES } from '@/data/products';
 import { useCart } from '@/context/CartContext';
+import { ImageLightboxModal } from './ImageLightboxModal';
 import {
   Sparkles,
   Search,
@@ -18,6 +20,7 @@ import {
   LayoutGrid,
   TableProperties,
   Printer,
+  Maximize2,
 } from 'lucide-react';
 
 interface ProductCatalogProps {
@@ -32,6 +35,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
   const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [addedAnimation, setAddedAnimation] = useState<Record<string, boolean>>({});
+  const [lightboxProduct, setLightboxProduct] = useState<Product | null>(null);
 
   React.useEffect(() => {
     if (initialSearch !== undefined) {
@@ -298,13 +302,21 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
                     return (
                       <tr key={product.id} className="hover:bg-[#FAF8F5]/80 transition-colors">
                         <td className="p-3 font-mono font-bold text-[#B85D00] whitespace-nowrap">
-                          {product.id}
+                          <Link href={`/product/${product.id}`} className="hover:underline">
+                            {product.id}
+                          </Link>
                         </td>
                         <td className="p-3">
-                          <div className="font-bold text-xs text-[#1C1411]">{product.name}</div>
+                          <Link href={`/product/${product.id}`} className="font-bold text-xs text-[#1C1411] hover:text-[#550C12] hover:underline block">
+                            {product.name}
+                          </Link>
                           <div className="text-[11px] text-[#7B141C] font-normal">{product.subtitle}</div>
                         </td>
-                        <td className="p-3 text-gray-500 whitespace-nowrap">{product.pieces}</td>
+                        <td className="p-3 whitespace-nowrap">
+                          <span className="inline-flex items-center gap-1 font-bold text-[11px] text-[#550C12] bg-[#FFF8ED] px-2 py-0.5 rounded border border-[#C98E2A]/30">
+                            {product.pieces}
+                          </span>
+                        </td>
                         <td className="p-3 whitespace-nowrap">
                           <span className="inline-flex items-center gap-1 text-[10px] bg-gray-100 px-2 py-0.5 rounded text-gray-700">
                             {product.soundLevel}
@@ -370,7 +382,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
                 const currentQty = quantities[product.id] || 1;
                 const cartItem = items.find((item) => item.product.id === product.id);
                 const isAdded = addedAnimation[product.id];
-                const discountPct = Math.round(((product.mrp - product.price) / product.mrp) * 100);
+                const discountPct = Math.min(80, Math.round(((product.mrp - product.price) / product.mrp) * 100));
 
                 return (
                   <motion.div
@@ -382,15 +394,19 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
                     transition={{ duration: 0.4, delay: index * 0.03 }}
                     className="bg-white rounded-3xl border border-[#E2D7C5] shadow-regal hover:shadow-deep transition-all duration-300 flex flex-col justify-between overflow-hidden group"
                   >
-                    {/* Top Image Frame */}
-                    <div className="relative h-52 w-full overflow-hidden bg-gray-100">
+                    {/* Top Image Frame with Lightbox Trigger */}
+                    <div
+                      className="relative h-52 w-full overflow-hidden bg-gray-100 cursor-pointer"
+                      onClick={() => setLightboxProduct(product)}
+                      title="Click to view image zoom and specifications"
+                    >
                       <img
                         src={product.image}
                         alt={product.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
 
-                      {/* Sivakasi Factory Discount Stamp */}
+                      {/* Sivakasi Factory Discount Stamp (≤ 80%) */}
                       <div className="absolute top-3 left-3 bg-[#7B141C] text-white px-2.5 py-0.5 rounded-full text-xs font-serif font-black shadow-md border border-[#F0B543]/40">
                         {discountPct}% OFF
                       </div>
@@ -400,6 +416,14 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
                           {product.badge}
                         </div>
                       )}
+
+                      {/* Floating Zoom Hint Button */}
+                      <div className="absolute bottom-10 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span className="bg-black/75 backdrop-blur-md text-white px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow-lg">
+                          <Maximize2 className="w-3 h-3 text-[#F0B543]" />
+                          <span>Zoom</span>
+                        </span>
+                      </div>
 
                       {/* Bottom Info Ribbon */}
                       <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between text-[11px] text-white font-medium bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-xl">
@@ -427,7 +451,9 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
                         </div>
 
                         <h3 className="font-bold text-base text-[#1C1411] group-hover:text-[#550C12] transition-colors leading-snug">
-                          {product.name}
+                          <Link href={`/product/${product.id}`} className="hover:underline">
+                            {product.name}
+                          </Link>
                         </h3>
                         <p className="text-xs font-medium text-[#7B141C] mt-0.5">
                           {product.subtitle}
@@ -551,6 +577,15 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
           </div>
         </div>
       </div>
+
+      {/* Product Image Lightbox Modal with Zoom */}
+      <ImageLightboxModal
+        isOpen={!!lightboxProduct}
+        onClose={() => setLightboxProduct(null)}
+        product={lightboxProduct}
+        allProducts={filteredProducts}
+        onSelectProduct={(p) => setLightboxProduct(p)}
+      />
     </section>
   );
 };

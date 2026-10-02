@@ -17,8 +17,10 @@ import {
   ShieldCheck,
   ArrowRight,
   SlidersHorizontal,
+  Maximize2,
 } from 'lucide-react';
 import Link from 'next/link';
+import { ImageLightboxModal } from './ImageLightboxModal';
 
 // Curated selection of top-selling products across key categories
 const FEATURED_IDS = [
@@ -41,6 +43,7 @@ export const FeaturedProductsCarousel: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [addedAnimation, setAddedAnimation] = useState<Record<string, boolean>>({});
+  const [lightboxProduct, setLightboxProduct] = useState<Product | null>(null);
 
   // Filter curated products or fallback to top products
   const featuredProducts = FEATURED_IDS.map((id) => PRODUCTS.find((p) => p.id === id)).filter(
@@ -86,7 +89,7 @@ export const FeaturedProductsCarousel: React.FC = () => {
               Featured Festive Crackers
             </h2>
             <p className="text-xs sm:text-sm text-[#66574F] mt-1 max-w-xl font-normal">
-              Direct factory gate pyrotechnics with flat 70% to 90% wholesale discounts. Handpicked favorites ready for express dispatch.
+              Direct factory gate pyrotechnics with up to 80% factory direct wholesale discounts. Handpicked favorites ready for express dispatch.
             </p>
           </div>
 
@@ -130,18 +133,19 @@ export const FeaturedProductsCarousel: React.FC = () => {
             const currentQty = quantities[product.id] || 1;
             const cartItem = items.find((item) => item.product.id === product.id);
             const isAdded = addedAnimation[product.id];
-            const discountPct =
-              product.mrp > 0
-                ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
-                : 70;
+            const discountPct = Math.min(80, Math.round(((product.mrp - product.price) / product.mrp) * 100));
 
             return (
               <div
                 key={product.id}
                 className="w-[280px] sm:w-[320px] shrink-0 snap-start bg-white rounded-3xl border border-[#E2D7C5] shadow-regal hover:shadow-deep transition-all duration-300 flex flex-col justify-between overflow-hidden group"
               >
-                {/* Product Image Frame */}
-                <div className="relative h-48 w-full overflow-hidden bg-gray-100">
+                {/* Product Image Frame with Lightbox Trigger */}
+                <div
+                  className="relative h-48 w-full overflow-hidden bg-gray-100 cursor-pointer"
+                  onClick={() => setLightboxProduct(product)}
+                  title="Click to view image zoom and specifications"
+                >
                   <img
                     src={product.image}
                     alt={product.name}
@@ -158,6 +162,14 @@ export const FeaturedProductsCarousel: React.FC = () => {
                       {product.badge}
                     </div>
                   )}
+
+                  {/* Zoom Overlay Button */}
+                  <div className="absolute bottom-9 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="bg-black/75 backdrop-blur-md text-white px-2 py-0.5 rounded-full text-[10px] font-bold flex items-center gap-1 shadow-md">
+                      <Maximize2 className="w-3 h-3 text-[#F0B543]" />
+                      <span>Zoom</span>
+                    </span>
+                  </div>
 
                   {/* Ribbon Info */}
                   <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between text-[10px] text-white font-medium bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-xl">
@@ -185,7 +197,9 @@ export const FeaturedProductsCarousel: React.FC = () => {
                     </div>
 
                     <h3 className="font-bold text-sm sm:text-base text-[#1C1411] group-hover:text-[#550C12] transition-colors leading-snug line-clamp-1">
-                      {product.name}
+                      <Link href={`/product/${product.id}`} className="hover:underline">
+                        {product.name}
+                      </Link>
                     </h3>
                     <p className="text-[11px] font-semibold text-[#7B141C] mt-0.5 truncate">
                       {product.subtitle}
@@ -294,6 +308,15 @@ export const FeaturedProductsCarousel: React.FC = () => {
           </Link>
         </div>
       </div>
+
+      {/* Lightbox Modal with Zoom */}
+      <ImageLightboxModal
+        isOpen={!!lightboxProduct}
+        onClose={() => setLightboxProduct(null)}
+        product={lightboxProduct}
+        allProducts={featuredProducts}
+        onSelectProduct={(p) => setLightboxProduct(p)}
+      />
     </section>
   );
 };

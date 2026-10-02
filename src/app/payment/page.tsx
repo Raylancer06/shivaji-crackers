@@ -73,30 +73,30 @@ export default function PaymentPage() {
             </div>
           </div>
 
-          {/* Google Pay Card */}
+          {/* Google Pay & UPI Card */}
           <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2D7C5] shadow-sm flex flex-col justify-between">
             <div>
               <div className="w-12 h-12 rounded-2xl bg-[#E8F0FE] border border-[#4285F4]/30 flex items-center justify-center text-[#1A73E8] mb-4">
                 <Smartphone className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-black text-[#1C1411] mb-1">
-                Google Pay (UPI)
+                Official Business UPI (All Apps)
               </h3>
               <p className="text-xs text-[#66574F] mb-5">
-                Instant UPI transfer using your Google Pay mobile app.
+                Instant UPI payment using Google Pay, PhonePe, Paytm, or BHIM.
               </p>
 
               <div className="bg-[#FAF8F5] p-4 rounded-2xl border border-[#E2D7C5] text-xs space-y-3">
                 <div>
-                  <span className="text-[10px] font-bold text-[#66574F] uppercase tracking-wider block">GPay Mobile Number</span>
-                  <span className="font-mono font-black text-base text-[#1A73E8]">+91 8318270300</span>
+                  <span className="text-[10px] font-bold text-[#66574F] uppercase tracking-wider block">Official Business UPI ID</span>
+                  <span className="font-mono font-black text-sm text-[#550C12] bg-amber-50 p-2 rounded-lg border border-amber-200 block mt-1 select-all">sivajiduddempudi422@axl</span>
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold text-[#66574F] uppercase tracking-wider block">Registered Payee</span>
-                  <span className="font-bold text-[#1C1411]">Shivaji Crackers / Authorized Billing Desk</span>
+                  <span className="text-[10px] font-bold text-[#66574F] uppercase tracking-wider block">Registered Account Holder</span>
+                  <span className="font-bold text-[#1C1411]">Sivaji Duddempudi</span>
                 </div>
-                <div className="p-2.5 rounded-xl bg-blue-50 text-[11px] text-[#1A73E8] font-medium leading-relaxed">
-                  Mention your Estimate Order ID in the payment note/remarks.
+                <div className="p-2.5 rounded-xl bg-amber-50 text-[11px] text-[#B85D00] font-medium leading-relaxed border border-amber-200">
+                  After paying, save the 12-digit UTR number and upload the screenshot.
                 </div>
               </div>
             </div>
@@ -107,37 +107,37 @@ export default function PaymentPage() {
             </div>
           </div>
 
-          {/* PhonePe Card */}
+          {/* Admin WhatsApp Desk Card */}
           <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2D7C5] shadow-sm flex flex-col justify-between">
             <div>
-              <div className="w-12 h-12 rounded-2xl bg-[#F3E8FF] border border-[#7C3AED]/30 flex items-center justify-center text-[#7C3AED] mb-4">
+              <div className="w-12 h-12 rounded-2xl bg-[#EBF7F0] border border-[#A7E2BE] flex items-center justify-center text-[#07542C] mb-4">
                 <Smartphone className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-black text-[#1C1411] mb-1">
-                PhonePe / Paytm (UPI)
+                Admin WhatsApp Desk
               </h3>
               <p className="text-xs text-[#66574F] mb-5">
-                Scan or send via any UPI provider to our verified desk number.
+                Direct verification hotline for orders, UTR submission & lorry booking.
               </p>
 
               <div className="bg-[#FAF8F5] p-4 rounded-2xl border border-[#E2D7C5] text-xs space-y-3">
                 <div>
-                  <span className="text-[10px] font-bold text-[#66574F] uppercase tracking-wider block">PhonePe Mobile Number</span>
-                  <span className="font-mono font-black text-base text-[#7C3AED]">+91 8318270300</span>
+                  <span className="text-[10px] font-bold text-[#66574F] uppercase tracking-wider block">Admin WhatsApp Number</span>
+                  <span className="font-mono font-black text-base text-[#07542C]">+91 83740 44445</span>
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold text-[#66574F] uppercase tracking-wider block">Accepted Apps</span>
-                  <span className="font-bold text-[#1C1411]">PhonePe, BHIM, Paytm, Amazon Pay</span>
+                  <span className="text-[10px] font-bold text-[#66574F] uppercase tracking-wider block">Operating Hours</span>
+                  <span className="font-bold text-[#1C1411]">7:00 AM – 11:00 PM (Diwali Season)</span>
                 </div>
-                <div className="p-2.5 rounded-xl bg-purple-50 text-[11px] text-[#7C3AED] font-medium leading-relaxed">
-                  Share the transaction screenshot directly on WhatsApp after payment.
+                <div className="p-2.5 rounded-xl bg-emerald-50 text-[11px] text-[#07542C] font-medium leading-relaxed border border-[#A7E2BE]">
+                  Submit payment screenshot directly on WhatsApp for priority Sivakasi dispatch.
                 </div>
               </div>
             </div>
 
             <div className="pt-4 mt-4 border-t border-[#E2D7C5] flex items-center gap-1.5 text-[11px] font-bold text-[#07542C]">
               <CheckCircle2 className="w-4 h-4 shrink-0" />
-              <span>Safe 100% Encrypted UPI</span>
+              <span>Verified Direct Line</span>
             </div>
           </div>
         </div>
@@ -155,36 +155,36 @@ export default function PaymentPage() {
             <div className="space-y-2">
               <span className="w-7 h-7 rounded-full bg-[#550C12] text-white flex items-center justify-center font-bold text-xs">1</span>
               <h4 className="text-sm font-bold text-[#1C1411]">Build Estimate</h4>
-              <p className="text-xs text-[#66574F]">Select crackers on our price list and click Get Estimate or WhatsApp Order.</p>
+              <p className="text-xs text-[#66574F]">Select crackers on our price list and click Proceed to Checkout.</p>
             </div>
             <div className="space-y-2">
               <span className="w-7 h-7 rounded-full bg-[#550C12] text-white flex items-center justify-center font-bold text-xs">2</span>
-              <h4 className="text-sm font-bold text-[#1C1411]">Receive Verification</h4>
-              <p className="text-xs text-[#66574F]">Our Sivakasi godown confirms final stock and transport booking slot.</p>
+              <h4 className="text-sm font-bold text-[#1C1411]">Pay via UPI</h4>
+              <p className="text-xs text-[#66574F]">Transfer exact wholesale total to UPI ID sivajiduddempudi422@axl.</p>
             </div>
             <div className="space-y-2">
               <span className="w-7 h-7 rounded-full bg-[#550C12] text-white flex items-center justify-center font-bold text-xs">3</span>
-              <h4 className="text-sm font-bold text-[#1C1411]">Transfer Amount</h4>
-              <p className="text-xs text-[#66574F]">Pay using Bank Transfer, GPay, or PhonePe to +91 8318270300.</p>
+              <h4 className="text-sm font-bold text-[#1C1411]">Submit UTR & Proof</h4>
+              <p className="text-xs text-[#66574F]">Enter your 12-digit UTR reference and attach payment screenshot.</p>
             </div>
             <div className="space-y-2">
               <span className="w-7 h-7 rounded-full bg-[#550C12] text-white flex items-center justify-center font-bold text-xs">4</span>
               <h4 className="text-sm font-bold text-[#1C1411]">Lorry Receipt (LR)</h4>
-              <p className="text-xs text-[#66574F]">Receive your official road transport tracking receipt for pickup in Hyderabad.</p>
+              <p className="text-xs text-[#66574F]">Admin verifies payment and issues Sivakasi transport LR tracking number for Hyderabad pickup.</p>
             </div>
           </div>
 
           <div className="mt-8 pt-6 border-t border-[#E2D7C5] flex flex-wrap items-center justify-between gap-4">
             <div className="text-xs text-[#66574F]">
-              Have questions regarding payment? Contact our helpline: <strong className="text-[#1C1411]">+91 8318270300</strong>
+              Have questions regarding payment? Contact our helpline: <strong className="text-[#1C1411]">+91 83740 44445</strong>
             </div>
             <a
-              href="https://wa.me/918318270300?text=Hello%20Shivaji%20Crackers%2C%20I%20have%20sent%20a%20payment%20and%20would%20like%20to%20confirm%20my%20order."
+              href="https://wa.me/918374044445?text=Hello%20Sivaji%20Crackers%2C%20I%20have%20sent%20a%20payment%20and%20would%20like%20to%20confirm%20my%20order."
               target="_blank"
               rel="noopener noreferrer"
               className="px-5 py-2.5 rounded-xl bg-[#07542C] text-white text-xs font-bold shadow-md hover:bg-[#0B8043] transition-all flex items-center gap-1.5"
             >
-              <span>Share Payment Screenshot on WhatsApp</span>
+              <span>Share Payment Screenshot on WhatsApp (+91 83740 44445)</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </a>
           </div>

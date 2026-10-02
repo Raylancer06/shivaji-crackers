@@ -2,16 +2,36 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
-import { ShoppingBag, ShieldCheck, Search, User, Phone, LogOut } from 'lucide-react';
+import {
+  ShoppingBag,
+  ShieldCheck,
+  Search,
+  User,
+  Phone,
+  LogOut,
+  Menu,
+  X,
+  Home,
+  Calculator,
+  CreditCard,
+  Info,
+  PhoneCall,
+  Package,
+  MessageCircle,
+  ChevronRight,
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ onSearchChange }) => {
   const { totalBoxes, totalWholesale, setIsCartOpen } = useCart();
   const { user, logout } = useAuth();
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [searchVal, setSearchVal] = useState('');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,16 +41,41 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close mobile menu whenever pathname changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
+  // Prevent background scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setSearchVal(val);
     if (onSearchChange) onSearchChange(val);
   };
 
+  const navLinks = [
+    { label: 'Home', href: '/', icon: Home },
+    { label: 'Estimate & Price List', href: '/estimate', icon: Calculator, badge: 'Wholesale' },
+    { label: 'Payment Info', href: '/payment', icon: CreditCard },
+    { label: 'About Us', href: '/about', icon: Info },
+    { label: 'Contact & Helpline', href: '/contact', icon: PhoneCall },
+  ];
+
   return (
     <header className="fixed top-0 left-0 right-0 z-40 font-sans">
       {/* Top Luxury Announcement Ribbon */}
-      <div className="bg-[#3D060B] text-[#F3E7D3] text-[11px] py-1.5 px-4 font-medium border-b border-[#C98E2A]/20 tracking-wider">
+      <div className="bg-[#3D060B] text-[#F3E7D3] text-[11px] py-1.5 px-3 sm:px-4 font-medium border-b border-[#C98E2A]/20 tracking-wider">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
             <span className="flex h-1.5 w-1.5 rounded-full bg-[#10B981] shadow-[0_0_8px_#10B981] animate-pulse shrink-0" />
@@ -49,23 +94,23 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
               className="inline-flex items-center gap-1.5 text-[#F0B543] hover:text-white transition-colors text-xs font-bold whitespace-nowrap"
             >
               <Phone className="w-3.5 h-3.5 text-[#F0B543]" />
-              <span>Helpline: +91 83740 44445</span>
+              <span className="hidden xs:inline">Helpline:</span> +91 83740 44445
             </a>
           </div>
         </div>
       </div>
 
-      {/* Main Glass Navbar - Clean Single Line Layout */}
+      {/* Main Glass Navbar - Clean Responsive Layout */}
       <nav
         className={`transition-all duration-300 border-b ${
-          scrolled
-            ? 'bg-[#FAF8F5]/95 backdrop-blur-md shadow-regal py-2 border-[#E2D7C5]'
-            : 'bg-[#FAF8F5]/90 backdrop-blur-sm py-3 border-[#E2D7C5]/60'
+          scrolled || mobileMenuOpen
+            ? 'bg-[#FAF8F5]/98 backdrop-blur-md shadow-regal py-2 border-[#E2D7C5]'
+            : 'bg-[#FAF8F5]/90 backdrop-blur-sm py-2.5 sm:py-3 border-[#E2D7C5]/60'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-3 lg:gap-6">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 flex items-center justify-between gap-2 sm:gap-3 lg:gap-6">
           {/* Brand Emblem & Logo */}
-          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink-0">
             <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full p-0.5 bg-gradient-to-tr from-[#C98E2A] via-[#F0B543] to-[#550C12] shadow-sm flex items-center justify-center shrink-0">
               <img
                 src="/logo.svg"
@@ -74,52 +119,35 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
               />
             </div>
             <div className="flex flex-col">
-              <span className="font-black text-base sm:text-lg text-[#550C12] tracking-wider leading-none group-hover:text-[#7B141C] transition-colors whitespace-nowrap">
+              <span className="font-black text-sm sm:text-base lg:text-lg text-[#550C12] tracking-wider leading-none group-hover:text-[#7B141C] transition-colors whitespace-nowrap">
                 SIVAJI FIRECRACKER
               </span>
-              <span className="text-[9px] sm:text-[10px] font-bold text-[#B85D00] tracking-widest uppercase mt-0.5 whitespace-nowrap">
+              <span className="text-[8px] sm:text-[9px] lg:text-[10px] font-bold text-[#B85D00] tracking-widest uppercase mt-0.5 whitespace-nowrap">
                 Direct Wholesale • Hyderabad Express
               </span>
             </div>
           </Link>
 
-          {/* Navigation Links - Single line guaranteed with whitespace-nowrap */}
+          {/* Desktop Navigation Links */}
           <div className="hidden lg:flex items-center gap-5 xl:gap-6 text-xs font-bold uppercase tracking-wider text-[#5C4D44] shrink-0">
-            <Link
-              href="/"
-              className="hover:text-[#550C12] hover:border-b-2 hover:border-[#C98E2A] pb-0.5 transition-all whitespace-nowrap"
-            >
-              Home
-            </Link>
-            <Link
-              href="/estimate"
-              className="hover:text-[#550C12] hover:border-b-2 hover:border-[#C98E2A] pb-0.5 transition-all whitespace-nowrap"
-            >
-              Estimate
-            </Link>
-            <Link
-              href="/payment"
-              className="hover:text-[#550C12] hover:border-b-2 hover:border-[#C98E2A] pb-0.5 transition-all whitespace-nowrap"
-            >
-              Payment Info
-            </Link>
-            <Link
-              href="/about"
-              className="hover:text-[#550C12] hover:border-b-2 hover:border-[#C98E2A] pb-0.5 transition-all whitespace-nowrap"
-            >
-              About Us
-            </Link>
-            <Link
-              href="/contact"
-              className="hover:text-[#550C12] hover:border-b-2 hover:border-[#C98E2A] pb-0.5 transition-all whitespace-nowrap"
-            >
-              Contact Us
-            </Link>
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`pb-0.5 transition-all whitespace-nowrap ${
+                  pathname === link.href
+                    ? 'text-[#550C12] border-b-2 border-[#C98E2A]'
+                    : 'hover:text-[#550C12] hover:border-b-2 hover:border-[#C98E2A]'
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
 
-          {/* Actions: Search, Account & Cart */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            {/* Search Input */}
+          {/* Actions: Search, Account, Cart & Mobile Menu Toggle */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            {/* Desktop Search Input */}
             <div className="relative hidden md:block">
               <Search className="w-3.5 h-3.5 text-[#8C7A70] absolute left-3 top-1/2 -translate-y-1/2" />
               <input
@@ -131,9 +159,9 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
               />
             </div>
 
-            {/* Account / User Section */}
+            {/* Desktop Account / User Section */}
             {user ? (
-              <div className="flex items-center gap-1.5 bg-white border border-[#E2D7C5] p-1 rounded-2xl shadow-sm">
+              <div className="hidden sm:flex items-center gap-1.5 bg-white border border-[#E2D7C5] p-1 rounded-2xl shadow-sm">
                 <Link
                   href="/account"
                   className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold text-[#550C12] hover:bg-[#FFF8ED] transition"
@@ -147,17 +175,17 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
                   onClick={async () => {
                     await logout();
                   }}
-                  className="p-1 rounded-lg text-gray-400 hover:text-red-700 hover:bg-red-50 transition"
+                  className="p-1 rounded-lg text-gray-400 hover:text-red-700 hover:bg-red-50 transition cursor-pointer"
                   title="Sign Out"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-1">
+              <div className="hidden sm:flex items-center gap-1">
                 <Link
                   href="/login"
-                  className="hidden sm:inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold text-[#550C12] hover:bg-[#FFF8ED] transition"
+                  className="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold text-[#550C12] hover:bg-[#FFF8ED] transition"
                 >
                   Sign In
                 </Link>
@@ -175,13 +203,14 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
             <motion.button
               whileTap={{ scale: 0.96 }}
               onClick={() => setIsCartOpen(true)}
-              className="relative flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-gradient-to-r from-[#550C12] to-[#7B141C] text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-regal border border-[#C98E2A]/30 transition-all shrink-0"
+              className="relative flex items-center gap-1.5 sm:gap-2 px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-gradient-to-r from-[#550C12] to-[#7B141C] text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-regal border border-[#C98E2A]/30 transition-all shrink-0 cursor-pointer"
+              aria-label="View Cart"
             >
               <ShoppingBag className="w-4 h-4 text-[#F0B543]" />
               <span className="hidden xs:inline font-serif font-bold tracking-wide">Cart</span>
 
               {totalBoxes > 0 ? (
-                <span className="font-extrabold text-[#F0B543] font-sans">
+                <span className="font-extrabold text-[#F0B543] font-sans text-xs">
                   ₹{totalWholesale.toLocaleString('en-IN')}
                 </span>
               ) : (
@@ -204,9 +233,228 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
                 )}
               </AnimatePresence>
             </motion.button>
+
+            {/* Mobile Menu Toggle Button */}
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              className="lg:hidden p-2 rounded-xl bg-white border border-[#E2D7C5] text-[#550C12] hover:bg-[#FAF8F5] active:scale-95 transition shadow-sm flex items-center justify-center cursor-pointer"
+              aria-label={mobileMenuOpen ? 'Close Menu' : 'Open Menu'}
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? (
+                <X className="w-5 h-5 text-[#550C12]" />
+              ) : (
+                <Menu className="w-5 h-5 text-[#550C12]" />
+              )}
+            </button>
           </div>
         </div>
       </nav>
+
+      {/* Mobile Drawer Menu Overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 top-[75px] sm:top-[85px] bg-black/50 backdrop-blur-xs z-30 lg:hidden"
+            />
+
+            {/* Menu Slide Down Panel */}
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              className="fixed inset-x-0 top-[75px] sm:top-[85px] z-40 bg-[#FAF8F5] border-b-2 border-[#C98E2A]/30 shadow-2xl max-h-[calc(100vh-85px)] overflow-y-auto lg:hidden"
+            >
+              <div className="px-4 py-4 space-y-3.5">
+                {/* Search Bar for Mobile */}
+                <div className="relative">
+                  <Search className="w-4 h-4 text-[#8C7A70] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    value={searchVal}
+                    onChange={handleSearch}
+                    placeholder="Search crackers, sparklers, sky shots..."
+                    className="w-full pl-10 pr-9 py-2.5 text-xs bg-white border border-[#E2D7C5] rounded-xl shadow-xs focus:border-[#C98E2A] focus:ring-1 focus:ring-[#C98E2A] outline-none text-[#1C1411]"
+                  />
+                  {searchVal && (
+                    <button
+                      onClick={() => {
+                        setSearchVal('');
+                        if (onSearchChange) onSearchChange('');
+                      }}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Primary Navigation Links */}
+                <div className="bg-white rounded-2xl border border-[#E2D7C5] p-2 space-y-1 shadow-xs">
+                  {navLinks.map((link) => {
+                    const IconComponent = link.icon;
+                    const isActive = pathname === link.href;
+                    return (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`flex items-center justify-between p-2.5 rounded-xl transition ${
+                          isActive
+                            ? 'bg-[#550C12] text-white font-bold'
+                            : 'text-[#1C1411] hover:bg-[#FAF8F5] font-semibold'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div
+                            className={`w-7 h-7 rounded-lg flex items-center justify-center ${
+                              isActive ? 'bg-white/15 text-[#F0B543]' : 'bg-[#FAF8F5] text-[#550C12]'
+                            }`}
+                          >
+                            <IconComponent className="w-3.5 h-3.5" />
+                          </div>
+                          <span className="text-xs">{link.label}</span>
+                        </div>
+
+                        <div className="flex items-center gap-1.5">
+                          {link.badge && (
+                            <span
+                              className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
+                                isActive
+                                  ? 'bg-[#F0B543] text-[#1C1411]'
+                                  : 'bg-amber-100 text-amber-900 border border-amber-300'
+                              }`}
+                            >
+                              {link.badge}
+                            </span>
+                          )}
+                          <ChevronRight
+                            className={`w-4 h-4 ${isActive ? 'text-white/70' : 'text-gray-400'}`}
+                          />
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+
+                {/* Account / Authentication Card */}
+                <div className="bg-white rounded-2xl border border-[#E2D7C5] p-3 shadow-xs">
+                  {user ? (
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between pb-2 border-b border-[#E2D7C5]">
+                        <div className="flex items-center gap-2">
+                          <div className="w-7 h-7 rounded-full bg-[#FFF8ED] border border-[#E2D7C5] flex items-center justify-center text-[#550C12]">
+                            <User className="w-3.5 h-3.5 text-[#C98E2A]" />
+                          </div>
+                          <div>
+                            <div className="text-xs font-bold text-[#1C1411]">{user.name}</div>
+                            <div className="text-[10px] text-gray-500">{user.email}</div>
+                          </div>
+                        </div>
+                        <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[9px] font-bold uppercase">
+                          Active
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2 pt-1">
+                        <Link
+                          href="/account"
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="py-2 px-3 rounded-xl bg-[#FAF8F5] hover:bg-[#FFF8ED] border border-[#E2D7C5] text-xs font-bold text-[#550C12] text-center flex items-center justify-center gap-1.5"
+                        >
+                          <Package className="w-3.5 h-3.5 text-[#C98E2A]" />
+                          <span>My Orders</span>
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            await logout();
+                            setMobileMenuOpen(false);
+                          }}
+                          className="py-2 px-3 rounded-xl bg-red-50 hover:bg-red-100 border border-red-200 text-xs font-bold text-red-700 text-center flex items-center justify-center gap-1.5 cursor-pointer"
+                        >
+                          <LogOut className="w-3.5 h-3.5" />
+                          <span>Sign Out</span>
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <div className="text-xs font-bold text-[#1C1411] mb-1">
+                        Customer Account
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Link
+                          href="/login"
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="py-2 px-3 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white text-xs font-bold text-center transition"
+                        >
+                          Sign In
+                        </Link>
+                        <Link
+                          href="/register"
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="py-2 px-3 rounded-xl bg-white border border-[#E2D7C5] hover:bg-[#FAF8F5] text-[#550C12] text-xs font-bold text-center transition"
+                        >
+                          Register
+                        </Link>
+                      </div>
+                      <Link
+                        href="/account"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="w-full py-2 px-3 rounded-xl bg-[#FAF8F5] border border-[#E2D7C5] text-[11px] text-[#66574F] hover:text-[#550C12] flex items-center justify-between transition mt-1"
+                      >
+                        <span className="flex items-center gap-1.5">
+                          <Package className="w-3.5 h-3.5 text-gray-500" />
+                          <span>Track Order Without Account</span>
+                        </span>
+                        <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
+                {/* Instant Support & WhatsApp */}
+                <div className="grid grid-cols-2 gap-2">
+                  <a
+                    href="https://wa.me/918374044445?text=Hi%20Sivaji%20Firecracker%2C%20I%20have%20an%20enquiry%20regarding%20crackers%20order."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-2 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs transition"
+                  >
+                    <MessageCircle className="w-3.5 h-3.5 shrink-0" />
+                    <span>WhatsApp</span>
+                  </a>
+                  <a
+                    href="tel:+918374044445"
+                    className="py-2 px-3 rounded-xl bg-[#FAF8F5] border border-[#E2D7C5] text-[#550C12] text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs hover:bg-[#FFF8ED] transition"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-[#C98E2A] shrink-0" />
+                    <span>Call Helpline</span>
+                  </a>
+                </div>
+
+                {/* Trust Footer */}
+                <div className="pt-1 pb-1 text-center">
+                  <div className="inline-flex items-center gap-1.5 text-[9px] font-bold text-[#B85D00] uppercase tracking-wider">
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#10B981]" />
+                    <span>100% CSIR-NEERI Certified Green Crackers</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

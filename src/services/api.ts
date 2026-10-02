@@ -13,6 +13,10 @@ export interface StoreSettings {
   business_city: string;
   business_phone: string;
   business_email: string;
+  admin_whatsapp_number?: string;
+  admin_notification_email?: string;
+  support_phone?: string;
+  support_email?: string;
   minimum_cart_value: number;
   upi_id: string;
   upi_payee_name: string;
@@ -163,6 +167,10 @@ export const api = {
         business_city: map['business_city'] || 'Hyderabad',
         business_phone: map['business_phone'] || '+91 83740 44445',
         business_email: map['business_email'] || 'orders@sivajifirecracker.com',
+        admin_whatsapp_number: map['admin_whatsapp_number'] || '918374044445',
+        admin_notification_email: map['admin_notification_email'] || 'sivajiduddempudi42@gmail.com',
+        support_phone: map['support_phone'] || '+91 83740 44445',
+        support_email: map['support_email'] || 'sivajiduddempudi42@gmail.com',
         minimum_cart_value: Number(map['minimum_cart_value']) || 2000,
         upi_id: map['upi_id'] || 'sivajiduddempudi422@axl',
         upi_payee_name: map['upi_payee_name'] || 'Sivaji Duddempudi',
@@ -183,6 +191,10 @@ export const api = {
         business_city: 'Hyderabad',
         business_phone: '+91 83740 44445',
         business_email: 'orders@sivajifirecracker.com',
+        admin_whatsapp_number: '918374044445',
+        admin_notification_email: 'sivajiduddempudi42@gmail.com',
+        support_phone: '+91 83740 44445',
+        support_email: 'sivajiduddempudi42@gmail.com',
         minimum_cart_value: 2000,
         upi_id: 'sivajiduddempudi422@axl',
         upi_payee_name: 'Sivaji Duddempudi',

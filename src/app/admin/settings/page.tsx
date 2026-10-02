@@ -12,6 +12,14 @@ import {
   Truck,
   CheckCircle,
   AlertCircle,
+  ShieldCheck,
+  Lock,
+  Mail,
+  MessageCircle,
+  KeyRound,
+  Eye,
+  EyeOff,
+  User,
 } from 'lucide-react';
 
 export default function AdminSettingsPage() {
@@ -22,8 +30,11 @@ export default function AdminSettingsPage() {
     minimum_cart_value: '2000',
     upi_id: 'sivajiduddempudi422@axl',
     upi_payee_name: 'Sivaji Duddempudi',
-    support_phone: '+91 98765 43210',
-    support_email: 'support@sivajifirecrackers.com',
+    support_phone: '+91 83740 44445',
+    support_email: 'sivajiduddempudi42@gmail.com',
+    admin_email: 'sivajiduddempudi42@gmail.com',
+    admin_notification_email: 'sivajiduddempudi42@gmail.com',
+    admin_whatsapp_number: '918374044445',
     shipping_charge: '150',
     free_shipping_enabled: 'false',
     free_shipping_threshold: '5000',
@@ -33,11 +44,27 @@ export default function AdminSettingsPage() {
   const [saving, setSaving] = useState(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
+  // Admin Profile & Credentials State
+  const [adminEmail, setAdminEmail] = useState('sivajiduddempudi42@gmail.com');
+  const [adminPhone, setAdminPhone] = useState('+91 83740 44445');
+  const [adminFullName, setAdminFullName] = useState('Sivaji Duddempudi');
+  const [adminPassword, setAdminPassword] = useState('');
+  const [showAdminPassword, setShowAdminPassword] = useState(false);
+  const [adminCredLoading, setAdminCredLoading] = useState(false);
+  const [adminCredSuccess, setAdminCredSuccess] = useState<string | null>(null);
+  const [adminCredError, setAdminCredError] = useState<string | null>(null);
+
   const fetchSettings = async () => {
     setLoading(true);
     try {
       const data = await adminApi.getSettings();
       setSettings((prev) => ({ ...prev, ...data }));
+      if (data.admin_notification_email || data.admin_email) {
+        setAdminEmail(data.admin_notification_email || data.admin_email);
+      }
+      if (data.admin_whatsapp_number || data.support_phone) {
+        setAdminPhone(data.admin_whatsapp_number || data.support_phone);
+      }
     } catch (err) {
       console.error('Failed to load settings', err);
     } finally {
@@ -53,12 +80,46 @@ export default function AdminSettingsPage() {
     setSettings((prev) => ({ ...prev, [key]: val }));
   };
 
+  const handleUpdateAdminCredentials = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAdminCredLoading(true);
+    setAdminCredSuccess(null);
+    setAdminCredError(null);
+
+    try {
+      if (adminPassword && adminPassword.trim().length < 6) {
+        throw new Error('Password must be at least 6 characters long.');
+      }
+
+      await adminApi.updateAdminCredentials({
+        email: adminEmail.trim(),
+        password: adminPassword.trim() || undefined,
+        phone: adminPhone.trim(),
+        fullName: adminFullName.trim(),
+      });
+
+      setAdminCredSuccess('Admin login email, password, and order notification channels updated successfully!');
+      setAdminPassword('');
+      fetchSettings();
+      setTimeout(() => setAdminCredSuccess(null), 5000);
+    } catch (err: any) {
+      setAdminCredError(err.message || 'Failed to update admin credentials.');
+    } finally {
+      setAdminCredLoading(false);
+    }
+  };
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
     setSuccessMsg(null);
     try {
-      await adminApi.updateSettings(settings);
+      await adminApi.updateSettings({
+        ...settings,
+        admin_email: adminEmail.trim(),
+        admin_notification_email: adminEmail.trim(),
+        admin_whatsapp_number: adminPhone.replace(/\D/g, ''),
+      });
       setSuccessMsg('Store settings updated successfully.');
       setTimeout(() => setSuccessMsg(null), 4000);
     } catch (err: any) {
@@ -69,7 +130,7 @@ export default function AdminSettingsPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-4xl">
+    <div className="space-y-8 max-w-4xl">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -77,7 +138,7 @@ export default function AdminSettingsPage() {
             Store & Business Configuration
           </h1>
           <p className="text-xs text-[#66574F] mt-1 font-medium">
-            Manage UPI payment endpoints, checkout minimum limits, and store identification
+            Manage admin credentials, instant order alerts, UPI payments, and shipping rules
           </p>
         </div>
 
@@ -89,6 +150,134 @@ export default function AdminSettingsPage() {
           <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
           <span>Reload</span>
         </button>
+      </div>
+
+      {/* 1. DEDICATED ADMIN ACCOUNT & NOTIFICATION SETTINGS */}
+      <div className="bg-gradient-to-br from-white to-[#FFFDF9] rounded-2xl p-6 border-2 border-[#C98E2A]/40 shadow-sm space-y-5">
+        <div className="flex items-center justify-between pb-3 border-b border-[#E2D7C5]">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-[#550C12] text-[#F0B543] flex items-center justify-center shadow-xs">
+              <ShieldCheck className="w-4 h-4" />
+            </div>
+            <div>
+              <h2 className="font-serif font-black text-sm text-[#1C1411]">
+                Admin Account & Real-Time Order Notifications
+              </h2>
+              <span className="text-[11px] text-[#66574F] block">
+                Manage login credentials and destination channels for WhatsApp & Email order alerts
+              </span>
+            </div>
+          </div>
+          <span className="hidden sm:inline px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#FFF8ED] border border-[#C98E2A]/40 text-[#B85D00]">
+            Owner Control
+          </span>
+        </div>
+
+        {adminCredSuccess && (
+          <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold flex items-center gap-2">
+            <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span>{adminCredSuccess}</span>
+          </div>
+        )}
+
+        {adminCredError && (
+          <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-bold flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
+            <span>{adminCredError}</span>
+          </div>
+        )}
+
+        <form onSubmit={handleUpdateAdminCredentials} className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1 flex items-center gap-1.5">
+                <Mail className="w-3.5 h-3.5 text-[#C98E2A]" />
+                <span>Admin Login & Notification Email *</span>
+              </label>
+              <input
+                type="email"
+                required
+                value={adminEmail}
+                onChange={(e) => setAdminEmail(e.target.value)}
+                placeholder="sivajiduddempudi42@gmail.com"
+                className="w-full px-3 py-2.5 bg-white border border-[#E2D7C5] rounded-xl font-medium text-[#1C1411] focus:outline-none focus:ring-2 focus:ring-[#C98E2A]"
+              />
+              <span className="text-[10px] text-stone-500 mt-1 block">
+                All order alerts and portal login use this email address
+              </span>
+            </div>
+
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1 flex items-center gap-1.5">
+                <MessageCircle className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Admin WhatsApp Alert Number *</span>
+              </label>
+              <input
+                type="text"
+                required
+                value={adminPhone}
+                onChange={(e) => setAdminPhone(e.target.value)}
+                placeholder="+91 83740 44445"
+                className="w-full px-3 py-2.5 bg-white border border-[#E2D7C5] rounded-xl font-medium text-[#1C1411] focus:outline-none focus:ring-2 focus:ring-[#C98E2A]"
+              />
+              <span className="text-[10px] text-stone-500 mt-1 block">
+                Receives pre-formatted 1-click WhatsApp order notifications
+              </span>
+            </div>
+
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1 flex items-center gap-1.5">
+                <User className="w-3.5 h-3.5 text-[#C98E2A]" />
+                <span>Admin Display Name</span>
+              </label>
+              <input
+                type="text"
+                value={adminFullName}
+                onChange={(e) => setAdminFullName(e.target.value)}
+                placeholder="Sivaji Duddempudi"
+                className="w-full px-3 py-2.5 bg-white border border-[#E2D7C5] rounded-xl font-medium text-[#1C1411] focus:outline-none focus:ring-2 focus:ring-[#C98E2A]"
+              />
+            </div>
+
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1 flex items-center gap-1.5">
+                <Lock className="w-3.5 h-3.5 text-[#C98E2A]" />
+                <span>Change Admin Password</span>
+              </label>
+              <div className="relative">
+                <input
+                  type={showAdminPassword ? 'text' : 'password'}
+                  value={adminPassword}
+                  onChange={(e) => setAdminPassword(e.target.value)}
+                  placeholder="Leave blank to keep unchanged"
+                  className="w-full pl-3 pr-10 py-2.5 bg-white border border-[#E2D7C5] rounded-xl font-medium text-[#1C1411] focus:outline-none focus:ring-2 focus:ring-[#C98E2A]"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowAdminPassword(!showAdminPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition cursor-pointer"
+                  aria-label={showAdminPassword ? "Hide password" : "Show password"}
+                >
+                  {showAdminPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+              <span className="text-[10px] text-stone-500 mt-1 block">
+                Enter 6+ characters only if you wish to change your password
+              </span>
+            </div>
+          </div>
+
+          <div className="flex justify-end pt-1">
+            <button
+              type="submit"
+              disabled={adminCredLoading}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#550C12] to-[#7B141C] text-white font-bold text-xs hover:shadow-md transition cursor-pointer disabled:opacity-50"
+            >
+              <KeyRound className="w-3.5 h-3.5 text-[#F0B543]" />
+              <span>{adminCredLoading ? 'Updating Admin Account...' : 'Update Admin Credentials & Alert Channels'}</span>
+            </button>
+          </div>
+        </form>
       </div>
 
       {successMsg && (

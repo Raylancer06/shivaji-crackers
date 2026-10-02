@@ -439,6 +439,22 @@ export const adminApi = {
     }
   },
 
+  async updateAdminCredentials(params: {
+    email?: string;
+    password?: string;
+    phone?: string;
+    fullName?: string;
+  }) {
+    const { data, error } = await supabase.rpc('admin_update_profile_and_credentials', {
+      p_email: params.email?.trim() || null,
+      p_password: params.password?.trim() || null,
+      p_phone: params.phone?.trim() || null,
+      p_full_name: params.fullName?.trim() || null,
+    });
+    if (error) throw error;
+    return data;
+  },
+
   // Budget Packages & Section Control
   async getBudgetPackages() {
     const { data, error } = await supabase

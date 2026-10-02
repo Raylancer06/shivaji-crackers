@@ -163,10 +163,28 @@ export default function OrderConfirmationPage() {
     };
   }, [orderNumber]);
 
+  const [adminNotificationPhone, setAdminNotificationPhone] = useState('918374044445');
+  const [adminNotificationEmail, setAdminNotificationEmail] = useState('sivajiduddempudi42@gmail.com');
+
+  useEffect(() => {
+    api.getSettings().then((s) => {
+      if (s.admin_whatsapp_number) {
+        setAdminNotificationPhone(s.admin_whatsapp_number.replace(/\D/g, ''));
+      } else if (s.support_phone) {
+        setAdminNotificationPhone(s.support_phone.replace(/\D/g, ''));
+      }
+      if (s.admin_notification_email) {
+        setAdminNotificationEmail(s.admin_notification_email);
+      } else if (s.support_email) {
+        setAdminNotificationEmail(s.support_email);
+      }
+    }).catch(() => {});
+  }, []);
+
   const sendWhatsAppNotification = () => {
     if (!order) return;
 
-    let text = `*SIVAJI FIRECRACKER — ORDER CONFIRMATION*\n`;
+    let text = `*SIVAJI FIRECRACKER — NEW ORDER CONFIRMATION*\n\n`;
     text += `*Order Number:* ${order.order_number}\n`;
     text += `*Date:* ${new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}\n\n`;
 
@@ -184,7 +202,7 @@ export default function OrderConfirmationPage() {
     if (order.paymentConfirmation?.utr_number) {
       text += `*UTR / Ref Number:* ${order.paymentConfirmation.utr_number}\n`;
     }
-    text += `*Payment Verification:* Recorded in Admin System\n`;
+    text += `*Payment Status:* ${order.payment_status || 'Submitted'}\n`;
 
     text += `\n*ORDER ITEMS:*\n`;
     order.items?.forEach((item, idx) => {
@@ -199,7 +217,46 @@ export default function OrderConfirmationPage() {
     text += `Please verify my payment in the admin portal and confirm order dispatch. Thank you!`;
 
     const encoded = encodeURIComponent(text);
-    window.open(`https://wa.me/918374044445?text=${encoded}`, '_blank');
+    const targetPhone = adminNotificationPhone || '918374044445';
+    window.open(`https://wa.me/${targetPhone}?text=${encoded}`, '_blank');
+  };
+
+  const sendEmailNotification = () => {
+    if (!order) return;
+
+    const subject = encodeURIComponent(`[NEW ORDER] Order #${order.order_number} - ₹${order.final_amount.toLocaleString('en-IN')} - ${order.customer_name}`);
+    let body = `SIVAJI FIRECRACKER — NEW ORDER NOTIFICATION\n\n`;
+    body += `Order Number: ${order.order_number}\n`;
+    body += `Date: ${new Date(order.created_at).toLocaleString('en-IN')}\n\n`;
+
+    body += `CUSTOMER INFORMATION:\n`;
+    body += `Name: ${order.customer_name}\n`;
+    body += `Phone: ${order.customer_phone}\n`;
+    if (order.customer_email) body += `Email: ${order.customer_email}\n`;
+    body += `Delivery Address: ${order.delivery_address}\n`;
+    body += `City/State/Pin: ${order.city}, ${order.state} - ${order.pincode}\n`;
+    if (order.landmark) body += `Landmark: ${order.landmark}\n`;
+    if (order.customer_notes) body += `Customer Notes: ${order.customer_notes}\n\n`;
+
+    body += `PAYMENT STATUS:\n`;
+    body += `Status: ${order.payment_status || 'Submitted'}\n`;
+    if (order.paymentConfirmation?.utr_number) {
+      body += `UTR / Ref Number: ${order.paymentConfirmation.utr_number}\n`;
+    }
+    body += `\nORDER ITEMS:\n`;
+    order.items?.forEach((item, idx) => {
+      const boxQty = item.box_quantity || 1;
+      const unit = item.quantity_unit || 'Pieces';
+      body += `${idx + 1}. ${item.product_name} (${boxQty} ${unit}/box) x ${item.quantity} = ₹${(item.total_selling_price || item.selling_price * item.quantity).toLocaleString('en-IN')}\n`;
+    });
+
+    body += `\nTotal MRP: ₹${order.total_mrp.toLocaleString('en-IN')}\n`;
+    body += `Festival Discount: ₹${order.discount_amount.toLocaleString('en-IN')}\n`;
+    body += `Final Amount: ₹${order.final_amount.toLocaleString('en-IN')}\n\n`;
+    body += `View and verify this order in the admin portal:\nhttps://shivaji-crackers.vercel.app/admin/orders\n`;
+
+    const targetEmail = adminNotificationEmail || 'sivajiduddempudi42@gmail.com';
+    window.open(`mailto:${targetEmail}?subject=${subject}&body=${encodeURIComponent(body)}`, '_blank');
   };
 
   return (
@@ -273,21 +330,30 @@ export default function OrderConfirmationPage() {
                 </div>
               </div>
 
-              {/* Primary WhatsApp Deep Link */}
-              <div className="p-4 sm:p-5 rounded-2xl bg-emerald-50 border border-emerald-300 max-w-xl mx-auto space-y-3">
-                <div className="text-xs sm:text-sm font-bold text-emerald-950">
-                  Notify Sivaji Firecracker Support on WhatsApp
+              {/* Order Notification Actions (WhatsApp & Email to Admin) */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-[#FAF8F5] border border-[#E2D7C5] max-w-2xl mx-auto space-y-3">
+                <div className="text-xs sm:text-sm font-bold text-[#1C1411]">
+                  Instant Order Updates to Sivaji Firecracker Admin
                 </div>
-                <p className="text-[11px] sm:text-xs text-emerald-800">
-                  Click below to open WhatsApp with your order reference and payment confirmation pre-filled for priority dispatch.
+                <p className="text-[11px] sm:text-xs text-[#66574F]">
+                  Send your order details and payment verification directly to Sivaji Firecracker support via WhatsApp or Email for priority packing and dispatch.
                 </p>
-                <button
-                  onClick={sendWhatsAppNotification}
-                  className="w-full py-3.5 px-6 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-serif font-black text-xs sm:text-sm tracking-wide shadow-md flex items-center justify-center gap-2 transition hover:scale-[1.01] active:scale-95 cursor-pointer"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                  <span>Send Order to WhatsApp (+91 83740 44445)</span>
-                </button>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                  <button
+                    onClick={sendWhatsAppNotification}
+                    className="py-3 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-serif font-bold text-xs tracking-wide shadow-sm flex items-center justify-center gap-2 transition hover:scale-[1.01] active:scale-95 cursor-pointer"
+                  >
+                    <MessageCircle className="w-4 h-4 shrink-0" />
+                    <span>WhatsApp Alert (+91 {adminNotificationPhone.replace(/^91/, '') || '83740 44445'})</span>
+                  </button>
+                  <button
+                    onClick={sendEmailNotification}
+                    className="py-3 px-4 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white font-serif font-bold text-xs tracking-wide shadow-sm flex items-center justify-center gap-2 transition hover:scale-[1.01] active:scale-95 cursor-pointer"
+                  >
+                    <Mail className="w-4 h-4 shrink-0" />
+                    <span>Email Order Copy ({adminNotificationEmail || 'sivajiduddempudi42@gmail.com'})</span>
+                  </button>
+                </div>
               </div>
             </div>
 

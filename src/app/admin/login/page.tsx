@@ -53,7 +53,7 @@ export default function AdminLoginPage() {
   };
 
   const handleAutoFill = () => {
-    setEmail('admin@sivajifirecrackers.com');
+    setEmail('sivajiduddempudi42@gmail.com');
     setPassword('sivajiadmin2026');
     setShowPassword(true);
     setError('');
@@ -85,8 +85,8 @@ export default function AdminLoginPage() {
               <KeyRound className="w-3.5 h-3.5 text-[#C98E2A] shrink-0" />
               <span>Admin QA Login</span>
             </div>
-            <p className="text-[11px] text-[#66574F] mt-0.5 truncate">
-              admin@sivajifirecrackers.com
+            <p className="text-[11px] text-[#66574F] mt-0.5 truncate font-mono">
+              sivajiduddempudi42@gmail.com
             </p>
           </div>
           <button
@@ -117,7 +117,7 @@ export default function AdminLoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@sivajifirecrackers.com"
+                placeholder="sivajiduddempudi42@gmail.com"
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs font-medium text-[#1C1411] focus:outline-none focus:ring-2 focus:ring-[#C98E2A] transition"
               />
             </div>

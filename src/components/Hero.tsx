@@ -309,9 +309,9 @@ export const Hero: React.FC = () => {
             </div>
             <div>
               <span className="font-serif font-bold text-xs text-[#1C1411] block">
-                Heavy Lorry Transport
+                Fast & Safe Delivery
               </span>
-              <span className="text-[11px] text-[#66574F]">VRL, ARC & SRS Booking</span>
+              <span className="text-[11px] text-[#66574F]">Tracked Dispatches</span>
             </div>
           </div>
         </div>

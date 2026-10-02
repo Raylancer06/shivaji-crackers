@@ -3,11 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
-import { ShoppingBag, ShieldCheck, Search, User, Phone } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import { ShoppingBag, ShieldCheck, Search, User, Phone, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ onSearchChange }) => {
   const { totalBoxes, totalWholesale, setIsCartOpen } = useCart();
+  const { user, logout } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [searchVal, setSearchVal] = useState('');
 
@@ -38,7 +40,7 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
             <span className="text-white/30 hidden sm:inline">•</span>
             <span className="text-white/80 hidden sm:inline">100% CSIR-NEERI Green Certified</span>
             <span className="text-white/30 hidden md:inline">•</span>
-            <span className="text-[#F0B543] hidden md:inline">Up to 80% Sivakasi Factory Rate</span>
+            <span className="text-[#F0B543] hidden md:inline">Up to 80% Direct Factory Savings</span>
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
@@ -63,7 +65,7 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-3 lg:gap-6">
           {/* Brand Emblem & Logo */}
-          <a href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
+          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
             <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full p-0.5 bg-gradient-to-tr from-[#C98E2A] via-[#F0B543] to-[#550C12] shadow-sm flex items-center justify-center shrink-0">
               <img
                 src="/logo.svg"
@@ -76,43 +78,43 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
                 SIVAJI FIRECRACKER
               </span>
               <span className="text-[9px] sm:text-[10px] font-bold text-[#B85D00] tracking-widest uppercase mt-0.5 whitespace-nowrap">
-                Sivakasi Direct • Hyderabad Express
+                Direct Wholesale • Hyderabad Express
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Navigation Links - Single line guaranteed with whitespace-nowrap */}
           <div className="hidden lg:flex items-center gap-5 xl:gap-6 text-xs font-bold uppercase tracking-wider text-[#5C4D44] shrink-0">
-            <a
+            <Link
               href="/"
               className="hover:text-[#550C12] hover:border-b-2 hover:border-[#C98E2A] pb-0.5 transition-all whitespace-nowrap"
             >
               Home
-            </a>
-            <a
+            </Link>
+            <Link
               href="/estimate"
               className="hover:text-[#550C12] hover:border-b-2 hover:border-[#C98E2A] pb-0.5 transition-all whitespace-nowrap"
             >
               Estimate
-            </a>
-            <a
+            </Link>
+            <Link
               href="/payment"
               className="hover:text-[#550C12] hover:border-b-2 hover:border-[#C98E2A] pb-0.5 transition-all whitespace-nowrap"
             >
               Payment Info
-            </a>
-            <a
+            </Link>
+            <Link
               href="/about"
               className="hover:text-[#550C12] hover:border-b-2 hover:border-[#C98E2A] pb-0.5 transition-all whitespace-nowrap"
             >
               About Us
-            </a>
-            <a
+            </Link>
+            <Link
               href="/contact"
               className="hover:text-[#550C12] hover:border-b-2 hover:border-[#C98E2A] pb-0.5 transition-all whitespace-nowrap"
             >
               Contact Us
-            </a>
+            </Link>
           </div>
 
           {/* Actions: Search, Account & Cart */}
@@ -129,14 +131,45 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
               />
             </div>
 
-            {/* Account Icon Button */}
-            <Link
-              href="/account"
-              className="p-2 rounded-xl bg-white border border-[#E2D7C5] text-[#550C12] hover:bg-[#FFF8ED] transition shadow-sm"
-              title="Customer Account & Orders"
-            >
-              <User className="w-4 h-4 text-[#550C12]" />
-            </Link>
+            {/* Account / User Section */}
+            {user ? (
+              <div className="flex items-center gap-1.5 bg-white border border-[#E2D7C5] p-1 rounded-2xl shadow-sm">
+                <Link
+                  href="/account"
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold text-[#550C12] hover:bg-[#FFF8ED] transition"
+                  title="My Account"
+                >
+                  <User className="w-3.5 h-3.5 text-[#C98E2A]" />
+                  <span className="max-w-[90px] sm:max-w-[120px] truncate">{user.name}</span>
+                </Link>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    await logout();
+                  }}
+                  className="p-1 rounded-lg text-gray-400 hover:text-red-700 hover:bg-red-50 transition"
+                  title="Sign Out"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1">
+                <Link
+                  href="/login"
+                  className="hidden sm:inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold text-[#550C12] hover:bg-[#FFF8ED] transition"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/account"
+                  className="p-2 rounded-xl bg-white border border-[#E2D7C5] text-[#550C12] hover:bg-[#FFF8ED] transition shadow-sm"
+                  title="My Account"
+                >
+                  <User className="w-4 h-4 text-[#550C12]" />
+                </Link>
+              </div>
+            )}
 
             {/* Premium Cart Trigger */}
             <motion.button

@@ -27,7 +27,7 @@ export const Features: React.FC = () => {
             Genuine Sivakasi Craftsmanship • Zero Middlemen • Direct Factory Wholesale Rates
           </p>
           <p className="text-xs sm:text-sm text-[#66574F] mt-2 leading-relaxed">
-            Preserving festival joy with certified chemical safety, transparent wholesale estimates, and direct transport dispatches across Hyderabad, Telangana, and South India.
+            Preserving festival joy with certified chemical safety, transparent wholesale pricing, and reliable delivery across Hyderabad, Telangana, and South India.
           </p>
         </div>
 
@@ -38,9 +38,9 @@ export const Features: React.FC = () => {
               <div className="w-12 h-12 rounded-2xl bg-[#FFF8ED] text-[#550C12] border border-[#C98E2A]/30 flex items-center justify-center mb-4 shadow-sm">
                 <Factory className="w-6 h-6" />
               </div>
-              <h3 className="font-serif font-bold text-base text-[#1C1411]">Direct Factory Gate</h3>
+              <h3 className="font-serif font-bold text-base text-[#1C1411]">Direct Wholesale Rates</h3>
               <p className="text-xs text-[#66574F] mt-2 leading-relaxed">
-                Dispatched straight from our Paraipatti godowns in Sivakasi. Bypass layers of local retail markups to enjoy flat 70% direct factory savings.
+                Dispatched straight from Sivaji Firecracker facilities. Bypass layers of local retail markups to enjoy genuine wholesale festival savings.
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-[#E2D7C5]/60 text-[11px] font-bold text-[#B85D00]">
@@ -68,13 +68,13 @@ export const Features: React.FC = () => {
               <div className="w-12 h-12 rounded-2xl bg-[#FFF8ED] text-[#B85D00] border border-[#C98E2A]/30 flex items-center justify-center mb-4 shadow-sm">
                 <Truck className="w-6 h-6" />
               </div>
-              <h3 className="font-serif font-bold text-base text-[#1C1411]">Heavy Lorry Transport</h3>
+              <h3 className="font-serif font-bold text-base text-[#1C1411]">Fast & Safe Delivery</h3>
               <p className="text-xs text-[#66574F] mt-2 leading-relaxed">
-                Licensed heavy road parcel carrier booking directly to Hyderabad, Secunderabad, and major Telangana & Andhra transport terminals with official LR tracking.
+                Reliable, compliant dispatch directly to Hyderabad, Secunderabad, and major Telangana & Andhra locations with confirmed order updates.
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-[#E2D7C5]/60 text-[11px] font-bold text-[#550C12]">
-              VRL, ARC, SRS & Kranti Hubs
+              Safe & Tracked Delivery
             </div>
           </div>
 

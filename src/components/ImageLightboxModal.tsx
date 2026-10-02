@@ -311,7 +311,7 @@ export const ImageLightboxModal: React.FC<ImageLightboxModalProps> = ({
 
               {/* Statutory Note */}
               <p className="text-[10px] text-center text-[#8C7A70] mt-2.5">
-                Wholesale direct gate rate • No payment gateway fee • Express transport booking
+                Wholesale direct rate • No payment gateway fee • Fast & safe delivery
               </p>
             </div>
           </div>

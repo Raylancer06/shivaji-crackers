@@ -202,7 +202,7 @@ export const BudgetEstimator: React.FC = () => {
                 </span>
               </div>
               <p className="text-xs text-[#66574F]">
-                100% CSIR-NEERI Green Certified • Direct Sivakasi Transport Lorry Booking to Hyderabad
+                100% CSIR-NEERI Green Certified • Fast & Safe Delivery to Hyderabad & Telangana
               </p>
             </div>
           </div>

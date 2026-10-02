@@ -44,7 +44,7 @@ class CustomerAuthController extends Controller
             'city' => $request->city ?: 'Hyderabad',
             'state' => $request->state ?: 'Telangana',
             'pincode' => $request->pincode ?: '500034',
-            'transport_hub' => $request->transport_hub ?: 'VRL Logistics (Hyderabad Hub)',
+            'transport_hub' => $request->transport_hub ?: 'Standard Delivery',
         ]);
 
         $token = $user->createToken('customer-auth')->plainTextToken;
@@ -71,6 +71,10 @@ class CustomerAuthController extends Controller
 
     public function login(Request $request): JsonResponse
     {
+        if (!$request->has('login') && ($request->has('email') || $request->has('phone'))) {
+            $request->merge(['login' => $request->email ?: $request->phone]);
+        }
+
         $validator = Validator::make($request->all(), [
             'login' => 'required|string', // email or phone
             'password' => 'required|string',

@@ -35,10 +35,10 @@ export const Footer: React.FC = () => {
 
             <div className="flex flex-wrap items-center gap-2 pt-1">
               <span className="inline-flex items-center gap-1 text-[11px] bg-[#FFF8ED] text-[#B85D00] border border-[#C98E2A]/30 px-2.5 py-1 rounded-lg font-bold">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#10B981]" /> Licensed Sivakasi Dispatch
+                <ShieldCheck className="w-3.5 h-3.5 text-[#10B981]" /> 100% Genuine Sivaji Dispatch
               </span>
               <span className="inline-flex items-center gap-1 text-[11px] bg-[#FAF7F2] text-[#550C12] border border-[#E2D7C5] px-2.5 py-1 rounded-lg font-bold">
-                <Truck className="w-3.5 h-3.5 text-[#C98E2A]" /> Registered Heavy Transport
+                <Truck className="w-3.5 h-3.5 text-[#C98E2A]" /> Safe & Tracked Delivery
               </span>
             </div>
           </div>
@@ -96,7 +96,7 @@ export const Footer: React.FC = () => {
                   </span>
                 </div>
                 <p className="text-[11px] text-[#66574F]">
-                  For orders, wholesale pricing, and transport inquiries:
+                  For orders, wholesale pricing, and delivery inquiries:
                 </p>
                 <div className="space-y-1.5 pt-1">
                   <a
@@ -124,7 +124,7 @@ export const Footer: React.FC = () => {
           <div className="flex items-start gap-3">
             <Scale className="w-5 h-5 text-[#B85D00] shrink-0 mt-0.5" />
             <p className="text-xs text-[#66574F] leading-relaxed">
-              <strong className="text-[#1C1411] font-bold">Statutory Notice:</strong> As per 2018 Supreme Court Order, Online Sale of Firecrackers are NOT permitted. We Value our customers and at the same time, we respect the jurisdiction. We request our customers to Select Your Products in Estimate Page to see your Estimation and Submit the required crackers through the order process. We will contact you within 2 hrs and Confirm the Order through Phone Call. Please Add and Submit Your inquiries and enjoy your Diwali with Sivaji Firecracker. Sivaji Firecracker is an enterprise following 100% legal & statutory compliances and all our facilities are maintained as per the explosive acts. We send the parcels through registered and legal transport service providers.
+              <strong className="text-[#1C1411] font-bold">Statutory Notice:</strong> As per 2018 Supreme Court Order, Online Sale of Firecrackers are NOT permitted. We Value our customers and at the same time, we respect the jurisdiction. We request our customers to Select Your Products in Estimate Page to see your Estimation and Submit the required crackers through the order process. We will contact you within 2 hrs and Confirm the Order through Phone Call. Please Add and Submit Your inquiries and enjoy your Diwali with Sivaji Firecracker. Sivaji Firecracker is an enterprise following 100% legal & statutory compliances and all our facilities are maintained as per the explosive acts. We send the parcels through registered and legal delivery service providers.
             </p>
           </div>
         </div>

@@ -36,7 +36,7 @@ export default function ContactPage() {
             Contact Sivaji Firecracker
           </h1>
           <p className="max-w-2xl mx-auto text-xs sm:text-sm text-gray-200 leading-relaxed font-normal">
-            Direct factory order support, Hyderabad road transport inquiries, and wholesale society bookings.
+            Customer order support, delivery assistance, and wholesale society bookings.
           </p>
         </div>
       </section>
@@ -91,7 +91,7 @@ export default function ContactPage() {
               <div className="p-4 rounded-2xl bg-[#FFF8ED] border border-[#C98E2A]/30 text-xs text-[#B85D00] flex items-start gap-2.5">
                 <Truck className="w-5 h-5 shrink-0 text-[#B85D00]" />
                 <p className="leading-relaxed">
-                  <strong>Hyderabad Parcel Pickup:</strong> Regular dispatches arrive at regional transport hubs across Secunderabad, Kukatpally, Autonagar, Ranigunj, and Kompally.
+                  <strong>Delivery Coverage:</strong> Safe and prompt dispatches across Hyderabad, Secunderabad, Telangana, and South India with order tracking.
                 </p>
               </div>
             </div>

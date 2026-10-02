@@ -82,16 +82,16 @@ const STEPS: Step[] = [
   },
   {
     id: 5,
-    title: 'Delivery & Transport Charges',
-    badge: 'Step 05 • Lorry Logistics',
-    shortDesc: 'Delivery & Charges',
+    title: 'Fast & Secure Delivery',
+    badge: 'Step 05 • Safe Shipping',
+    shortDesc: 'Delivery & Shipping',
     description:
-      'We offer flexible delivery options with registered heavy road transport carriers from Sivakasi directly to Hyderabad, Secunderabad, and regional hubs across Telangana and Pan-India.',
+      'We offer reliable and safe delivery options directly to Hyderabad, Secunderabad, and regional locations across Telangana and Pan-India.',
     icon: Truck,
     highlights: [
       'Heavy waterproof 5-layer corrugated carton packaging',
-      'Door/Godown pickup at Hyderabad transport terminals',
-      'Live Lorry Receipt (LR) tracking shared upon dispatch',
+      'Safe delivery to your location or pickup point',
+      'Live order tracking and dispatch confirmation',
     ],
   },
 ];

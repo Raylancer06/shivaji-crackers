@@ -9,27 +9,27 @@ const REVIEWS = [
     location: 'Banjara Hills, Hyderabad',
     role: 'Diwali Platinum Box Customer',
     rating: 5,
-    text: 'Ordering directly on WhatsApp for our Hyderabad home was seamless. We sent the cart estimate on WhatsApp, received immediate confirmation, and the VRL transport LR tracking number arrived in 24 hours. The sparklers and Peacock fountains were supreme quality!',
+    text: 'Ordering directly for our Hyderabad home was seamless. We placed the order, received immediate confirmation, and tracking details arrived promptly. The sparklers and Peacock fountains were supreme quality!',
     boxes: 'Platinum Mega Hamper',
-    date: 'Diwali 2024 Verified Order',
+    date: 'Diwali Verified Order',
   },
   {
     name: 'Suresh Reddy',
     location: 'Jubilee Hills, Hyderabad',
     role: 'Society Bulk Purchase Lead',
     rating: 5,
-    text: 'We placed an order of ₹52,000 for our gated community in Hyderabad. The heavy road lorry delivery arrived directly from Sivakasi in pristine condition with waterproof pallet wrapping. Real factory rate savings of nearly 70%.',
+    text: 'We placed an order of ₹52,000 for our gated community in Hyderabad. The delivery arrived in pristine condition with safe protective packaging. Real wholesale rate savings of nearly 70%.',
     boxes: 'Society Pallet (65 Items)',
-    date: 'Diwali 2024 Bulk Order',
+    date: 'Diwali Bulk Order',
   },
   {
     name: 'Rajesh V.',
     location: 'Indiranagar, Bengaluru',
     role: 'Family Customer (3rd Year Buyer)',
     rating: 5,
-    text: 'Dispatched through road transport from Sivakasi to our city hub in 48 hours. Every flower pot and aerial shot had genuine CSIR-NEERI Green QR stamps. The 70% direct factory savings was absolutely authentic.',
+    text: 'Dispatched safely and delivered to our city in 48 hours. Every flower pot and aerial shot had genuine CSIR-NEERI Green QR stamps. The wholesale savings was absolutely authentic.',
     boxes: '18 Boxes Collection',
-    date: 'Diwali 2024 Verified Order',
+    date: 'Diwali Verified Order',
   },
 ];
 
@@ -46,10 +46,10 @@ export const CustomerTestimonials: React.FC = () => {
             Loved By Families & Communities Across Hyderabad & South India
           </h2>
           <p className="text-xs sm:text-sm text-[#550C12] font-semibold mt-1">
-            Authentic customer reviews verified with Sivakasi transport dispatch records
+            Authentic customer reviews verified with Sivaji Firecracker dispatch records
           </p>
           <p className="text-xs sm:text-sm text-[#66574F] mt-2 leading-relaxed">
-            Over 50,000 satisfied Diwali celebrations since 2008. Read real experiences from customers who ordered direct from our Sivakasi godowns.
+            Over 50,000 satisfied Diwali celebrations since 2008. Read real experiences from customers who ordered direct from Sivaji Firecracker.
           </p>
         </div>
 

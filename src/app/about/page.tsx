@@ -11,9 +11,9 @@ export const metadata = {
 export default function AboutPage() {
   const stats = [
     { number: '1000+', label: 'Happy Families', sub: 'Celebrated Diwali with us' },
-    { number: '2500+', label: 'Orders Dispatched', sub: 'Safe heavy lorry parcels' },
+    { number: '2500+', label: 'Orders Dispatched', sub: 'Safe & secure packaging' },
     { number: '150+', label: 'Verified Products', sub: 'CSIR-NEERI Green certified' },
-    { number: '40+', label: 'Districts Served', sub: 'Daily Hyderabad transport' },
+    { number: '40+', label: 'Districts Served', sub: 'Fast & tracked delivery' },
   ];
 
   const milestones = [

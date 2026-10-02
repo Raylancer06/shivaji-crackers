@@ -159,13 +159,18 @@ export const api = {
   },
 
   // Orders
-  async createOrder(payload: OrderPayload): Promise<ApiResponse<OrderResponseData>> {
+  async createOrder(payload: OrderPayload, token?: string | null): Promise<ApiResponse<OrderResponseData>> {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    };
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
     const res = await fetch(`${API_BASE_URL}/orders`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
+      headers,
       body: JSON.stringify(payload),
     });
 
@@ -177,12 +182,17 @@ export const api = {
     return await res.json();
   },
 
-  async confirmPayment(orderId: number | string, formData: FormData): Promise<ApiResponse<PaymentConfirmResponseData>> {
+  async confirmPayment(orderId: number | string, formData: FormData, token?: string | null): Promise<ApiResponse<PaymentConfirmResponseData>> {
+    const headers: Record<string, string> = {
+      Accept: 'application/json',
+    };
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
     const res = await fetch(`${API_BASE_URL}/orders/${orderId}/payment-confirm`, {
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      },
+      headers,
       body: formData,
     });
 

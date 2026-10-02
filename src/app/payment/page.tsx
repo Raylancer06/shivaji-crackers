@@ -169,8 +169,8 @@ export default function PaymentPage() {
             </div>
             <div className="space-y-2">
               <span className="w-7 h-7 rounded-full bg-[#550C12] text-white flex items-center justify-center font-bold text-xs">4</span>
-              <h4 className="text-sm font-bold text-[#1C1411]">Lorry Receipt (LR)</h4>
-              <p className="text-xs text-[#66574F]">Admin verifies payment and issues Sivakasi transport LR tracking number for Hyderabad pickup.</p>
+              <h4 className="text-sm font-bold text-[#1C1411]">Dispatch & Tracking</h4>
+              <p className="text-xs text-[#66574F]">Admin verifies payment and shares official dispatch updates and tracking details.</p>
             </div>
           </div>
 

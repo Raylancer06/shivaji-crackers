@@ -44,7 +44,7 @@ export const DiwaliCountdown: React.FC = () => {
               Diwali 2025 Godown Dispatch Cutoff
             </span>
             <span className="text-[11px] text-gray-300">
-              Direct Sivakasi heavy road transport slots closing soon to ensure festival delivery
+              Festival dispatch slots filling fast to ensure timely Diwali delivery
             </span>
           </div>
         </div>

@@ -309,10 +309,10 @@ export default function ProductDetailPage() {
                 </button>
               </div>
 
-              {/* Express Transport Notice */}
+              {/* Express Delivery Notice */}
               <div className="flex items-center gap-2 text-[11px] text-[#66574F] pt-1">
                 <Truck className="w-4 h-4 text-[#B85D00] shrink-0" />
-                <span>Express Sivakasi transport lorry dispatch directly to Hyderabad logistics hubs.</span>
+                <span>Safe, compliant dispatch with order tracking across Hyderabad & Telangana.</span>
               </div>
             </div>
           </div>

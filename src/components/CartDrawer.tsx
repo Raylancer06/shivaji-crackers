@@ -111,7 +111,7 @@ export const CartDrawer: React.FC = () => {
                 </div>
               </div>
 
-              {/* Sivakasi MOQ Transport Bar */}
+              {/* Minimum Order Value Bar */}
               <div className="p-3.5 bg-[#FFF8ED] border-b border-[#E2D7C5]">
                 <div className="flex items-center justify-between text-xs font-serif font-bold mb-1.5">
                   <span className="flex items-center gap-1.5 text-[#550C12]">
@@ -155,7 +155,7 @@ export const CartDrawer: React.FC = () => {
                     </div>
                     <h3 className="font-serif text-base font-bold text-[#1C1411]">Your cart is empty</h3>
                     <p className="text-xs text-[#66574F] mt-1 max-w-xs">
-                      Explore our direct Sivakasi factory crackers and select box quantities to build your custom wholesale quotation.
+                      Explore our premium Sivaji Firecracker collection and add boxes to start shopping.
                     </p>
                     <button
                       onClick={() => setIsCartOpen(false)}

@@ -72,7 +72,7 @@ const WHY_CHOOSE_US = [
   {
     icon: Users,
     title: 'Bulk & Society Orders',
-    desc: 'Dedicated transport arrangements for residential welfare associations.',
+    desc: 'Dedicated delivery arrangements for residential welfare associations.',
   },
 ];
 

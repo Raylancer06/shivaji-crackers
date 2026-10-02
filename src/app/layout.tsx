@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "@fontsource-variable/mona-sans";
 import "./globals.css";
+import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { SparkleCanvas } from "@/components/SparkleCanvas";
@@ -27,13 +28,15 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased bg-[#FAF7F2] text-[#1C1411] selection:bg-festive-gold/30 selection:text-heritage-maroon">
-        <CartProvider>
-          <ScrollProgress />
-          <SparkleCanvas />
-          {children}
-          <CartToast />
-          <FloatingCartBar />
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <ScrollProgress />
+            <SparkleCanvas />
+            {children}
+            <CartToast />
+            <FloatingCartBar />
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -27,6 +27,7 @@ import {
   PlusCircle,
 } from 'lucide-react';
 import { api, CustomerAddress } from '@/services/api';
+import { useAuth } from '@/context/AuthContext';
 
 export const CheckoutModal: React.FC = () => {
   const {
@@ -39,6 +40,7 @@ export const CheckoutModal: React.FC = () => {
     totalSavings,
     clearCart,
   } = useCart();
+  const { user, token } = useAuth();
 
   // Multi-step: 'details' -> 'upi_payment' -> 'success'
   const [checkoutStep, setCheckoutStep] = useState<'details' | 'upi_payment' | 'success'>('details');
@@ -55,7 +57,7 @@ export const CheckoutModal: React.FC = () => {
     address: '',
     pincode: '500034',
     landmark: '',
-    transport: 'VRL Logistics (Hyderabad Hub)',
+    transport: 'Standard Delivery',
     notes: '',
   });
 
@@ -67,7 +69,19 @@ export const CheckoutModal: React.FC = () => {
   });
 
   useEffect(() => {
-    const token = typeof window !== 'undefined' ? (localStorage.getItem('sivaji_token') || localStorage.getItem('sivaji_customer_token')) : null;
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: prev.name || user.name || '',
+        phone: prev.phone || user.phone || '',
+        email: prev.email || user.email || '',
+        address: prev.address || user.address_line || '',
+        city: prev.city || user.city || 'Hyderabad',
+        state: prev.state || user.state || 'Telangana',
+        pincode: prev.pincode || user.pincode || '500034',
+      }));
+    }
+
     if (token) {
       api.getAddresses(token).then((addresses) => {
         if (Array.isArray(addresses) && addresses.length > 0) {
@@ -86,19 +100,8 @@ export const CheckoutModal: React.FC = () => {
           }));
         }
       }).catch(() => {});
-
-      api.getProfile(token).then((prof) => {
-        if (prof?.data) {
-          setFormData((prev) => ({
-            ...prev,
-            name: prev.name || prof.data.name || '',
-            phone: prev.phone || prof.data.phone || '',
-            email: prev.email || prof.data.email || '',
-          }));
-        }
-      }).catch(() => {});
     }
-  }, [isCheckoutOpen]);
+  }, [isCheckoutOpen, user, token]);
 
   const handleSelectAddress = (addr: CustomerAddress | 'new') => {
     if (addr === 'new') {
@@ -215,13 +218,13 @@ export const CheckoutModal: React.FC = () => {
         state: formData.state,
         pincode: formData.pincode,
         landmark: formData.landmark,
-        transport_hub: formData.transport,
+        transport_hub: formData.transport || 'Standard Delivery',
         customer_notes: formData.notes,
         items: items.map((i) => ({
           product_id: i.product.id,
           quantity: i.quantity,
         })),
-      });
+      }, token);
 
       if (orderRes.data) {
         backendOrderId = orderRes.data.id;
@@ -235,7 +238,7 @@ export const CheckoutModal: React.FC = () => {
         payFormData.append('screenshot', paymentData.screenshotFile);
         if (paymentData.notes) payFormData.append('notes', paymentData.notes);
 
-        const payRes = await api.confirmPayment(backendOrderId, payFormData);
+        const payRes = await api.confirmPayment(backendOrderId, payFormData, token);
         if (payRes.data?.admin_whatsapp_link) {
           serverWaLink = payRes.data.admin_whatsapp_link;
         }
@@ -285,7 +288,7 @@ export const CheckoutModal: React.FC = () => {
       return;
     }
 
-    let text = `*DIWALI 2025 CONFIRMED FACTORY ORDER - SIVAJI FIRECRACKER*\n`;
+    let text = `*CONFIRMED ORDER - SIVAJI FIRECRACKER*\n`;
     text += `*Order ID:* ${createdOrder.orderId}\n`;
     text += `*Date:* ${createdOrder.date}\n\n`;
     text += `*CUSTOMER DETAILS:*\n`;
@@ -295,7 +298,6 @@ export const CheckoutModal: React.FC = () => {
     if (createdOrder.customer.landmark) {
       text += `*Landmark:* ${createdOrder.customer.landmark}\n`;
     }
-    text += `*Preferred Transport Hub:* ${createdOrder.customer.transport}\n`;
     if (createdOrder.customer.notes) {
       text += `*Notes:* ${createdOrder.customer.notes}\n`;
     }
@@ -309,9 +311,9 @@ export const CheckoutModal: React.FC = () => {
       text += `${idx + 1}. ${item.product.name} (Box: ${item.product.boxQuantity || 1} ${item.product.quantityUnit || 'Pieces'}) x ${item.quantity} boxes = ₹${line}\n`;
     });
     text += `\n*Total MRP:* ₹${createdOrder.totalMRP.toLocaleString('en-IN')}\n`;
-    text += `*Factory Direct Price:* ₹${createdOrder.totalWholesale.toLocaleString('en-IN')}\n`;
-    text += `*Direct Savings:* ₹${createdOrder.totalSavings.toLocaleString('en-IN')} (Up to 80% Off)\n\n`;
-    text += `Please verify my payment in the admin portal and confirm Sivakasi lorry transport LR booking for Hyderabad dispatch.`;
+    text += `*Wholesale Direct Price:* ₹${createdOrder.totalWholesale.toLocaleString('en-IN')}\n`;
+    text += `*Total Savings:* ₹${createdOrder.totalSavings.toLocaleString('en-IN')}\n\n`;
+    text += `Please verify my payment in the admin portal and confirm order dispatch.`;
 
     const encoded = encodeURIComponent(text);
     window.open(`https://wa.me/918374044445?text=${encoded}`, '_blank');
@@ -567,24 +569,6 @@ export const CheckoutModal: React.FC = () => {
 
                   <div className="sm:col-span-2">
                     <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
-                      Preferred Sivakasi Transport Hub
-                    </label>
-                    <select
-                      name="transport"
-                      value={formData.transport}
-                      onChange={handleInputChange}
-                      className="w-full px-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-white text-xs font-semibold text-[#1C1411] outline-none focus:border-[#C98E2A]"
-                    >
-                      <option value="VRL Logistics (Hyderabad Hub)">VRL Logistics (Hyderabad Central Hub)</option>
-                      <option value="ARC Parcels (Secunderabad Hub)">ARC Parcels (Secunderabad Hub)</option>
-                      <option value="SRS Logistics (Kukatpally Depot)">SRS Logistics (Kukatpally Depot)</option>
-                      <option value="Kranti Road Transport (Kacheguda)">Kranti Road Transport (Kacheguda)</option>
-                      <option value="Direct Sivakasi Express Lorry">Direct Sivakasi Lorry Booking</option>
-                    </select>
-                  </div>
-
-                  <div className="sm:col-span-2">
-                    <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
                       Optional Order Instructions
                     </label>
                     <input
@@ -803,7 +787,7 @@ export const CheckoutModal: React.FC = () => {
                     Status: Payment Verification Pending
                   </div>
                   <p className="text-xs text-[#66574F] max-w-md mx-auto">
-                    Your order <strong className="font-mono text-[#B85D00]">{createdOrder.orderId}</strong> has been recorded in our Sivakasi admin system.
+                    Your order <strong className="font-mono text-[#B85D00]">{createdOrder.orderId}</strong> has been recorded in our Sivaji Firecracker admin system.
                   </p>
                 </div>
 

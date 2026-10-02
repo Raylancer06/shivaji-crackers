@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, Suspense } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { useAuth, CustomerUser } from '@/context/AuthContext';
 import { api, CustomerAddress } from '@/services/api';
 import {
   User,
@@ -13,10 +14,7 @@ import {
   Phone,
   Mail,
   MapPin,
-  Truck,
   LogOut,
-  ExternalLink,
-  MessageCircle,
   CheckCircle,
   FileText,
   X,
@@ -27,11 +25,12 @@ import {
   Trash2,
   Edit2,
   Lock,
-  ShieldCheck,
   AlertCircle,
-  Check,
-  ChevronRight,
   LayoutDashboard,
+  Loader2,
+  ShieldCheck,
+  ChevronRight,
+  ArrowRight,
 } from 'lucide-react';
 
 interface OrderItem {
@@ -55,7 +54,6 @@ interface OrderRecord {
   state: string;
   pincode: string;
   landmark?: string;
-  transport_hub: string;
   final_amount: number;
   discount_amount: number;
   total_mrp: number;
@@ -70,15 +68,20 @@ interface OrderRecord {
   };
 }
 
-export default function CustomerAccountPage() {
+function AccountPortal() {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
-  const [token, setToken] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'profile' | 'addresses' | 'orders' | 'security'>('dashboard');
+  const searchParams = useSearchParams();
+  const { user, token, isLoading: authLoading, logout, updateUser } = useAuth();
+
+  const tabParam = searchParams.get('tab');
+  const validTabs = ['dashboard', 'orders', 'addresses', 'profile', 'security'] as const;
+  const initialTab = validTabs.includes(tabParam as any) ? (tabParam as typeof validTabs[number]) : 'dashboard';
+
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'profile' | 'addresses' | 'orders' | 'security'>(initialTab);
 
   // Orders State
   const [orders, setOrders] = useState<OrderRecord[]>([]);
-  const [loadingOrders, setLoadingOrders] = useState<boolean>(true);
+  const [loadingOrders, setLoadingOrders] = useState<boolean>(false);
   const [selectedOrder, setSelectedOrder] = useState<OrderRecord | null>(null);
 
   // Profile Form State
@@ -92,7 +95,7 @@ export default function CustomerAccountPage() {
 
   // Addresses State
   const [addresses, setAddresses] = useState<CustomerAddress[]>([]);
-  const [loadingAddresses, setLoadingAddresses] = useState<boolean>(true);
+  const [loadingAddresses, setLoadingAddresses] = useState<boolean>(false);
   const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
   const [editingAddressId, setEditingAddressId] = useState<number | null>(null);
   const [addressForm, setAddressForm] = useState({
@@ -118,61 +121,31 @@ export default function CustomerAccountPage() {
   const [passwordSaving, setPasswordSaving] = useState(false);
   const [passwordMessage, setPasswordMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
+  // Synchronize profile form whenever user changes
   useEffect(() => {
-    const savedToken = localStorage.getItem('sivaji_token') || localStorage.getItem('sivaji_customer_token');
-    const savedUser = localStorage.getItem('sivaji_user');
+    if (user) {
+      setProfileForm({
+        name: user.name || '',
+        phone: user.phone || '',
+        email: user.email || '',
+      });
+    }
+  }, [user]);
 
-    if (!savedToken) {
-      setUser(null);
+  // Load orders and addresses when token is available
+  const loadOrders = useCallback(async (authToken: string) => {
+    setLoadingOrders(true);
+    try {
+      const res = await api.getCustomerOrders(authToken);
+      if (res.data) setOrders(res.data);
+    } catch (err) {
+      console.warn('Could not load orders:', err);
+    } finally {
       setLoadingOrders(false);
-      setLoadingAddresses(false);
-      return;
     }
-
-    setToken(savedToken);
-
-    if (savedUser) {
-      try {
-        const parsed = JSON.parse(savedUser);
-        setUser(parsed);
-        setProfileForm({
-          name: parsed.name || '',
-          phone: parsed.phone || '',
-          email: parsed.email || '',
-        });
-      } catch (e) {}
-    }
-
-    // Refresh Profile from API
-    api.getProfile(savedToken)
-      .then((res) => {
-        if (res?.data) {
-          setUser(res.data);
-          setProfileForm({
-            name: res.data.name || '',
-            phone: res.data.phone || '',
-            email: res.data.email || '',
-          });
-          localStorage.setItem('sivaji_user', JSON.stringify(res.data));
-        }
-      })
-      .catch(() => {});
-
-    // Fetch Orders
-    api.getCustomerOrders(savedToken)
-      .then((res) => {
-        if (res.data) setOrders(res.data);
-      })
-      .catch((err) => {
-        console.warn('Could not load orders:', err);
-      })
-      .finally(() => setLoadingOrders(false));
-
-    // Fetch Addresses
-    loadAddresses(savedToken);
   }, []);
 
-  const loadAddresses = async (authToken: string) => {
+  const loadAddresses = useCallback(async (authToken: string) => {
     setLoadingAddresses(true);
     try {
       const list = await api.getAddresses(authToken);
@@ -182,31 +155,31 @@ export default function CustomerAccountPage() {
     } finally {
       setLoadingAddresses(false);
     }
-  };
+  }, []);
 
-  const handleLogout = async () => {
+  useEffect(() => {
     if (token) {
-      await api.logout(token).catch(() => {});
+      loadOrders(token);
+      loadAddresses(token);
+    } else {
+      setOrders([]);
+      setAddresses([]);
     }
-    localStorage.removeItem('sivaji_token');
-    localStorage.removeItem('sivaji_customer_token');
-    localStorage.removeItem('sivaji_user');
-    setUser(null);
-    router.push('/login');
-  };
+  }, [token, loadOrders, loadAddresses]);
 
   // Profile Update
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!token) return;
+
     setProfileSaving(true);
     setProfileMessage(null);
     try {
       const res = await api.updateProfile(token, profileForm);
       if (res.data) {
-        setUser(res.data);
-        localStorage.setItem('sivaji_user', JSON.stringify(res.data));
+        updateUser(res.data);
       }
-      setProfileMessage({ type: 'success', text: 'Profile information updated successfully.' });
+      setProfileMessage({ type: 'success', text: 'Profile details saved successfully.' });
     } catch (err: any) {
       setProfileMessage({ type: 'error', text: err.message || 'Failed to update profile.' });
     } finally {
@@ -217,18 +190,26 @@ export default function CustomerAccountPage() {
   // Password Change
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!token) return;
+
     if (passwordForm.new_password !== passwordForm.new_password_confirmation) {
       setPasswordMessage({ type: 'error', text: 'New passwords do not match.' });
       return;
     }
+
+    if (passwordForm.new_password.length < 6) {
+      setPasswordMessage({ type: 'error', text: 'New password must be at least 6 characters.' });
+      return;
+    }
+
     setPasswordSaving(true);
     setPasswordMessage(null);
     try {
       await api.updatePassword(token, passwordForm);
-      setPasswordMessage({ type: 'success', text: 'Password changed successfully.' });
+      setPasswordMessage({ type: 'success', text: 'Password updated successfully.' });
       setPasswordForm({ current_password: '', new_password: '', new_password_confirmation: '' });
     } catch (err: any) {
-      setPasswordMessage({ type: 'error', text: err.message || 'Failed to change password. Please check your current password.' });
+      setPasswordMessage({ type: 'error', text: err.message || 'Failed to change password. Please verify current password.' });
     } finally {
       setPasswordSaving(false);
     }
@@ -271,6 +252,8 @@ export default function CustomerAccountPage() {
 
   const handleSaveAddress = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!token) return;
+
     setAddressSaving(true);
     setAddressError('');
     try {
@@ -289,7 +272,7 @@ export default function CustomerAccountPage() {
   };
 
   const handleDeleteAddress = async (id: number) => {
-    if (!confirm('Are you sure you want to delete this address?')) return;
+    if (!token || !confirm('Are you sure you want to delete this address?')) return;
     try {
       await api.deleteAddress(token, id);
       await loadAddresses(token);
@@ -299,6 +282,7 @@ export default function CustomerAccountPage() {
   };
 
   const handleSetDefaultAddress = async (id: number) => {
+    if (!token) return;
     try {
       await api.setDefaultAddress(token, id);
       await loadAddresses(token);
@@ -318,11 +302,11 @@ export default function CustomerAccountPage() {
         className: 'bg-emerald-100 text-emerald-900 border-emerald-300',
       },
       packed: {
-        label: 'Packed in Sivakasi Warehouse',
+        label: 'Order Packed',
         className: 'bg-blue-100 text-blue-900 border-blue-300',
       },
       dispatched: {
-        label: 'Dispatched via Lorry Transport',
+        label: 'Dispatched for Delivery',
         className: 'bg-purple-100 text-purple-900 border-purple-300',
       },
       delivered: {
@@ -343,30 +327,47 @@ export default function CustomerAccountPage() {
     );
   };
 
+  // While checking auth on initial page load
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-[#FAF8F5] flex flex-col justify-between font-sans">
+        <Navbar />
+        <main className="flex-1 flex items-center justify-center p-8">
+          <div className="flex flex-col items-center gap-3">
+            <Loader2 className="w-8 h-8 text-[#C98E2A] animate-spin" />
+            <p className="text-xs text-[#66574F] font-semibold">Loading your customer account...</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Unauthenticated / Logged-out state
   if (!user) {
     return (
       <div className="min-h-screen bg-[#FAF8F5] flex flex-col justify-between font-sans">
         <Navbar />
-        <main className="max-w-xl mx-auto px-4 py-20 text-center space-y-4">
+        <main className="max-w-xl mx-auto px-4 py-20 text-center space-y-5">
           <div className="w-16 h-16 rounded-full bg-[#FFF8ED] text-[#B85D00] border border-[#C98E2A]/30 flex items-center justify-center mx-auto shadow-sm">
             <User className="w-8 h-8 text-[#C98E2A]" />
           </div>
           <h1 className="font-serif text-3xl font-black text-[#550C12]">Customer Account</h1>
-          <p className="text-xs sm:text-sm text-[#66574F] max-w-sm mx-auto">
-            Please log in or register an account to view your past Diwali cracker orders and track lorry transport bookings.
+          <p className="text-xs sm:text-sm text-[#66574F] max-w-sm mx-auto leading-relaxed">
+            Sign in to view your past Diwali orders, download invoices, and manage saved delivery addresses.
           </p>
-          <div className="flex items-center justify-center gap-4 pt-4">
+          <div className="flex items-center justify-center gap-3 pt-2">
             <Link
-              href="/login"
-              className="px-6 py-2.5 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white font-serif font-bold text-xs shadow-md transition"
+              href="/login?redirect=/account"
+              className="px-6 py-3 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white font-serif font-bold text-xs shadow-md transition"
             >
-              Sign In
+              Sign In to Account
             </Link>
             <Link
-              href="/register"
-              className="px-6 py-2.5 rounded-xl bg-white border border-[#E2D7C5] hover:bg-[#FAF8F5] text-[#550C12] font-serif font-bold text-xs shadow-sm transition"
+              href="/register?redirect=/account"
+              className="px-6 py-3 rounded-xl bg-white border border-[#E2D7C5] hover:bg-[#FAF8F5] text-[#550C12] font-serif font-bold text-xs shadow-sm transition"
             >
-              Create Account
+              Create New Account
             </Link>
           </div>
         </main>
@@ -411,7 +412,9 @@ export default function CustomerAccountPage() {
               + Place New Order
             </Link>
             <button
-              onClick={handleLogout}
+              onClick={async () => {
+                await logout();
+              }}
               className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-gray-100 hover:bg-red-50 text-gray-700 hover:text-red-700 text-xs font-bold transition"
             >
               <LogOut className="w-4 h-4" />
@@ -541,7 +544,9 @@ export default function CustomerAccountPage() {
                   )}
                 </div>
 
-                {orders.length === 0 ? (
+                {loadingOrders ? (
+                  <div className="text-center py-8 text-xs text-gray-500">Loading recent order...</div>
+                ) : orders.length === 0 ? (
                   <div className="text-center py-8 space-y-3">
                     <Package className="w-8 h-8 text-[#C98E2A] mx-auto opacity-60" />
                     <p className="text-xs text-[#66574F]">No orders placed yet for Diwali 2025.</p>
@@ -582,11 +587,11 @@ export default function CustomerAccountPage() {
                 )}
               </div>
 
-              {/* Right Column: Default Address & Quick Transport */}
+              {/* Right Column: Default Address & Support */}
               <div className="lg:col-span-5 bg-white rounded-3xl border border-[#E2D7C5] shadow-regal p-6 space-y-4">
                 <div className="flex items-center justify-between pb-3 border-b border-[#E2D7C5]">
                   <h2 className="font-serif font-bold text-base text-[#1C1411]">
-                    Default Delivery Location
+                    Default Delivery Address
                   </h2>
                   <button
                     onClick={() => setActiveTab('addresses')}
@@ -627,7 +632,7 @@ export default function CustomerAccountPage() {
                 )}
 
                 <div className="pt-2 border-t border-gray-100 text-[11px] text-[#66574F] space-y-1">
-                  <div className="font-bold text-[#550C12]">Official Sivaji Firecracker Helpline:</div>
+                  <div className="font-bold text-[#550C12]">Sivaji Firecracker Helpline:</div>
                   <div>Phone: <strong>+91 83740 44445</strong> (Hyderabad Dispatch)</div>
                 </div>
               </div>
@@ -645,7 +650,7 @@ export default function CustomerAccountPage() {
                 Customer Profile Information
               </h2>
               <p className="text-xs text-[#66574F]">
-                Update your contact information used for Sivakasi lorry transport updates and order notifications.
+                Update your contact information used for delivery updates and order notifications.
               </p>
             </div>
 
@@ -676,9 +681,10 @@ export default function CustomerAccountPage() {
                   <input
                     type="text"
                     required
+                    disabled={profileSaving}
                     value={profileForm.name}
                     onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
-                    className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                    className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A] disabled:opacity-60"
                   />
                 </div>
               </div>
@@ -692,9 +698,10 @@ export default function CustomerAccountPage() {
                   <input
                     type="tel"
                     required
+                    disabled={profileSaving}
                     value={profileForm.phone}
                     onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
-                    className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                    className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A] disabled:opacity-60"
                   />
                 </div>
               </div>
@@ -708,9 +715,10 @@ export default function CustomerAccountPage() {
                   <input
                     type="email"
                     required
+                    disabled={profileSaving}
                     value={profileForm.email}
                     onChange={(e) => setProfileForm({ ...profileForm, email: e.target.value })}
-                    className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                    className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A] disabled:opacity-60"
                   />
                 </div>
               </div>
@@ -718,9 +726,16 @@ export default function CustomerAccountPage() {
               <button
                 type="submit"
                 disabled={profileSaving}
-                className="py-3 px-6 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white font-serif font-black text-xs uppercase tracking-wider shadow-regal transition disabled:opacity-50"
+                className="py-3 px-6 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white font-serif font-black text-xs uppercase tracking-wider shadow-regal transition disabled:opacity-50 flex items-center gap-2"
               >
-                {profileSaving ? 'Saving Changes...' : 'Save Profile Details'}
+                {profileSaving ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Saving Changes...</span>
+                  </>
+                ) : (
+                  <span>Save Profile Details</span>
+                )}
               </button>
             </form>
           </div>
@@ -737,7 +752,7 @@ export default function CustomerAccountPage() {
                   Saved Delivery Addresses
                 </h2>
                 <p className="text-xs text-[#66574F]">
-                  Manage home and commercial addresses for seamless one-click Diwali cracker checkout.
+                  Manage home and commercial addresses for seamless one-click Diwali checkout.
                 </p>
               </div>
 
@@ -875,7 +890,7 @@ export default function CustomerAccountPage() {
                 <Package className="w-10 h-10 text-[#C98E2A] mx-auto opacity-70" />
                 <h3 className="font-serif font-bold text-base text-[#1C1411]">No Orders Placed Yet</h3>
                 <p className="text-xs text-[#66574F] max-w-sm mx-auto">
-                  Browse our Sivakasi wholesale price sheet and book your Diwali crackers with up to 80% discount.
+                  Browse our wholesale price sheet and book your Diwali crackers with up to 80% discount.
                 </p>
                 <Link
                   href="/estimate"
@@ -971,10 +986,11 @@ export default function CustomerAccountPage() {
                   <input
                     type="password"
                     required
+                    disabled={passwordSaving}
                     value={passwordForm.current_password}
                     onChange={(e) => setPasswordForm({ ...passwordForm, current_password: e.target.value })}
                     placeholder="••••••••"
-                    className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                    className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A] disabled:opacity-60"
                   />
                 </div>
               </div>
@@ -989,10 +1005,11 @@ export default function CustomerAccountPage() {
                     type="password"
                     required
                     minLength={6}
+                    disabled={passwordSaving}
                     value={passwordForm.new_password}
                     onChange={(e) => setPasswordForm({ ...passwordForm, new_password: e.target.value })}
                     placeholder="••••••••"
-                    className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                    className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A] disabled:opacity-60"
                   />
                 </div>
               </div>
@@ -1007,10 +1024,11 @@ export default function CustomerAccountPage() {
                     type="password"
                     required
                     minLength={6}
+                    disabled={passwordSaving}
                     value={passwordForm.new_password_confirmation}
                     onChange={(e) => setPasswordForm({ ...passwordForm, new_password_confirmation: e.target.value })}
                     placeholder="••••••••"
-                    className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                    className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A] disabled:opacity-60"
                   />
                 </div>
               </div>
@@ -1018,9 +1036,16 @@ export default function CustomerAccountPage() {
               <button
                 type="submit"
                 disabled={passwordSaving}
-                className="py-3 px-6 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white font-serif font-black text-xs uppercase tracking-wider shadow-regal transition disabled:opacity-50"
+                className="py-3 px-6 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white font-serif font-black text-xs uppercase tracking-wider shadow-regal transition disabled:opacity-50 flex items-center gap-2"
               >
-                {passwordSaving ? 'Updating Password...' : 'Update Password'}
+                {passwordSaving ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Updating Password...</span>
+                  </>
+                ) : (
+                  <span>Update Password</span>
+                )}
               </button>
             </form>
           </div>
@@ -1211,9 +1236,16 @@ export default function CustomerAccountPage() {
                   <button
                     type="submit"
                     disabled={addressSaving}
-                    className="px-5 py-2.5 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white text-xs font-bold transition disabled:opacity-50"
+                    className="px-5 py-2.5 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white text-xs font-bold transition disabled:opacity-50 flex items-center gap-2"
                   >
-                    {addressSaving ? 'Saving...' : 'Save Address'}
+                    {addressSaving ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Saving...</span>
+                      </>
+                    ) : (
+                      <span>Save Address</span>
+                    )}
                   </button>
                 </div>
               </form>
@@ -1260,9 +1292,6 @@ export default function CustomerAccountPage() {
                   <div className="text-gray-600 mt-0.5">
                     {selectedOrder.delivery_address}
                     {selectedOrder.landmark ? `, Near ${selectedOrder.landmark}` : ''}, {selectedOrder.city}, {selectedOrder.state} - {selectedOrder.pincode}
-                  </div>
-                  <div className="text-[#7B141C] font-semibold mt-1">
-                    Transport: {selectedOrder.transport_hub}
                   </div>
                 </div>
 
@@ -1320,9 +1349,9 @@ export default function CustomerAccountPage() {
                       `Hello Sivaji Firecracker Admin, checking status of my Diwali order ${selectedOrder.order_number} (Amount: ₹${selectedOrder.final_amount}).`
                     )}`}
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="w-full sm:flex-1 py-3 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center justify-center gap-2 transition"
                   >
-                    <MessageCircle className="w-4 h-4" />
                     <span>WhatsApp Admin (+91 83740 44445)</span>
                   </a>
 
@@ -1342,5 +1371,13 @@ export default function CustomerAccountPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function CustomerAccountPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center p-8"><Loader2 className="w-8 h-8 text-[#C98E2A] animate-spin" /></div>}>
+      <AccountPortal />
+    </Suspense>
   );
 }

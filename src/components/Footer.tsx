@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { ShieldCheck, MapPin, Scale, Truck, Heart, Phone, Mail } from 'lucide-react';
+import { ShieldCheck, MapPin, Scale, Truck, Phone, Mail } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
@@ -131,9 +131,17 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Bar */}
         <div className="pt-6 border-t border-[#E2D7C5] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#8C7A70]">
-          <p>© 2025 Sivaji Firecracker. All Rights Reserved. Compliant with Explosive Rules.</p>
-          <p className="flex items-center gap-1">
-            Crafted for Authentic Celebrations with <Heart className="w-3 h-3 text-red-600 fill-red-600" /> in Sivakasi
+          <p>© 2026 Sivaji Firecracker. All Rights Reserved.</p>
+          <p className="text-center sm:text-right">
+            Designed & Developed by{' '}
+            <a
+              href="https://raylancer.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold text-[#550C12] hover:text-[#C98E2A] transition-colors hover:underline"
+            >
+              Raylancer Services
+            </a>
           </p>
         </div>
       </div>

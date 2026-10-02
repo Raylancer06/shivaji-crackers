@@ -431,7 +431,7 @@ export const api = {
         const { error: uploadErr } = await supabase.storage
           .from('payment-screenshots')
           .upload(filePath, screenshotFile, {
-            upsert: true,
+            upsert: false,
             contentType: screenshotFile.type || 'image/png',
           });
 

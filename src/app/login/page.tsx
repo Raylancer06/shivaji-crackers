@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { useAuth } from '@/context/AuthContext';
-import { Phone, Lock, Sparkles, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
+import { Phone, Lock, Sparkles, ArrowRight, AlertCircle, Loader2, Eye, EyeOff, KeyRound } from 'lucide-react';
 
 function LoginForm() {
   const router = useRouter();
@@ -17,6 +17,7 @@ function LoginForm() {
 
   const [loginInput, setLoginInput] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -38,12 +39,19 @@ function LoginForm() {
     setError('');
 
     try {
-      await login(loginInput.trim(), password);
+      await login(loginInput.trim(), password.trim());
       router.push(redirectUrl);
     } catch (err: any) {
       setError(err.message || 'Login failed. Please verify your credentials.');
       setSubmitting(false);
     }
+  };
+
+  const handleAutoFill = () => {
+    setLoginInput('customer@sivajifirecrackers.com');
+    setPassword('customer2026');
+    setShowPassword(true);
+    setError('');
   };
 
   return (
@@ -58,6 +66,26 @@ function LoginForm() {
         <p className="text-xs text-[#66574F]">
           Access your Sivaji Firecracker orders, view invoices, and manage saved addresses.
         </p>
+      </div>
+
+      {/* QA Customer Helper Box */}
+      <div className="bg-[#FFF8ED] border border-[#C98E2A]/30 rounded-2xl p-3.5 text-xs flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <div className="flex items-center gap-1.5 font-bold text-[#550C12]">
+            <KeyRound className="w-3.5 h-3.5 text-[#C98E2A] shrink-0" />
+            <span>Customer QA Login</span>
+          </div>
+          <p className="text-[11px] text-[#66574F] mt-0.5 truncate">
+            customer@sivajifirecrackers.com
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={handleAutoFill}
+          className="px-3 py-1.5 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white font-serif font-bold text-[11px] transition shrink-0 shadow-sm"
+        >
+          Auto Fill
+        </button>
       </div>
 
       {error && (
@@ -101,14 +129,22 @@ function LoginForm() {
           <div className="relative">
             <Lock className="w-4 h-4 text-[#8C7A70] absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               required
               disabled={submitting}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A] disabled:opacity-60"
+              placeholder="customer2026"
+              className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A] disabled:opacity-60"
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            </button>
           </div>
         </div>
 

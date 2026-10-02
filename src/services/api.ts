@@ -665,7 +665,7 @@ export const api = {
       const email = loginInput.trim().toLowerCase();
       const { data: authData, error } = await supabase.auth.signInWithPassword({
         email,
-        password: passwordInput,
+        password: passwordInput.trim(),
       });
 
       if (error) {

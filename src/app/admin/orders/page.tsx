@@ -416,7 +416,7 @@ export default function AdminOrdersPage() {
                           {item.quantity}
                         </td>
                         <td className="py-2.5 px-3 text-right font-bold text-[#550C12]">
-                          ₹{Number(item.total_price).toLocaleString('en-IN')}
+                          ₹{Number(item.line_total ?? (Number(item.unit_price || 0) * Number(item.quantity || 1))).toLocaleString('en-IN')}
                         </td>
                       </tr>
                     ))}

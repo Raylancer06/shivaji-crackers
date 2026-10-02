@@ -1,8 +1,9 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
+import { api } from '@/services/api';
 import {
   X,
   Trash2,
@@ -10,9 +11,9 @@ import {
   Minus,
   ShoppingBag,
   ArrowRight,
-  MessageCircle,
   Truck,
   ShieldCheck,
+  AlertCircle,
 } from 'lucide-react';
 
 export const CartDrawer: React.FC = () => {
@@ -33,27 +34,24 @@ export const CartDrawer: React.FC = () => {
     setIsCheckoutOpen,
   } = useCart();
 
+  const [minCartValue, setMinCartValue] = useState<number>(2000);
+
+  useEffect(() => {
+    api.getSettings().then((s) => {
+      if (s?.minimum_cart_value !== undefined) {
+        setMinCartValue(s.minimum_cart_value);
+      }
+    });
+  }, []);
+
+  const isMinMet = minCartValue === 0 || totalWholesale >= minCartValue;
+  const shortfall = Math.max(0, minCartValue - totalWholesale);
+  const dynamicMoqProgress = minCartValue > 0 ? Math.min(100, Math.round((totalWholesale / minCartValue) * 100)) : 100;
+
   const handleProceedCheckout = () => {
+    if (!isMinMet) return;
     setIsCartOpen(false);
     setIsCheckoutOpen(true);
-  };
-
-  const handleDirectWhatsApp = () => {
-    if (items.length === 0) return;
-    let text = `*DIWALI 2025 ORDER INQUIRY - SHIVAJI CRACKERS SIVAKASI*\n`;
-    text += `*Testing Contact Desk:* +91 8318270300\n\n`;
-    text += `*Selected Crackers:*\n`;
-    items.forEach((item, idx) => {
-      const lineTotal = item.product.price * item.quantity;
-      text += `${idx + 1}. ${item.product.name} x ${item.quantity} boxes = ₹${lineTotal}\n`;
-    });
-    text += `\n*Total MRP:* ₹${totalMRP.toLocaleString('en-IN')}\n`;
-    text += `*Direct Wholesale Total:* ₹${totalWholesale.toLocaleString('en-IN')}\n`;
-    text += `*Total Factory Savings:* ₹${totalSavings.toLocaleString('en-IN')} (70% Off)\n\n`;
-    text += `Please confirm lorry parcel booking and dispatch slot for Hyderabad.`;
-
-    const encoded = encodeURIComponent(text);
-    window.open(`https://wa.me/918318270300?text=${encoded}`, '_blank');
   };
 
   return (
@@ -118,10 +116,10 @@ export const CartDrawer: React.FC = () => {
                 <div className="flex items-center justify-between text-xs font-serif font-bold mb-1.5">
                   <span className="flex items-center gap-1.5 text-[#550C12]">
                     <Truck className="w-3.5 h-3.5 text-[#B85D00]" />
-                    <span>Sivakasi Transport Lorry Booking MOQ</span>
+                    <span>Minimum Cart Value Requirement</span>
                   </span>
-                  <span className={moqMet ? 'text-[#07542C] font-black' : 'text-[#B85D00]'}>
-                    ₹{totalWholesale.toLocaleString('en-IN')} / ₹{moqTarget.toLocaleString('en-IN')}
+                  <span className={isMinMet ? 'text-[#07542C] font-black' : 'text-[#B85D00]'}>
+                    ₹{totalWholesale.toLocaleString('en-IN')} / ₹{minCartValue.toLocaleString('en-IN')}
                   </span>
                 </div>
 
@@ -129,20 +127,20 @@ export const CartDrawer: React.FC = () => {
                 <div className="w-full h-2 bg-[#E2D7C5] rounded-full overflow-hidden">
                   <div
                     className={`h-full transition-all duration-300 ${
-                      moqMet ? 'bg-[#07542C]' : 'bg-[#C98E2A]'
+                      isMinMet ? 'bg-[#07542C]' : 'bg-[#C98E2A]'
                     }`}
-                    style={{ width: `${moqProgress}%` }}
+                    style={{ width: `${dynamicMoqProgress}%` }}
                   />
                 </div>
 
                 <p className="text-[11px] text-[#66574F] mt-1.5 flex items-center gap-1">
-                  {moqMet ? (
+                  {isMinMet ? (
                     <span className="text-[#07542C] font-bold flex items-center gap-1">
-                      <ShieldCheck className="w-3 h-3" /> Minimum order unlocked for direct transport parcel booking!
+                      <ShieldCheck className="w-3 h-3" /> Minimum cart value reached! You can now proceed to checkout.
                     </span>
                   ) : (
                     <span>
-                      Add <strong>₹{(moqTarget - totalWholesale).toLocaleString('en-IN')}</strong> more for heavy transport dispatch from Sivakasi.
+                      Add <strong>₹{shortfall.toLocaleString('en-IN')}</strong> more to reach the minimum order value of ₹{minCartValue.toLocaleString('en-IN')}.
                     </span>
                   )}
                 </p>
@@ -278,20 +276,24 @@ export const CartDrawer: React.FC = () => {
 
                   {/* Buttons */}
                   <div className="flex flex-col gap-2 pt-1">
-                    <button
-                      onClick={handleProceedCheckout}
-                      className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-[#550C12] via-[#7B141C] to-[#550C12] text-white font-serif font-bold text-sm shadow-regal hover:shadow-deep transition-all"
-                    >
-                      <span>Proceed to Checkout (Form & Bill)</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
+                    {!isMinMet && (
+                      <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold flex items-center gap-2">
+                        <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+                        <span>Minimum order value is ₹{minCartValue.toLocaleString('en-IN')}. Please add ₹{shortfall.toLocaleString('en-IN')} more to continue.</span>
+                      </div>
+                    )}
 
                     <button
-                      onClick={handleDirectWhatsApp}
-                      className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#07542C] hover:bg-[#054022] text-white font-bold text-xs sm:text-sm shadow-sm transition-all"
+                      onClick={handleProceedCheckout}
+                      disabled={!isMinMet}
+                      className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl font-serif font-bold text-sm shadow-regal transition-all ${
+                        isMinMet
+                          ? 'bg-gradient-to-r from-[#550C12] via-[#7B141C] to-[#550C12] text-white hover:shadow-deep cursor-pointer'
+                          : 'bg-gray-200 text-gray-400 cursor-not-allowed border border-gray-300 shadow-none'
+                      }`}
                     >
-                      <MessageCircle className="w-4 h-4" />
-                      <span>Instant WhatsApp Order (+91 8318270300)</span>
+                      <span>Proceed to Checkout</span>
+                      <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
 

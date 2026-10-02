@@ -37,7 +37,7 @@ const SPECS = [
     icon: Sparkles,
     title: 'Inspiring Crackers',
     description:
-      'Known for being safe, affordable, and premium in formulation, Shivaji Crackers inspires trust across Telangana and Pan-India, setting high benchmarks for legal compliance and craftsmanship.',
+      'Known for being safe, affordable, and premium in formulation, Sivaji Firecracker inspires trust across Telangana and Pan-India, setting high benchmarks for legal compliance and craftsmanship.',
   },
   {
     icon: Rocket,
@@ -49,7 +49,7 @@ const SPECS = [
     icon: Tag,
     title: 'Factory-Direct Wholesale Rates',
     description:
-      'We regularly audit our price lists against factory production costs to ensure you receive uninflated wholesale rates—saving up to 70% off standard retail store prices.',
+      'We regularly audit our price lists against factory production costs to ensure you receive uninflated wholesale rates—saving up to 80% off standard retail store prices.',
   },
 ];
 
@@ -84,7 +84,7 @@ export const Specifications: React.FC = () => {
         <div className="mb-20">
           <div className="text-center max-w-xl mx-auto mb-10">
             <h2 className="text-2xl sm:text-3xl font-black text-[#1C1411] tracking-tight">
-              Why Choose Shivaji Crackers
+              Why Choose Sivaji Firecracker
             </h2>
             <p className="text-xs sm:text-sm text-[#66574F] mt-1">
               Trusted by 1,000+ families and wholesale buyers across Hyderabad and Telangana

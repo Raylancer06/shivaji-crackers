@@ -189,4 +189,16 @@ class CustomerAuthController extends Controller
             'data' => $user,
         ]);
     }
+
+    public function logout(Request $request): JsonResponse
+    {
+        if ($request->user() && $request->user()->currentAccessToken()) {
+            $request->user()->currentAccessToken()->delete();
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Logged out successfully.',
+        ]);
+    }
 }

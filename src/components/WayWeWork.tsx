@@ -10,6 +10,7 @@ import {
   Truck,
   ArrowRight,
   CheckCircle2,
+  Phone,
 } from 'lucide-react';
 
 interface Step {
@@ -71,10 +72,10 @@ const STEPS: Step[] = [
     badge: 'Step 04 • Fast Verification',
     shortDesc: 'Order Confirmation & Payment',
     description:
-      'After submitting your estimate inquiry, our Shivaji Crackers customer desk contacts you within 2 hours to confirm stock and shares verified payment details (UPI / Bank Transfer).',
+      'After submitting your estimate inquiry, our Sivaji Firecracker customer desk contacts you within 2 hours to confirm stock and shares verified payment details (UPI / Bank Transfer).',
     icon: CreditCard,
     highlights: [
-      'Quick phone & WhatsApp verification on +91 8318270300',
+      'Quick phone confirmation on +91 83740 44445',
       'Transparent payment via GPay, PhonePe, or NEFT/RTGS',
       'Official printable estimate invoice generated immediately',
     ],
@@ -107,7 +108,7 @@ export const WayWeWork: React.FC = () => {
         <div className="text-center max-w-2xl mx-auto mb-12">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF8ED] text-[#B85D00] text-xs font-bold uppercase tracking-wider mb-2 border border-[#C98E2A]/30">
             <Sparkles className="w-3.5 h-3.5 text-[#C98E2A]" />
-            <span>How Shivaji Crackers Operates</span>
+            <span>How Sivaji Firecracker Operates</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-[#1C1411] tracking-tight">
             The Way We Work
@@ -198,12 +199,11 @@ export const WayWeWork: React.FC = () => {
                   <ArrowRight className="w-3.5 h-3.5" />
                 </a>
                 <a
-                  href="https://wa.me/918318270300?text=Hello%20Shivaji%20Crackers%2C%20I%20have%20an%20enquiry%20regarding%20orders%20and%20transport."
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="tel:+918374044445"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#FAF8F5] text-[#550C12] border border-[#E2D7C5] hover:border-[#550C12] text-xs font-bold transition-all"
                 >
-                  <span>Helpline (+91 8318270300)</span>
+                  <Phone className="w-3.5 h-3.5 text-[#550C12]" />
+                  <span>Helpline (+91 83740 44445)</span>
                 </a>
               </div>
             </div>
@@ -220,7 +220,7 @@ export const WayWeWork: React.FC = () => {
 
               <div className="relative z-10 space-y-2 mt-6">
                 <span className="text-[11px] font-bold text-[#F0B543] uppercase tracking-wider block">
-                  Shivaji Crackers Process
+                  Sivaji Firecracker Process
                 </span>
                 <h4 className="text-lg font-bold text-white leading-snug">
                   {current.title}

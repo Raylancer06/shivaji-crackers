@@ -112,10 +112,16 @@
             </div>
 
             <div class="sm:col-span-2">
-                <label class="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">Image URL or Upload</label>
+                <label class="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">Primary Display Image</label>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <input type="url" name="image_url" value="{{ old('image_url') }}" placeholder="https://... image link" class="p-2.5 rounded-xl border border-[#E5DBC8] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:border-[#C98E2A]">
+                    <input type="url" name="image_url" value="{{ old('image_url') }}" placeholder="https://... primary image link" class="p-2.5 rounded-xl border border-[#E5DBC8] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:border-[#C98E2A]">
                     <input type="file" name="image" accept="image/*" class="p-2 rounded-xl border border-[#E5DBC8] bg-[#FAF8F5] text-xs text-[#1C1411]">
+                </div>
+
+                <div class="mt-3 pt-3 border-t border-[#E5DBC8]/60">
+                    <label class="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">Additional Gallery Images (Multi-upload)</label>
+                    <input type="file" name="gallery_images[]" multiple accept="image/*" class="w-full p-2 rounded-xl border border-[#E5DBC8] bg-[#FAF8F5] text-xs text-[#1C1411]">
+                    <p class="text-[11px] text-gray-500 mt-1">Select one or multiple product shots to save locally in storage/app/public/products.</p>
                 </div>
             </div>
 

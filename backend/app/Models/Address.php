@@ -19,6 +19,7 @@ class Address extends Model
         'city',
         'state',
         'pincode',
+        'landmark',
         'transport_hub',
         'is_default',
     ];

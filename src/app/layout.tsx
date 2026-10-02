@@ -8,8 +8,8 @@ import { CartToast } from "@/components/CartToast";
 import { FloatingCartBar } from "@/components/FloatingCartBar";
 
 export const metadata: Metadata = {
-  title: "Shivaji Crackers Sivakasi | Authentic Factory Direct Green Fireworks & Price List",
-  description: "Official Shivaji Crackers Diwali 2025 store. 100% CSIR-NEERI Green Certified fireworks directly from Sivakasi factory godowns. Up to 70% off with WhatsApp and Form checkout.",
+  title: "Sivaji Firecracker | Authentic Factory Direct Green Fireworks & Price List",
+  description: "Official Sivaji Firecracker Diwali 2025 store. 100% CSIR-NEERI Green Certified fireworks with Hyderabad express dispatch and up to 80% off factory rates.",
 };
 
 export default function RootLayout({

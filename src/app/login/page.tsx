@@ -78,9 +78,17 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
-                Password
-              </label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider">
+                  Password
+                </label>
+                <Link
+                  href="/forgot-password"
+                  className="text-[11px] font-semibold text-[#8C7A70] hover:text-[#550C12] transition"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
               <div className="relative">
                 <Lock className="w-4 h-4 text-[#8C7A70] absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
@@ -103,21 +111,6 @@ export default function LoginPage() {
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
-
-          {/* Quick Demo Fill */}
-          <div className="p-3 rounded-xl bg-[#FFF8ED] border border-[#C98E2A]/30 text-center">
-            <span className="text-[11px] text-[#66574F] block">Quick Demo Login:</span>
-            <button
-              type="button"
-              onClick={() => {
-                setLoginInput('customer@sivajicrackers.com');
-                setPassword('Customer@2025!');
-              }}
-              className="text-xs font-bold text-[#B85D00] hover:underline"
-            >
-              Fill Demo Customer (customer@sivajicrackers.com)
-            </button>
-          </div>
 
           <div className="text-center pt-2 border-t border-gray-100 text-xs text-[#66574F]">
             Don't have an account yet?{' '}

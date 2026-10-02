@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -13,7 +14,7 @@ class ProductController extends Controller
 {
     public function index(Request $request): View
     {
-        $query = Product::with('category');
+        $query = Product::with(['category', 'images']);
 
         if ($request->filled('category')) {
             $query->where('category_slug', $request->category);
@@ -53,6 +54,7 @@ class ProductController extends Controller
             'sound_level' => 'required|string|max:50',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             'image_url' => 'nullable|string',
+            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             'description' => 'nullable|string',
             'green_certified' => 'boolean',
             'is_featured' => 'boolean',
@@ -77,7 +79,7 @@ class ProductController extends Controller
 
         $discountPercent = min(80, (int) round((($validated['mrp'] - $validated['selling_price']) / $validated['mrp']) * 100));
 
-        Product::create([
+        $product = Product::create([
             'sku' => strtoupper($validated['sku']),
             'name' => $validated['name'],
             'subtitle' => $validated['subtitle'] ?? '',
@@ -98,12 +100,25 @@ class ProductController extends Controller
             'stock_quantity' => $validated['stock_quantity'],
         ]);
 
+        if ($request->hasFile('gallery_images')) {
+            foreach ($request->file('gallery_images') as $idx => $gFile) {
+                $gPath = $gFile->store('products', 'public');
+                ProductImage::create([
+                    'product_id' => $product->id,
+                    'image_path' => asset('storage/' . $gPath),
+                    'sort_order' => $idx + 1,
+                    'is_primary' => false,
+                ]);
+            }
+        }
+
         return redirect()->route('admin.products.index')->with('success', 'Product created successfully with verified box quantities and discount.');
     }
 
     public function edit(Product $product): View
     {
         $categories = Category::orderBy('name')->get();
+        $product->load('images');
         return view('admin.products.edit', compact('product', 'categories'));
     }
 
@@ -120,6 +135,7 @@ class ProductController extends Controller
             'sound_level' => 'required|string|max:50',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             'image_url' => 'nullable|string',
+            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             'description' => 'nullable|string',
             'badge' => 'nullable|string|max:50',
             'stock_quantity' => 'required|integer|min:0',
@@ -163,7 +179,28 @@ class ProductController extends Controller
             'stock_quantity' => $validated['stock_quantity'],
         ]);
 
+        if ($request->hasFile('gallery_images')) {
+            $existingCount = $product->images()->count();
+            foreach ($request->file('gallery_images') as $idx => $gFile) {
+                $gPath = $gFile->store('products', 'public');
+                ProductImage::create([
+                    'product_id' => $product->id,
+                    'image_path' => asset('storage/' . $gPath),
+                    'sort_order' => $existingCount + $idx + 1,
+                    'is_primary' => false,
+                ]);
+            }
+        }
+
         return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
+    }
+
+    public function deleteImage(Product $product, ProductImage $image): RedirectResponse
+    {
+        if ($image->product_id === $product->id) {
+            $image->delete();
+        }
+        return back()->with('success', 'Gallery image deleted.');
     }
 
     public function destroy(Product $product): RedirectResponse

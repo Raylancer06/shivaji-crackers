@@ -21,7 +21,7 @@ export const Features: React.FC = () => {
             Pure Sivakasi Heritage & Traceability
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-black text-[#1C1411] tracking-tight">
-            Why Order Directly from Sivaji Crackers?
+            Why Order Directly from Sivaji Firecracker?
           </h2>
           <p className="text-xs sm:text-sm text-[#550C12] font-semibold mt-1">
             Genuine Sivakasi Craftsmanship • Zero Middlemen • Direct Factory Wholesale Rates

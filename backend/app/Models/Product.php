@@ -30,6 +30,7 @@ class Product extends Model
         'is_bestseller',
         'badge',
         'stock_quantity',
+        'is_active',
     ];
 
     protected $casts = [
@@ -41,6 +42,7 @@ class Product extends Model
         'is_featured' => 'boolean',
         'is_bestseller' => 'boolean',
         'stock_quantity' => 'integer',
+        'is_active' => 'boolean',
     ];
 
     protected static function booted(): void
@@ -68,5 +70,10 @@ class Product extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_slug', 'slug');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class)->orderBy('display_order');
     }
 }

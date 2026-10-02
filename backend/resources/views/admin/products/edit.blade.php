@@ -110,13 +110,36 @@
             </div>
 
             <div class="sm:col-span-2">
-                <label class="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">Current Image</label>
+                <label class="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">Primary Display Image</label>
                 <div class="flex items-center gap-4">
                     <img src="{{ $product->image_url }}" alt="" class="w-16 h-16 rounded-xl object-cover border border-[#E5DBC8]">
                     <div class="flex-1 space-y-2">
                         <input type="url" name="image_url" value="{{ old('image_url', $product->image_url) }}" placeholder="https://... image link" class="w-full p-2 rounded-xl border border-[#E5DBC8] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none">
                         <input type="file" name="image" accept="image/*" class="w-full p-1.5 rounded-xl border border-[#E5DBC8] bg-[#FAF8F5] text-xs text-[#1C1411]">
                     </div>
+                </div>
+
+                <!-- Gallery Multi-Images -->
+                <div class="mt-4 pt-4 border-t border-[#E5DBC8]/60 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <label class="block text-xs font-bold text-[#550C12] uppercase tracking-wider">Additional Gallery Images</label>
+                        <span class="text-[11px] text-gray-500">Stored locally in storage/app/public/products</span>
+                    </div>
+
+                    @if($product->images && $product->images->count() > 0)
+                        <div class="flex flex-wrap gap-3 mb-2">
+                            @foreach($product->images as $gImg)
+                                <div class="relative group">
+                                    <img src="{{ $gImg->image_path }}" class="w-16 h-16 rounded-xl object-cover border border-[#E5DBC8] shadow-sm">
+                                    <button type="button" onclick="if(confirm('Delete gallery image?')) document.getElementById('del-img-{{ $gImg->id }}').submit();" class="absolute -top-1.5 -right-1.5 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center shadow hover:bg-red-700 text-xs font-bold">
+                                        ×
+                                    </button>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+
+                    <input type="file" name="gallery_images[]" multiple accept="image/*" class="w-full p-2 rounded-xl border border-[#E5DBC8] bg-[#FAF8F5] text-xs text-[#1C1411]">
                 </div>
             </div>
 
@@ -150,6 +173,15 @@
             </button>
         </div>
     </form>
+
+    @if($product->images && $product->images->count() > 0)
+        @foreach($product->images as $gImg)
+            <form id="del-img-{{ $gImg->id }}" action="{{ route('admin.products.images.destroy', [$product, $gImg]) }}" method="POST" class="hidden">
+                @csrf
+                @method('DELETE')
+            </form>
+        @endforeach
+    @endif
 </div>
 @endsection
 

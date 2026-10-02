@@ -9,6 +9,34 @@ export interface ApiResponse<T> {
   count?: number;
 }
 
+export interface StoreSettings {
+  business_name: string;
+  business_city: string;
+  business_phone: string;
+  business_email: string;
+  minimum_cart_value: number;
+  upi_id: string;
+  upi_payee_name: string;
+  currency_symbol: string;
+}
+
+export interface CustomerAddress {
+  id: number;
+  user_id?: number;
+  tag?: string;
+  address_type?: string;
+  recipient_name: string;
+  phone: string;
+  address_line: string;
+  city: string;
+  state: string;
+  pincode: string;
+  landmark?: string;
+  transport_hub?: string;
+  is_default: boolean;
+  created_at?: string;
+}
+
 export interface OrderPayload {
   customer_name: string;
   customer_phone: string;
@@ -17,6 +45,7 @@ export interface OrderPayload {
   city?: string;
   state?: string;
   pincode?: string;
+  landmark?: string;
   transport_hub?: string;
   customer_notes?: string;
   user_id?: number;
@@ -52,6 +81,28 @@ export interface PaymentConfirmResponseData {
 }
 
 export const api = {
+  // Store Settings (Minimum Cart Value, Business Details, UPI)
+  async getSettings(): Promise<StoreSettings> {
+    try {
+      const res = await fetch(`${API_BASE_URL}/settings`, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      const json: ApiResponse<StoreSettings> = await res.json();
+      return json.data;
+    } catch (err) {
+      console.warn('Backend settings unavailable, falling back to defaults:', err);
+      return {
+        business_name: 'Sivaji Firecracker',
+        business_city: 'Hyderabad',
+        business_phone: '+91 83740 44445',
+        business_email: 'orders@sivajifirecracker.com',
+        minimum_cart_value: 2000,
+        upi_id: 'sivajiduddempudi422@axl',
+        upi_payee_name: 'Sivaji Duddempudi',
+        currency_symbol: '₹',
+      };
+    }
+  },
+
   // Products
   async getProducts(params?: { category?: string; search?: string; sort?: string }): Promise<Product[]> {
     try {
@@ -186,6 +237,187 @@ export const api = {
     return await res.json();
   },
 
+  async logout(token: string) {
+    try {
+      await fetch(`${API_BASE_URL}/auth/logout`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+        },
+      });
+    } catch (err) {
+      // Ignore network errors on logout
+    }
+  },
+
+  // Password Recovery
+  async forgotPassword(email: string) {
+    const res = await fetch(`${API_BASE_URL}/auth/forgot-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Could not process password reset request.');
+    }
+
+    return await res.json();
+  },
+
+  async resetPassword(data: { email: string; token: string; password: string; password_confirmation: string }) {
+    const res = await fetch(`${API_BASE_URL}/auth/reset-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Password reset failed');
+    }
+
+    return await res.json();
+  },
+
+  // Profile Management
+  async getProfile(token: string) {
+    const res = await fetch(`${API_BASE_URL}/customer/profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+    });
+
+    if (!res.ok) throw new Error('Failed to load profile');
+    return await res.json();
+  },
+
+  async updateProfile(token: string, data: any) {
+    const res = await fetch(`${API_BASE_URL}/customer/profile`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Failed to update profile');
+    }
+
+    return await res.json();
+  },
+
+  async updatePassword(token: string, data: { current_password: string; new_password: string; new_password_confirmation: string }) {
+    const res = await fetch(`${API_BASE_URL}/customer/password`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Failed to change password');
+    }
+
+    return await res.json();
+  },
+
+  // Customer Saved Addresses
+  async getAddresses(token: string): Promise<CustomerAddress[]> {
+    const res = await fetch(`${API_BASE_URL}/customer/addresses`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+    });
+
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data || [];
+  },
+
+  async addAddress(token: string, data: Partial<CustomerAddress>) {
+    const res = await fetch(`${API_BASE_URL}/customer/addresses`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Failed to save address');
+    }
+
+    return await res.json();
+  },
+
+  async updateAddress(token: string, id: number, data: Partial<CustomerAddress>) {
+    const res = await fetch(`${API_BASE_URL}/customer/addresses/${id}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Failed to update address');
+    }
+
+    return await res.json();
+  },
+
+  async deleteAddress(token: string, id: number) {
+    const res = await fetch(`${API_BASE_URL}/customer/addresses/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+    });
+
+    if (!res.ok) throw new Error('Failed to delete address');
+    return await res.json();
+  },
+
+  async setDefaultAddress(token: string, id: number) {
+    const res = await fetch(`${API_BASE_URL}/customer/addresses/${id}/default`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+    });
+
+    if (!res.ok) throw new Error('Failed to set default address');
+    return await res.json();
+  },
+
+  // Customer Orders
   async getCustomerOrders(token: string) {
     const res = await fetch(`${API_BASE_URL}/customer/orders`, {
       headers: {

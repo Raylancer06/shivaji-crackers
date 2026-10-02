@@ -22,7 +22,7 @@
             @php
                 $cleanPhone = preg_replace('/[^0-9]/', '', $order->customer_phone);
                 if (strlen($cleanPhone) === 10) $cleanPhone = '91' . $cleanPhone;
-                $custWaMsg = "Hello {$order->customer_name}, regarding your Sivaji Crackers Diwali order {$order->order_number} (Amount: ₹" . number_format($order->final_amount) . "). ";
+                $custWaMsg = "Hello {$order->customer_name}, regarding your Sivaji Firecracker Diwali order {$order->order_number} (Amount: ₹" . number_format($order->final_amount) . "). ";
                 if ($order->status === 'confirmed') {
                     $custWaMsg .= "Your UPI payment has been VERIFIED. We are preparing your crackers for packaging.";
                 } elseif ($order->status === 'dispatched') {

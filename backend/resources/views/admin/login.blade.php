@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login | Sivaji Crackers Sivakasi</title>
+    <title>Admin Login | Sivaji Firecracker</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -22,7 +22,7 @@
             <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#C98E2A] to-[#F0B543] flex items-center justify-center text-[#38060A] font-black text-2xl shadow-lg mx-auto mb-3">
                 S
             </div>
-            <h1 class="font-serif font-black text-2xl text-[#1C1411]">SIVAJI CRACKERS</h1>
+            <h1 class="font-serif font-black text-2xl text-[#1C1411]">SIVAJI FIRECRACKER</h1>
             <p class="text-xs text-[#7B141C] font-bold uppercase tracking-wider mt-1">Wholesale Factory Admin Portal</p>
         </div>
 
@@ -40,7 +40,8 @@
                 <input
                     type="email"
                     name="email"
-                    value="{{ old('email', 'admin@sivajicrackers.com') }}"
+                    value="{{ old('email') }}"
+                    placeholder="admin@sivajifirecracker.com"
                     required
                     class="w-full px-4 py-3 rounded-xl border border-[#E5DBC8] bg-[#FAF8F5] text-sm text-[#1C1411] focus:bg-white focus:border-[#C98E2A] outline-none transition"
                 />
@@ -51,7 +52,8 @@
                 <input
                     type="password"
                     name="password"
-                    value="Sivaji@2025!"
+                    value=""
+                    placeholder="••••••••"
                     required
                     class="w-full px-4 py-3 rounded-xl border border-[#E5DBC8] bg-[#FAF8F5] text-sm text-[#1C1411] focus:bg-white focus:border-[#C98E2A] outline-none transition"
                 />
@@ -59,10 +61,9 @@
 
             <div class="flex items-center justify-between text-xs pt-1">
                 <label class="flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" name="remember" checked class="rounded border-gray-300 text-[#7B141C] focus:ring-[#C98E2A]">
+                    <input type="checkbox" name="remember" class="rounded border-gray-300 text-[#7B141C] focus:ring-[#C98E2A]">
                     <span class="text-[#66574F]">Remember login</span>
                 </label>
-                <span class="text-[#B85D00] font-semibold">Pre-filled credentials</span>
             </div>
 
             <button

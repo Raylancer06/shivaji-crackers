@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
-import { ShoppingBag, MessageCircle, ShieldCheck, Search, User } from 'lucide-react';
+import { ShoppingBag, ShieldCheck, Search, User, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ onSearchChange }) => {
@@ -43,13 +43,11 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
 
           <div className="flex items-center gap-3 shrink-0">
             <a
-              href="https://wa.me/918374044445"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="tel:+918374044445"
               className="inline-flex items-center gap-1.5 text-[#F0B543] hover:text-white transition-colors text-xs font-bold whitespace-nowrap"
             >
-              <MessageCircle className="w-3.5 h-3.5 text-[#10B981]" />
-              <span>WhatsApp Admin: +91 83740 44445</span>
+              <Phone className="w-3.5 h-3.5 text-[#F0B543]" />
+              <span>Helpline: +91 83740 44445</span>
             </a>
           </div>
         </div>
@@ -65,17 +63,17 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-3 lg:gap-6">
           {/* Brand Emblem & Logo */}
-          <a href="#" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
+          <a href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
             <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full p-0.5 bg-gradient-to-tr from-[#C98E2A] via-[#F0B543] to-[#550C12] shadow-sm flex items-center justify-center shrink-0">
               <img
-                src="/logo.png"
-                alt="Sivaji Crackers Logo"
+                src="/logo.svg"
+                alt="Sivaji Firecracker Logo"
                 className="h-full w-full object-contain rounded-full bg-white p-0.5"
               />
             </div>
             <div className="flex flex-col">
               <span className="font-black text-base sm:text-lg text-[#550C12] tracking-wider leading-none group-hover:text-[#7B141C] transition-colors whitespace-nowrap">
-                SHIVAJI CRACKERS
+                SIVAJI FIRECRACKER
               </span>
               <span className="text-[9px] sm:text-[10px] font-bold text-[#B85D00] tracking-widest uppercase mt-0.5 whitespace-nowrap">
                 Sivakasi Direct • Hyderabad Express

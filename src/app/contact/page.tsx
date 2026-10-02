@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
-import { Sparkles, Phone, Mail, MapPin, Send, MessageCircle, Clock, Truck, CheckCircle2 } from 'lucide-react';
+import { Sparkles, Phone, Mail, MapPin, Send, Truck, CheckCircle2 } from 'lucide-react';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -16,10 +16,6 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const text = encodeURIComponent(
-      `*New Enquiry - Shivaji Crackers*\nName: ${formData.name}\nPhone: ${formData.phone}\nCity: ${formData.city}\nMessage: ${formData.message}`
-    );
-    window.open(`https://wa.me/918318270300?text=${text}`, '_blank');
     setSubmitted(true);
   };
 
@@ -37,10 +33,10 @@ export default function ContactPage() {
             </span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white mb-3">
-            Contact Shivaji Crackers
+            Contact Sivaji Firecracker
           </h1>
           <p className="max-w-2xl mx-auto text-xs sm:text-sm text-gray-200 leading-relaxed font-normal">
-            Direct Sivakasi factory order support, Hyderabad road transport inquiries, and wholesale society bookings.
+            Direct factory order support, Hyderabad road transport inquiries, and wholesale society bookings.
           </p>
         </div>
       </section>
@@ -52,12 +48,12 @@ export default function ContactPage() {
           <div className="lg:col-span-5 space-y-6">
             <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E2D7C5] shadow-sm space-y-6">
               <h3 className="text-xl font-black text-[#1C1411]">
-                Customer Support & Billing
+                Customer Support & Enquiries
               </h3>
 
               <div className="space-y-4 text-xs">
                 <a
-                  href="tel:+918318270300"
+                  href="tel:+918374044445"
                   className="flex items-start gap-3 p-3 rounded-2xl hover:bg-[#FAF8F5] transition-colors border border-transparent hover:border-[#E2D7C5]"
                 >
                   <div className="w-10 h-10 rounded-xl bg-[#FFF8ED] text-[#B85D00] flex items-center justify-center shrink-0">
@@ -65,24 +61,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <span className="font-bold text-[#66574F] block text-[10px] uppercase tracking-wider">Direct Call Helpline</span>
-                    <span className="font-black text-base text-[#1C1411]">+91 8318270300</span>
+                    <span className="font-black text-base text-[#1C1411]">+91 83740 44445</span>
                     <span className="text-[#66574F] block mt-0.5">Mon - Sun (8:00 AM - 10:00 PM)</span>
-                  </div>
-                </a>
-
-                <a
-                  href="https://wa.me/918318270300?text=Hello%20Shivaji%20Crackers%2C%20I%20would%20like%20to%20enquire%20about%20crackers%20price%20list."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-start gap-3 p-3 rounded-2xl hover:bg-[#FAF8F5] transition-colors border border-transparent hover:border-[#E2D7C5]"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-[#EBF7F0] text-[#07542C] flex items-center justify-center shrink-0">
-                    <MessageCircle className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="font-bold text-[#66574F] block text-[10px] uppercase tracking-wider">WhatsApp Instant Desk</span>
-                    <span className="font-black text-base text-[#07542C]">+91 8318270300</span>
-                    <span className="text-[#66574F] block mt-0.5">Quick order confirmation & invoice</span>
                   </div>
                 </a>
 
@@ -92,7 +72,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <span className="font-bold text-[#66574F] block text-[10px] uppercase tracking-wider">Email Inquiry</span>
-                    <span className="font-bold text-sm text-[#1C1411]">orders@shivajicrackers.com</span>
+                    <span className="font-bold text-sm text-[#1C1411]">orders@sivajifirecracker.com</span>
                     <span className="text-[#66574F] block mt-0.5">Wholesale inquiries & society quotes</span>
                   </div>
                 </div>
@@ -102,8 +82,8 @@ export default function ContactPage() {
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="font-bold text-[#66574F] block text-[10px] uppercase tracking-wider">Sivakasi Factory Godown</span>
-                    <span className="font-bold text-xs text-[#1C1411]">Paraipatti Godown, Sivakasi - 626189, Tamil Nadu, India</span>
+                    <span className="font-bold text-[#66574F] block text-[10px] uppercase tracking-wider">Business Location</span>
+                    <span className="font-bold text-xs text-[#1C1411]">Hyderabad, Telangana, India</span>
                   </div>
                 </div>
               </div>
@@ -111,7 +91,7 @@ export default function ContactPage() {
               <div className="p-4 rounded-2xl bg-[#FFF8ED] border border-[#C98E2A]/30 text-xs text-[#B85D00] flex items-start gap-2.5">
                 <Truck className="w-5 h-5 shrink-0 text-[#B85D00]" />
                 <p className="leading-relaxed">
-                  <strong>Hyderabad Parcel Pickup:</strong> Dispatches arrive daily at regional transport godowns in Secunderabad, Kukatpally, Autonagar, and Kompally.
+                  <strong>Hyderabad Parcel Pickup:</strong> Regular dispatches arrive at regional transport hubs across Secunderabad, Kukatpally, Autonagar, Ranigunj, and Kompally.
                 </p>
               </div>
             </div>
@@ -124,7 +104,7 @@ export default function ContactPage() {
                 Send Us an Enquiry
               </h3>
               <p className="text-xs text-[#66574F] mb-6">
-                Fill in your celebration requirements and our sales manager will reach out via WhatsApp/Phone within 2 hours.
+                Fill in your celebration requirements and our sales manager will reach out via phone within 2 hours.
               </p>
 
               {submitted ? (
@@ -132,13 +112,22 @@ export default function ContactPage() {
                   <CheckCircle2 className="w-10 h-10 text-[#07542C] mx-auto" />
                   <h4 className="text-base font-black text-[#07542C]">Thank You for Your Enquiry!</h4>
                   <p className="text-xs text-[#66574F]">
-                    Your inquiry has been transferred to our WhatsApp billing desk at <strong>+91 8318270300</strong>. We will contact you shortly.
+                    Your inquiry has been received by our Sivaji Firecracker customer desk. Our representative will contact you at <strong>{formData.phone}</strong> shortly.
                   </p>
+                  <button
+                    onClick={() => {
+                      setSubmitted(false);
+                      setFormData({ name: '', phone: '', city: 'Hyderabad', message: '' });
+                    }}
+                    className="mt-2 text-xs font-bold text-[#550C12] underline hover:text-[#7B141C]"
+                  >
+                    Send another inquiry
+                  </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4 text-xs">
                   <div>
-                    <label className="block font-bold text-[#1C1411] mb-1">Your Full Name</label>
+                    <label className="block font-bold text-[#1C1411] mb-1">Your Full Name *</label>
                     <input
                       type="text"
                       required
@@ -151,7 +140,7 @@ export default function ContactPage() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block font-bold text-[#1C1411] mb-1">Mobile / WhatsApp Number</label>
+                      <label className="block font-bold text-[#1C1411] mb-1">Mobile Phone Number *</label>
                       <input
                         type="tel"
                         required
@@ -190,7 +179,7 @@ export default function ContactPage() {
                     className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#550C12] via-[#7B141C] to-[#550C12] text-white font-bold text-sm shadow-regal hover:shadow-deep transition-all flex items-center justify-center gap-2"
                   >
                     <Send className="w-4 h-4" />
-                    <span>Send Inquiry to WhatsApp (+91 8318270300)</span>
+                    <span>Submit Enquiry</span>
                   </button>
                 </form>
               )}

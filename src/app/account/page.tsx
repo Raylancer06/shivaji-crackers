@@ -5,12 +5,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
-import { api } from '@/services/api';
+import { api, CustomerAddress } from '@/services/api';
 import {
   User,
   Package,
   Clock,
   Phone,
+  Mail,
   MapPin,
   Truck,
   LogOut,
@@ -20,6 +21,17 @@ import {
   FileText,
   X,
   Printer,
+  Home,
+  Briefcase,
+  Plus,
+  Trash2,
+  Edit2,
+  Lock,
+  ShieldCheck,
+  AlertCircle,
+  Check,
+  ChevronRight,
+  LayoutDashboard,
 } from 'lucide-react';
 
 interface OrderItem {
@@ -42,6 +54,7 @@ interface OrderRecord {
   city: string;
   state: string;
   pincode: string;
+  landmark?: string;
   transport_hub: string;
   final_amount: number;
   discount_amount: number;
@@ -61,45 +74,237 @@ export default function CustomerAccountPage() {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const [token, setToken] = useState<string>('');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'profile' | 'addresses' | 'orders' | 'security'>('dashboard');
+
+  // Orders State
   const [orders, setOrders] = useState<OrderRecord[]>([]);
   const [loadingOrders, setLoadingOrders] = useState<boolean>(true);
   const [selectedOrder, setSelectedOrder] = useState<OrderRecord | null>(null);
 
+  // Profile Form State
+  const [profileForm, setProfileForm] = useState({
+    name: '',
+    phone: '',
+    email: '',
+  });
+  const [profileSaving, setProfileSaving] = useState(false);
+  const [profileMessage, setProfileMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  // Addresses State
+  const [addresses, setAddresses] = useState<CustomerAddress[]>([]);
+  const [loadingAddresses, setLoadingAddresses] = useState<boolean>(true);
+  const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
+  const [editingAddressId, setEditingAddressId] = useState<number | null>(null);
+  const [addressForm, setAddressForm] = useState({
+    address_type: 'home',
+    recipient_name: '',
+    phone: '',
+    address_line: '',
+    landmark: '',
+    city: 'Hyderabad',
+    state: 'Telangana',
+    pincode: '500034',
+    is_default: false,
+  });
+  const [addressSaving, setAddressSaving] = useState(false);
+  const [addressError, setAddressError] = useState('');
+
+  // Password Change Form State
+  const [passwordForm, setPasswordForm] = useState({
+    current_password: '',
+    new_password: '',
+    new_password_confirmation: '',
+  });
+  const [passwordSaving, setPasswordSaving] = useState(false);
+  const [passwordMessage, setPasswordMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
   useEffect(() => {
-    const savedToken = localStorage.getItem('sivaji_token');
+    const savedToken = localStorage.getItem('sivaji_token') || localStorage.getItem('sivaji_customer_token');
     const savedUser = localStorage.getItem('sivaji_user');
 
-    if (!savedToken || !savedUser) {
-      // User is not logged in
+    if (!savedToken) {
       setUser(null);
       setLoadingOrders(false);
+      setLoadingAddresses(false);
       return;
     }
 
-    try {
-      setUser(JSON.parse(savedUser));
-      setToken(savedToken);
+    setToken(savedToken);
 
-      // Fetch customer orders from API
-      api.getCustomerOrders(savedToken)
-        .then((res) => {
-          if (res.data) setOrders(res.data);
-        })
-        .catch((err) => {
-          console.warn('Could not load orders from API:', err);
-        })
-        .finally(() => setLoadingOrders(false));
-    } catch (e) {
-      setUser(null);
-      setLoadingOrders(false);
+    if (savedUser) {
+      try {
+        const parsed = JSON.parse(savedUser);
+        setUser(parsed);
+        setProfileForm({
+          name: parsed.name || '',
+          phone: parsed.phone || '',
+          email: parsed.email || '',
+        });
+      } catch (e) {}
     }
+
+    // Refresh Profile from API
+    api.getProfile(savedToken)
+      .then((res) => {
+        if (res?.data) {
+          setUser(res.data);
+          setProfileForm({
+            name: res.data.name || '',
+            phone: res.data.phone || '',
+            email: res.data.email || '',
+          });
+          localStorage.setItem('sivaji_user', JSON.stringify(res.data));
+        }
+      })
+      .catch(() => {});
+
+    // Fetch Orders
+    api.getCustomerOrders(savedToken)
+      .then((res) => {
+        if (res.data) setOrders(res.data);
+      })
+      .catch((err) => {
+        console.warn('Could not load orders:', err);
+      })
+      .finally(() => setLoadingOrders(false));
+
+    // Fetch Addresses
+    loadAddresses(savedToken);
   }, []);
 
-  const handleLogout = () => {
+  const loadAddresses = async (authToken: string) => {
+    setLoadingAddresses(true);
+    try {
+      const list = await api.getAddresses(authToken);
+      setAddresses(list);
+    } catch (err) {
+      console.warn('Could not load addresses:', err);
+    } finally {
+      setLoadingAddresses(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    if (token) {
+      await api.logout(token).catch(() => {});
+    }
     localStorage.removeItem('sivaji_token');
+    localStorage.removeItem('sivaji_customer_token');
     localStorage.removeItem('sivaji_user');
     setUser(null);
     router.push('/login');
+  };
+
+  // Profile Update
+  const handleUpdateProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setProfileSaving(true);
+    setProfileMessage(null);
+    try {
+      const res = await api.updateProfile(token, profileForm);
+      if (res.data) {
+        setUser(res.data);
+        localStorage.setItem('sivaji_user', JSON.stringify(res.data));
+      }
+      setProfileMessage({ type: 'success', text: 'Profile information updated successfully.' });
+    } catch (err: any) {
+      setProfileMessage({ type: 'error', text: err.message || 'Failed to update profile.' });
+    } finally {
+      setProfileSaving(false);
+    }
+  };
+
+  // Password Change
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordForm.new_password !== passwordForm.new_password_confirmation) {
+      setPasswordMessage({ type: 'error', text: 'New passwords do not match.' });
+      return;
+    }
+    setPasswordSaving(true);
+    setPasswordMessage(null);
+    try {
+      await api.updatePassword(token, passwordForm);
+      setPasswordMessage({ type: 'success', text: 'Password changed successfully.' });
+      setPasswordForm({ current_password: '', new_password: '', new_password_confirmation: '' });
+    } catch (err: any) {
+      setPasswordMessage({ type: 'error', text: err.message || 'Failed to change password. Please check your current password.' });
+    } finally {
+      setPasswordSaving(false);
+    }
+  };
+
+  // Address CRUD
+  const handleOpenAddAddress = () => {
+    setEditingAddressId(null);
+    setAddressForm({
+      address_type: 'home',
+      recipient_name: user?.name || '',
+      phone: user?.phone || '',
+      address_line: '',
+      landmark: '',
+      city: 'Hyderabad',
+      state: 'Telangana',
+      pincode: '500034',
+      is_default: addresses.length === 0,
+    });
+    setAddressError('');
+    setShowAddressModal(true);
+  };
+
+  const handleOpenEditAddress = (addr: CustomerAddress) => {
+    setEditingAddressId(addr.id);
+    setAddressForm({
+      address_type: addr.address_type || 'home',
+      recipient_name: addr.recipient_name,
+      phone: addr.phone,
+      address_line: addr.address_line,
+      landmark: addr.landmark || '',
+      city: addr.city,
+      state: addr.state,
+      pincode: addr.pincode,
+      is_default: addr.is_default,
+    });
+    setAddressError('');
+    setShowAddressModal(true);
+  };
+
+  const handleSaveAddress = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAddressSaving(true);
+    setAddressError('');
+    try {
+      if (editingAddressId) {
+        await api.updateAddress(token, editingAddressId, addressForm);
+      } else {
+        await api.addAddress(token, addressForm);
+      }
+      setShowAddressModal(false);
+      await loadAddresses(token);
+    } catch (err: any) {
+      setAddressError(err.message || 'Failed to save address.');
+    } finally {
+      setAddressSaving(false);
+    }
+  };
+
+  const handleDeleteAddress = async (id: number) => {
+    if (!confirm('Are you sure you want to delete this address?')) return;
+    try {
+      await api.deleteAddress(token, id);
+      await loadAddresses(token);
+    } catch (err: any) {
+      alert(err.message || 'Failed to delete address.');
+    }
+  };
+
+  const handleSetDefaultAddress = async (id: number) => {
+    try {
+      await api.setDefaultAddress(token, id);
+      await loadAddresses(token);
+    } catch (err: any) {
+      alert(err.message || 'Failed to set default address.');
+    }
   };
 
   const getStatusBadge = (status: string) => {
@@ -170,6 +375,8 @@ export default function CustomerAccountPage() {
     );
   }
 
+  const defaultAddr = addresses.find((a) => a.is_default) || addresses[0];
+
   return (
     <div className="min-h-screen bg-[#FAF8F5] flex flex-col justify-between font-sans">
       <Navbar />
@@ -179,12 +386,14 @@ export default function CustomerAccountPage() {
         <div className="bg-white rounded-3xl border border-[#E2D7C5] shadow-regal p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#550C12] to-[#7B141C] text-white flex items-center justify-center font-serif font-black text-2xl shadow-md shrink-0">
-              {user.name?.charAt(0) || 'C'}
+              {user.name?.charAt(0) || 'S'}
             </div>
             <div>
-              <span className="text-[10px] font-bold text-[#B85D00] uppercase tracking-wider bg-[#FFF8ED] px-2.5 py-0.5 rounded-full border border-[#C98E2A]/30">
-                Verified Sivaji Customer
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-bold text-[#B85D00] uppercase tracking-wider bg-[#FFF8ED] px-2.5 py-0.5 rounded-full border border-[#C98E2A]/30">
+                  Verified Sivaji Firecracker Customer
+                </span>
+              </div>
               <h1 className="font-serif text-2xl sm:text-3xl font-black text-[#1C1411] mt-1">
                 {user.name}
               </h1>
@@ -197,7 +406,7 @@ export default function CustomerAccountPage() {
           <div className="flex items-center gap-3">
             <Link
               href="/estimate"
-              className="px-4 py-2.5 rounded-xl bg-[#FFF8ED] border border-[#C98E2A]/40 text-[#550C12] text-xs font-bold hover:bg-[#F2EBE0] transition"
+              className="px-4 py-2.5 rounded-xl bg-[#550C12] text-white text-xs font-bold font-serif hover:bg-[#7B141C] transition shadow-md"
             >
               + Place New Order
             </Link>
@@ -211,48 +420,445 @@ export default function CustomerAccountPage() {
           </div>
         </div>
 
-        {/* 2 Columns: Saved Delivery Info on Left, Orders on Right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* LEFT 4 COLS: Default Shipping & Transport Profile */}
-          <div className="lg:col-span-4 bg-white rounded-3xl border border-[#E2D7C5] shadow-regal p-6 space-y-4">
-            <h2 className="font-serif font-bold text-base text-[#1C1411] pb-3 border-b border-[#E2D7C5] flex items-center justify-between">
-              <span>Delivery Profile</span>
-              <span className="text-[10px] font-mono font-bold text-[#B85D00] bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
-                {user.city || 'Hyderabad'}
-              </span>
-            </h2>
+        {/* Tab Navigation */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-[#E2D7C5]">
+          <button
+            onClick={() => setActiveTab('dashboard')}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition whitespace-nowrap ${
+              activeTab === 'dashboard'
+                ? 'bg-[#550C12] text-white shadow-md'
+                : 'bg-white border border-[#E2D7C5] text-[#66574F] hover:bg-[#FAF8F5]'
+            }`}
+          >
+            <LayoutDashboard className="w-4 h-4" />
+            <span>Dashboard</span>
+          </button>
 
-            <div className="space-y-3 text-xs">
-              <div>
-                <span className="text-gray-500 block mb-0.5">Default Delivery Address:</span>
-                <div className="font-medium text-[#1C1411] bg-[#FAF8F5] p-3 rounded-xl border border-[#E2D7C5] leading-relaxed">
-                  {user.address_line || 'Plot 42, Jubilee Hills Road No. 36'}, {user.city || 'Hyderabad'}, {user.state || 'Telangana'} - {user.pincode || '500034'}
+          <button
+            onClick={() => setActiveTab('orders')}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition whitespace-nowrap ${
+              activeTab === 'orders'
+                ? 'bg-[#550C12] text-white shadow-md'
+                : 'bg-white border border-[#E2D7C5] text-[#66574F] hover:bg-[#FAF8F5]'
+            }`}
+          >
+            <Package className="w-4 h-4" />
+            <span>My Orders ({orders.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('addresses')}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition whitespace-nowrap ${
+              activeTab === 'addresses'
+                ? 'bg-[#550C12] text-white shadow-md'
+                : 'bg-white border border-[#E2D7C5] text-[#66574F] hover:bg-[#FAF8F5]'
+            }`}
+          >
+            <MapPin className="w-4 h-4" />
+            <span>Saved Addresses ({addresses.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('profile')}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition whitespace-nowrap ${
+              activeTab === 'profile'
+                ? 'bg-[#550C12] text-white shadow-md'
+                : 'bg-white border border-[#E2D7C5] text-[#66574F] hover:bg-[#FAF8F5]'
+            }`}
+          >
+            <User className="w-4 h-4" />
+            <span>Profile Details</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('security')}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition whitespace-nowrap ${
+              activeTab === 'security'
+                ? 'bg-[#550C12] text-white shadow-md'
+                : 'bg-white border border-[#E2D7C5] text-[#66574F] hover:bg-[#FAF8F5]'
+            }`}
+          >
+            <Lock className="w-4 h-4" />
+            <span>Security & Password</span>
+          </button>
+        </div>
+
+        {/* ---------------------------------------------------- */}
+        {/* TAB 1: DASHBOARD                                     */}
+        {/* ---------------------------------------------------- */}
+        {activeTab === 'dashboard' && (
+          <div className="space-y-6">
+            {/* Quick Stats Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="bg-white p-5 rounded-2xl border border-[#E2D7C5] shadow-sm flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-[#FFF8ED] text-[#B85D00] flex items-center justify-center">
+                  <Package className="w-6 h-6 text-[#C98E2A]" />
+                </div>
+                <div>
+                  <div className="font-serif font-black text-2xl text-[#1C1411]">{orders.length}</div>
+                  <div className="text-xs text-[#66574F]">Total Orders Placed</div>
                 </div>
               </div>
 
-              <div>
-                <span className="text-gray-500 block mb-0.5">Preferred Sivakasi Transport Hub:</span>
-                <div className="font-bold text-[#7B141C] flex items-center gap-1.5">
-                  <Truck className="w-4 h-4 text-[#C98E2A]" />
-                  <span>{user.transport_hub || 'VRL Logistics (Hyderabad Hub)'}</span>
+              <div className="bg-white p-5 rounded-2xl border border-[#E2D7C5] shadow-sm flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
+                  <CheckCircle className="w-6 h-6 text-emerald-600" />
+                </div>
+                <div>
+                  <div className="font-serif font-black text-2xl text-emerald-700">
+                    ₹{orders.reduce((sum, o) => sum + Number(o.final_amount || 0), 0).toLocaleString('en-IN')}
+                  </div>
+                  <div className="text-xs text-[#66574F]">Total Wholesale Purchases</div>
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-gray-100 text-[11px] text-[#66574F]">
-                Need to change delivery location? Mention in order notes or WhatsApp our admin dispatch desk at <strong>+91 83740 44445</strong>.
+              <div className="bg-white p-5 rounded-2xl border border-[#E2D7C5] shadow-sm flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center">
+                  <MapPin className="w-6 h-6 text-purple-600" />
+                </div>
+                <div>
+                  <div className="font-serif font-black text-2xl text-[#1C1411]">{addresses.length}</div>
+                  <div className="text-xs text-[#66574F]">Saved Delivery Addresses</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Dashboard Overview Cards */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              {/* Left Column: Recent Order Quick Glance */}
+              <div className="lg:col-span-7 bg-white rounded-3xl border border-[#E2D7C5] shadow-regal p-6 space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-[#E2D7C5]">
+                  <h2 className="font-serif font-bold text-base text-[#1C1411]">
+                    Latest Order Status
+                  </h2>
+                  {orders.length > 0 && (
+                    <button
+                      onClick={() => setActiveTab('orders')}
+                      className="text-xs font-bold text-[#550C12] hover:underline"
+                    >
+                      View All Orders →
+                    </button>
+                  )}
+                </div>
+
+                {orders.length === 0 ? (
+                  <div className="text-center py-8 space-y-3">
+                    <Package className="w-8 h-8 text-[#C98E2A] mx-auto opacity-60" />
+                    <p className="text-xs text-[#66574F]">No orders placed yet for Diwali 2025.</p>
+                    <Link
+                      href="/estimate"
+                      className="inline-block px-4 py-2 rounded-xl bg-[#550C12] text-white text-xs font-bold font-serif"
+                    >
+                      Explore Cracker Price List
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E2D7C5] space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="font-mono font-black text-sm text-[#B85D00]">
+                          {orders[0].order_number}
+                        </span>
+                        {getStatusBadge(orders[0].status)}
+                      </div>
+                      <div className="text-xs text-[#66574F]">
+                        Ordered on {new Date(orders[0].created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </div>
+                      <div className="flex justify-between items-baseline pt-2 border-t border-[#E2D7C5]/60">
+                        <span className="text-xs text-[#550C12] font-semibold">Total Amount:</span>
+                        <span className="font-serif font-black text-lg text-[#550C12]">
+                          ₹{Number(orders[0].final_amount).toLocaleString('en-IN')}
+                        </span>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => setSelectedOrder(orders[0])}
+                      className="w-full py-2.5 px-4 rounded-xl bg-white border border-[#E2D7C5] hover:bg-[#FAF8F5] text-[#550C12] text-xs font-bold transition"
+                    >
+                      View Full Order Details & Invoice
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Right Column: Default Address & Quick Transport */}
+              <div className="lg:col-span-5 bg-white rounded-3xl border border-[#E2D7C5] shadow-regal p-6 space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-[#E2D7C5]">
+                  <h2 className="font-serif font-bold text-base text-[#1C1411]">
+                    Default Delivery Location
+                  </h2>
+                  <button
+                    onClick={() => setActiveTab('addresses')}
+                    className="text-xs font-bold text-[#550C12] hover:underline"
+                  >
+                    Manage →
+                  </button>
+                </div>
+
+                {defaultAddr ? (
+                  <div className="space-y-3 text-xs">
+                    <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E2D7C5] space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-[#1C1411] capitalize flex items-center gap-1.5">
+                          {defaultAddr.address_type === 'home' ? <Home className="w-3.5 h-3.5 text-[#C98E2A]" /> : <Briefcase className="w-3.5 h-3.5 text-[#C98E2A]" />}
+                          {defaultAddr.address_type} Address
+                        </span>
+                        <span className="text-[10px] font-bold text-[#07542C] bg-[#EDF7EE] px-2 py-0.5 rounded-full border border-[#07542C]/20">
+                          Default
+                        </span>
+                      </div>
+                      <p className="text-[#1C1411] font-medium">{defaultAddr.recipient_name} ({defaultAddr.phone})</p>
+                      <p className="text-[#66574F]">{defaultAddr.address_line}</p>
+                      {defaultAddr.landmark && <p className="text-[#66574F]">Landmark: {defaultAddr.landmark}</p>}
+                      <p className="text-[#66574F]">{defaultAddr.city}, {defaultAddr.state} - {defaultAddr.pincode}</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-6 space-y-2">
+                    <p className="text-xs text-[#66574F]">No saved addresses yet.</p>
+                    <button
+                      onClick={handleOpenAddAddress}
+                      className="px-4 py-2 rounded-xl bg-[#550C12] text-white text-xs font-bold"
+                    >
+                      + Add Delivery Address
+                    </button>
+                  </div>
+                )}
+
+                <div className="pt-2 border-t border-gray-100 text-[11px] text-[#66574F] space-y-1">
+                  <div className="font-bold text-[#550C12]">Official Sivaji Firecracker Helpline:</div>
+                  <div>Phone: <strong>+91 83740 44445</strong> (Hyderabad Dispatch)</div>
+                </div>
               </div>
             </div>
           </div>
+        )}
 
-          {/* RIGHT 8 COLS: Orders History */}
-          <div className="lg:col-span-8 bg-white rounded-3xl border border-[#E2D7C5] shadow-regal overflow-hidden">
+        {/* ---------------------------------------------------- */}
+        {/* TAB 2: PROFILE DETAILS                               */}
+        {/* ---------------------------------------------------- */}
+        {activeTab === 'profile' && (
+          <div className="max-w-2xl bg-white rounded-3xl border border-[#E2D7C5] shadow-regal p-6 sm:p-8 space-y-6">
+            <div>
+              <h2 className="font-serif font-black text-xl text-[#1C1411]">
+                Customer Profile Information
+              </h2>
+              <p className="text-xs text-[#66574F]">
+                Update your contact information used for Sivakasi lorry transport updates and order notifications.
+              </p>
+            </div>
+
+            {profileMessage && (
+              <div
+                className={`p-3.5 rounded-2xl text-xs font-semibold flex items-center gap-2 ${
+                  profileMessage.type === 'success'
+                    ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
+                    : 'bg-red-50 border border-red-200 text-red-700'
+                }`}
+              >
+                {profileMessage.type === 'success' ? (
+                  <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                ) : (
+                  <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
+                )}
+                <span>{profileMessage.text}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleUpdateProfile} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
+                  Full Name *
+                </label>
+                <div className="relative">
+                  <User className="w-4 h-4 text-[#8C7A70] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    required
+                    value={profileForm.name}
+                    onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
+                    className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
+                  WhatsApp Contact Phone *
+                </label>
+                <div className="relative">
+                  <Phone className="w-4 h-4 text-[#8C7A70] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="tel"
+                    required
+                    value={profileForm.phone}
+                    onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
+                    className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
+                  Email Address *
+                </label>
+                <div className="relative">
+                  <Mail className="w-4 h-4 text-[#8C7A70] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="email"
+                    required
+                    value={profileForm.email}
+                    onChange={(e) => setProfileForm({ ...profileForm, email: e.target.value })}
+                    className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={profileSaving}
+                className="py-3 px-6 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white font-serif font-black text-xs uppercase tracking-wider shadow-regal transition disabled:opacity-50"
+              >
+                {profileSaving ? 'Saving Changes...' : 'Save Profile Details'}
+              </button>
+            </form>
+          </div>
+        )}
+
+        {/* ---------------------------------------------------- */}
+        {/* TAB 3: SAVED ADDRESSES                               */}
+        {/* ---------------------------------------------------- */}
+        {activeTab === 'addresses' && (
+          <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="font-serif font-black text-xl text-[#1C1411]">
+                  Saved Delivery Addresses
+                </h2>
+                <p className="text-xs text-[#66574F]">
+                  Manage home and commercial addresses for seamless one-click Diwali cracker checkout.
+                </p>
+              </div>
+
+              <button
+                onClick={handleOpenAddAddress}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white text-xs font-bold transition shadow-sm self-start sm:self-auto"
+              >
+                <Plus className="w-4 h-4" />
+                <span>+ Add New Address</span>
+              </button>
+            </div>
+
+            {loadingAddresses ? (
+              <div className="p-12 text-center text-xs text-gray-500 bg-white rounded-3xl border border-[#E2D7C5]">
+                Loading address book...
+              </div>
+            ) : addresses.length === 0 ? (
+              <div className="p-12 text-center space-y-3 bg-white rounded-3xl border border-[#E2D7C5]">
+                <MapPin className="w-10 h-10 text-[#C98E2A] mx-auto opacity-70" />
+                <h3 className="font-serif font-bold text-base text-[#1C1411]">No Addresses Saved</h3>
+                <p className="text-xs text-[#66574F] max-w-sm mx-auto">
+                  Add your primary delivery address in Hyderabad to speed up your order requests.
+                </p>
+                <button
+                  onClick={handleOpenAddAddress}
+                  className="inline-block px-5 py-2.5 rounded-xl bg-[#550C12] text-white text-xs font-bold font-serif shadow-md"
+                >
+                  + Add Your First Address
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {addresses.map((addr) => (
+                  <div
+                    key={addr.id}
+                    className={`p-5 rounded-3xl border bg-white shadow-sm flex flex-col justify-between gap-4 transition ${
+                      addr.is_default ? 'border-[#C98E2A] ring-1 ring-[#C98E2A]/50' : 'border-[#E2D7C5]'
+                    }`}
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-7 h-7 rounded-lg bg-[#FAF8F5] border border-[#E2D7C5] flex items-center justify-center text-[#550C12]">
+                            {addr.address_type === 'home' ? <Home className="w-3.5 h-3.5" /> : <Briefcase className="w-3.5 h-3.5" />}
+                          </div>
+                          <span className="font-bold text-xs text-[#1C1411] capitalize">
+                            {addr.address_type} Address
+                          </span>
+                        </div>
+                        {addr.is_default && (
+                          <span className="text-[10px] font-bold text-[#07542C] bg-[#EDF7EE] px-2.5 py-0.5 rounded-full border border-[#07542C]/20">
+                            Default Address
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="text-xs space-y-1 pt-1">
+                        <div className="font-bold text-[#1C1411]">
+                          {addr.recipient_name}{' '}
+                          <span className="font-normal text-gray-500 font-mono">({addr.phone})</span>
+                        </div>
+                        <div className="text-gray-600 leading-relaxed">{addr.address_line}</div>
+                        {addr.landmark && (
+                          <div className="text-gray-500 text-[11px]">
+                            <strong>Landmark:</strong> {addr.landmark}
+                          </div>
+                        )}
+                        <div className="text-gray-600">
+                          {addr.city}, {addr.state} - {addr.pincode}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-3 border-t border-gray-100 text-xs">
+                      {!addr.is_default ? (
+                        <button
+                          onClick={() => handleSetDefaultAddress(addr.id)}
+                          className="text-[11px] font-bold text-[#B85D00] hover:underline"
+                        >
+                          Set as Default
+                        </button>
+                      ) : (
+                        <span className="text-[11px] text-gray-400">Primary Delivery</span>
+                      )}
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleOpenEditAddress(addr)}
+                          className="p-1.5 rounded-lg text-gray-600 hover:text-[#550C12] hover:bg-gray-100 transition"
+                          title="Edit Address"
+                        >
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteAddress(addr.id)}
+                          className="p-1.5 rounded-lg text-gray-400 hover:text-red-700 hover:bg-red-50 transition"
+                          title="Delete Address"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ---------------------------------------------------- */}
+        {/* TAB 4: ORDERS HISTORY                                */}
+        {/* ---------------------------------------------------- */}
+        {activeTab === 'orders' && (
+          <div className="bg-white rounded-3xl border border-[#E2D7C5] shadow-regal overflow-hidden">
             <div className="p-6 border-b border-[#E2D7C5] bg-[#FAF8F5] flex items-center justify-between">
               <div>
                 <h2 className="font-serif font-black text-lg text-[#1C1411]">
-                  Your Diwali Cracker Orders
+                  Your Sivaji Firecracker Orders
                 </h2>
                 <p className="text-xs text-[#66574F]">
-                  Real-time status tracking and payment verification receipts.
+                  Real-time status tracking, payment verification, and dispatch invoices.
                 </p>
               </div>
               <span className="text-xs font-bold text-[#550C12] bg-white px-3 py-1 rounded-xl border border-[#E2D7C5]">
@@ -294,6 +900,12 @@ export default function CustomerAccountPage() {
                         <span>{new Date(ord.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                         <span>•</span>
                         <span>{ord.city} Destination</span>
+                        {ord.landmark && (
+                          <>
+                            <span>•</span>
+                            <span>Near {ord.landmark}</span>
+                          </>
+                        )}
                       </div>
                       <div className="text-xs text-[#550C12] font-bold">
                         Wholesale Total: ₹{Number(ord.final_amount).toLocaleString('en-IN')}{' '}
@@ -316,9 +928,302 @@ export default function CustomerAccountPage() {
               </div>
             )}
           </div>
-        </div>
+        )}
 
-        {/* Modal: Order Details & Invoice */}
+        {/* ---------------------------------------------------- */}
+        {/* TAB 5: SECURITY & PASSWORD                           */}
+        {/* ---------------------------------------------------- */}
+        {activeTab === 'security' && (
+          <div className="max-w-2xl bg-white rounded-3xl border border-[#E2D7C5] shadow-regal p-6 sm:p-8 space-y-6">
+            <div>
+              <h2 className="font-serif font-black text-xl text-[#1C1411]">
+                Account Security & Password
+              </h2>
+              <p className="text-xs text-[#66574F]">
+                Keep your customer account secure by choosing a strong password.
+              </p>
+            </div>
+
+            {passwordMessage && (
+              <div
+                className={`p-3.5 rounded-2xl text-xs font-semibold flex items-center gap-2 ${
+                  passwordMessage.type === 'success'
+                    ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
+                    : 'bg-red-50 border border-red-200 text-red-700'
+                }`}
+              >
+                {passwordMessage.type === 'success' ? (
+                  <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                ) : (
+                  <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
+                )}
+                <span>{passwordMessage.text}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleChangePassword} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
+                  Current Password *
+                </label>
+                <div className="relative">
+                  <Lock className="w-4 h-4 text-[#8C7A70] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="password"
+                    required
+                    value={passwordForm.current_password}
+                    onChange={(e) => setPasswordForm({ ...passwordForm, current_password: e.target.value })}
+                    placeholder="••••••••"
+                    className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
+                  New Password (min 6 chars) *
+                </label>
+                <div className="relative">
+                  <Lock className="w-4 h-4 text-[#8C7A70] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="password"
+                    required
+                    minLength={6}
+                    value={passwordForm.new_password}
+                    onChange={(e) => setPasswordForm({ ...passwordForm, new_password: e.target.value })}
+                    placeholder="••••••••"
+                    className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
+                  Confirm New Password *
+                </label>
+                <div className="relative">
+                  <Lock className="w-4 h-4 text-[#8C7A70] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="password"
+                    required
+                    minLength={6}
+                    value={passwordForm.new_password_confirmation}
+                    onChange={(e) => setPasswordForm({ ...passwordForm, new_password_confirmation: e.target.value })}
+                    placeholder="••••••••"
+                    className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={passwordSaving}
+                className="py-3 px-6 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white font-serif font-black text-xs uppercase tracking-wider shadow-regal transition disabled:opacity-50"
+              >
+                {passwordSaving ? 'Updating Password...' : 'Update Password'}
+              </button>
+            </form>
+          </div>
+        )}
+
+        {/* ---------------------------------------------------- */}
+        {/* MODAL: ADD / EDIT ADDRESS                            */}
+        {/* ---------------------------------------------------- */}
+        {showAddressModal && (
+          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="relative max-w-lg w-full bg-white rounded-3xl shadow-2xl p-6 sm:p-8 border border-[#E2D7C5] max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between pb-3 border-b border-[#E2D7C5] mb-4">
+                <h3 className="font-serif font-black text-lg text-[#1C1411]">
+                  {editingAddressId ? 'Edit Delivery Address' : 'Add New Delivery Address'}
+                </h3>
+                <button
+                  onClick={() => setShowAddressModal(false)}
+                  className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-800 flex items-center justify-center font-bold"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {addressError && (
+                <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold">
+                  {addressError}
+                </div>
+              )}
+
+              <form onSubmit={handleSaveAddress} className="space-y-4">
+                <div className="grid grid-cols-2 gap-3">
+                  <label
+                    className={`p-3 rounded-2xl border text-center text-xs font-bold cursor-pointer transition flex items-center justify-center gap-2 ${
+                      addressForm.address_type === 'home'
+                        ? 'border-[#C98E2A] bg-[#FFF8ED] text-[#550C12]'
+                        : 'border-[#E2D7C5] text-gray-600 hover:bg-gray-50'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="address_type"
+                      checked={addressForm.address_type === 'home'}
+                      onChange={() => setAddressForm({ ...addressForm, address_type: 'home' })}
+                      className="sr-only"
+                    />
+                    <Home className="w-4 h-4" />
+                    <span>Home</span>
+                  </label>
+
+                  <label
+                    className={`p-3 rounded-2xl border text-center text-xs font-bold cursor-pointer transition flex items-center justify-center gap-2 ${
+                      addressForm.address_type === 'office'
+                        ? 'border-[#C98E2A] bg-[#FFF8ED] text-[#550C12]'
+                        : 'border-[#E2D7C5] text-gray-600 hover:bg-gray-50'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="address_type"
+                      checked={addressForm.address_type === 'office'}
+                      onChange={() => setAddressForm({ ...addressForm, address_type: 'office' })}
+                      className="sr-only"
+                    />
+                    <Briefcase className="w-4 h-4" />
+                    <span>Office / Commercial</span>
+                  </label>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
+                      Recipient Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={addressForm.recipient_name}
+                      onChange={(e) => setAddressForm({ ...addressForm, recipient_name: e.target.value })}
+                      placeholder="e.g. Ramesh Kumar"
+                      className="w-full px-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
+                      Contact Phone *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      value={addressForm.phone}
+                      onChange={(e) => setAddressForm({ ...addressForm, phone: e.target.value })}
+                      placeholder="+91 98765 43210"
+                      className="w-full px-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
+                    Street Address *
+                  </label>
+                  <textarea
+                    required
+                    rows={2}
+                    value={addressForm.address_line}
+                    onChange={(e) => setAddressForm({ ...addressForm, address_line: e.target.value })}
+                    placeholder="Flat / Door No, Apartment name, Street..."
+                    className="w-full px-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
+                      Landmark (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      value={addressForm.landmark}
+                      onChange={(e) => setAddressForm({ ...addressForm, landmark: e.target.value })}
+                      placeholder="e.g. Near Metro Station"
+                      className="w-full px-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={addressForm.city}
+                      onChange={(e) => setAddressForm({ ...addressForm, city: e.target.value })}
+                      className="w-full px-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
+                      State
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={addressForm.state}
+                      onChange={(e) => setAddressForm({ ...addressForm, state: e.target.value })}
+                      className="w-full px-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
+                      Pincode
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={addressForm.pincode}
+                      onChange={(e) => setAddressForm({ ...addressForm, pincode: e.target.value })}
+                      placeholder="500034"
+                      className="w-full px-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A]"
+                    />
+                  </div>
+                </div>
+
+                <label className="flex items-center gap-2 cursor-pointer pt-1">
+                  <input
+                    type="checkbox"
+                    checked={addressForm.is_default}
+                    onChange={(e) => setAddressForm({ ...addressForm, is_default: e.target.checked })}
+                    className="rounded border-gray-300 text-[#550C12] focus:ring-[#C98E2A]"
+                  />
+                  <span className="text-xs text-gray-700">Make this my default delivery address</span>
+                </label>
+
+                <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
+                  <button
+                    type="button"
+                    onClick={() => setShowAddressModal(false)}
+                    className="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100 transition"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={addressSaving}
+                    className="px-5 py-2.5 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white text-xs font-bold transition disabled:opacity-50"
+                  >
+                    {addressSaving ? 'Saving...' : 'Save Address'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* ---------------------------------------------------- */}
+        {/* MODAL: ORDER DETAILS & PRINTABLE INVOICE             */}
+        {/* ---------------------------------------------------- */}
         {selectedOrder && (
           <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
             <div className="relative max-w-2xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl p-6 border border-[#E2D7C5] max-h-[90vh] overflow-y-auto">
@@ -353,7 +1258,8 @@ export default function CustomerAccountPage() {
                     {selectedOrder.customer_name} ({selectedOrder.customer_phone})
                   </div>
                   <div className="text-gray-600 mt-0.5">
-                    {selectedOrder.delivery_address}, {selectedOrder.city}, {selectedOrder.state} - {selectedOrder.pincode}
+                    {selectedOrder.delivery_address}
+                    {selectedOrder.landmark ? `, Near ${selectedOrder.landmark}` : ''}, {selectedOrder.city}, {selectedOrder.state} - {selectedOrder.pincode}
                   </div>
                   <div className="text-[#7B141C] font-semibold mt-1">
                     Transport: {selectedOrder.transport_hub}
@@ -396,11 +1302,22 @@ export default function CustomerAccountPage() {
                   </span>
                 </div>
 
-                {/* WhatsApp Admin Action */}
+                {/* Payment proof verification status */}
+                {selectedOrder.payment_confirmation && (
+                  <div className="p-3 rounded-2xl bg-gray-50 border border-gray-200 text-[11px] text-gray-600 space-y-1">
+                    <div className="font-bold text-[#1C1411]">UPI Payment Reference:</div>
+                    <div>UTR / Ref: <span className="font-mono font-bold text-[#B85D00]">{selectedOrder.payment_confirmation.utr_number}</span></div>
+                    {selectedOrder.payment_confirmation.verified_at && (
+                      <div className="text-emerald-700 font-semibold">Payment Verified on: {new Date(selectedOrder.payment_confirmation.verified_at).toLocaleDateString('en-IN')}</div>
+                    )}
+                  </div>
+                )}
+
+                {/* Post-order WhatsApp link strictly for this order */}
                 <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
                   <a
                     href={`https://wa.me/918374044445?text=${encodeURIComponent(
-                      `Hello Sivaji Crackers Admin, checking status of my Diwali order ${selectedOrder.order_number} (Amount: ₹${selectedOrder.final_amount}).`
+                      `Hello Sivaji Firecracker Admin, checking status of my Diwali order ${selectedOrder.order_number} (Amount: ₹${selectedOrder.final_amount}).`
                     )}`}
                     target="_blank"
                     className="w-full sm:flex-1 py-3 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center justify-center gap-2 transition"

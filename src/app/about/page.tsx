@@ -1,11 +1,11 @@
 import React from 'react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
-import { Sparkles, Users, Package, Award, MapPin, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Sparkles, Users, Package, Award, MapPin, ArrowRight, ShieldCheck, Phone } from 'lucide-react';
 
 export const metadata = {
-  title: 'About Us | Shivaji Crackers Sivakasi',
-  description: 'Learn about Shivaji Crackers - Sivakasi leading direct factory fireworks manufacturer & wholesale distributor serving Hyderabad and Pan-India.',
+  title: 'About Us | Sivaji Firecracker',
+  description: 'Learn about Sivaji Firecracker - leading direct factory fireworks manufacturer & wholesale distributor serving Hyderabad and Pan-India.',
 };
 
 export default function AboutPage() {
@@ -20,12 +20,12 @@ export default function AboutPage() {
     {
       num: '01',
       title: 'Our Sivakasi Heritage',
-      text: 'Shivaji Crackers is one of the leading Wholesale & Retail crackers shops operating directly from Sivakasi since 2017. We take immense pride in offering a wide assortment of top-quality fireworks that add royal sparkle, joy, and peace of mind to your festivities.',
+      text: 'Sivaji Firecracker is one of the leading Wholesale & Retail crackers shops operating directly from Sivakasi since 2017. We take immense pride in offering a wide assortment of top-quality fireworks that add royal sparkle, joy, and peace of mind to your festivities.',
     },
     {
       num: '02',
       title: 'A Symphony of Joy & Light',
-      text: 'Step into a world of celebration with our dazzling assortment of fireworks that turn any occasion into a mesmerizing spectacle. From the enchanting glow of 50cm sparklers to the thunderous applause of aerial fancy repeaters, our collection is a crafted symphony of excitement.',
+      text: 'Step into a world of celebration with our dazzling assortment of fireworks that turn any occasion into a mesmerizing spectacle. From the enchanting glow of sparklers to the thunderous applause of aerial fancy repeaters, our collection is a crafted symphony of excitement.',
     },
     {
       num: '03',
@@ -35,12 +35,12 @@ export default function AboutPage() {
     {
       num: '04',
       title: 'Shared Festive Memories',
-      text: 'Join us in lighting up the night sky with a symphony of colors, sounds, and emotions. Celebrate with Shivaji Crackers, where every firework tells a story of unity, tradition, and the unforgettable beauty of shared festive moments with family and friends.',
+      text: 'Join us in lighting up the night sky with a symphony of colors, sounds, and emotions. Celebrate with Sivaji Firecracker, where every firework tells a story of unity, tradition, and the unforgettable beauty of shared festive moments with family and friends.',
     },
     {
       num: '05',
       title: 'Exquisite Curation & Safe Logistics',
-      text: 'At Shivaji Crackers, we curate an exquisite collection that transcends ordinary retail fireworks. Whether it is a grand Diwali celebration, a festive wedding, or a community celebration in Hyderabad, our fireworks are packaged in heavy waterproof cartons for safe road transit.',
+      text: 'At Sivaji Firecracker, we curate an exquisite collection that transcends ordinary retail fireworks. Whether it is a grand Diwali celebration, a festive wedding, or a community celebration in Hyderabad, our fireworks are packaged in heavy waterproof cartons for safe road transit.',
     },
   ];
 
@@ -59,10 +59,10 @@ export default function AboutPage() {
             </span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-white mb-4">
-            About Shivaji Crackers
+            About Sivaji Firecracker
           </h1>
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-gray-200 leading-relaxed font-normal">
-            Direct factory gate fireworks distributor from Sivakasi, Tamil Nadu delivering verified CSIR-NEERI green crackers directly to Hyderabad, Telangana & Pan-India homes.
+            Direct factory gate fireworks distributor delivering verified CSIR-NEERI green crackers directly to Hyderabad, Telangana & Pan-India homes.
           </p>
         </div>
       </section>
@@ -118,23 +118,22 @@ export default function AboutPage() {
               Ready for Your Festival Celebration?
             </h3>
             <p className="text-xs sm:text-sm text-gray-200">
-              Browse our updated wholesale price list with 150+ varieties and save up to 70% with direct factory delivery to Hyderabad.
+              Browse our updated wholesale price list with 150+ varieties and save up to 80% with direct factory delivery to Hyderabad.
             </p>
             <div className="pt-2 flex flex-wrap justify-center gap-3">
               <a
-                href="/#catalog"
+                href="/estimate"
                 className="px-6 py-3 rounded-xl bg-[#F0B543] text-[#1C1411] font-bold text-xs shadow-md hover:bg-[#F8D279] transition-all flex items-center gap-2"
               >
                 <span>Open Price List</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
               <a
-                href="https://wa.me/918318270300?text=Hello%20Shivaji%20Crackers%2C%20I%20would%20like%20to%20know%20more%20about%20your%20factory%20orders."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs transition-all"
+                href="/contact"
+                className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs transition-all flex items-center gap-2"
               >
-                WhatsApp Inquiry (+91 8318270300)
+                <Phone className="w-4 h-4 text-[#F0B543]" />
+                <span>Contact Customer Care</span>
               </a>
             </div>
           </div>

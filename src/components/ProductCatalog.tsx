@@ -276,7 +276,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
         {viewMode === 'table' ? (
           <div className="bg-white rounded-3xl shadow-regal border border-[#E2D7C5] overflow-hidden">
             <div className="p-4 bg-[#FFF8ED] border-b border-[#E2D7C5] flex items-center justify-between text-xs font-serif font-bold text-[#550C12]">
-              <span>SHIVAJI CRACKERS SIVAKASI • OFFICIAL 2025 WHOLESALE PRICE LIST SHEET</span>
+              <span>SIVAJI FIRECRACKER • OFFICIAL 2025 WHOLESALE PRICE LIST SHEET</span>
               <span className="text-[#B85D00]">Showing {filteredProducts.length} Licensed Products</span>
             </div>
 

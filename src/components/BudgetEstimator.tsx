@@ -38,7 +38,7 @@ const TIERS: PackageTier[] = [
   },
   {
     id: 'grand',
-    name: 'Shivaji Royal Platinum Hamper',
+    name: 'Sivaji Royal Platinum Hamper',
     subtitle: 'Our Flagship Festive Collection (50 Items + Fancy Aerials)',
     budget: 5250,
     mrp: 17500,

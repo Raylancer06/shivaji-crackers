@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
 import confetti from 'canvas-confetti';
@@ -22,8 +22,11 @@ import {
   AlertCircle,
   Truck,
   Package,
+  Home,
+  Briefcase,
+  PlusCircle,
 } from 'lucide-react';
-import { api } from '@/services/api';
+import { api, CustomerAddress } from '@/services/api';
 
 export const CheckoutModal: React.FC = () => {
   const {
@@ -40,6 +43,9 @@ export const CheckoutModal: React.FC = () => {
   // Multi-step: 'details' -> 'upi_payment' -> 'success'
   const [checkoutStep, setCheckoutStep] = useState<'details' | 'upi_payment' | 'success'>('details');
 
+  const [savedAddresses, setSavedAddresses] = useState<CustomerAddress[]>([]);
+  const [selectedAddressId, setSelectedAddressId] = useState<number | 'new'>('new');
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -48,6 +54,7 @@ export const CheckoutModal: React.FC = () => {
     state: 'Telangana',
     address: '',
     pincode: '500034',
+    landmark: '',
     transport: 'VRL Logistics (Hyderabad Hub)',
     notes: '',
   });
@@ -58,6 +65,65 @@ export const CheckoutModal: React.FC = () => {
     screenshotPreview: '',
     notes: '',
   });
+
+  useEffect(() => {
+    const token = typeof window !== 'undefined' ? (localStorage.getItem('sivaji_token') || localStorage.getItem('sivaji_customer_token')) : null;
+    if (token) {
+      api.getAddresses(token).then((addresses) => {
+        if (Array.isArray(addresses) && addresses.length > 0) {
+          setSavedAddresses(addresses);
+          const def = addresses.find((a) => a.is_default) || addresses[0];
+          setSelectedAddressId(def.id);
+          setFormData((prev) => ({
+            ...prev,
+            name: def.recipient_name || prev.name,
+            phone: def.phone || prev.phone,
+            address: def.address_line || prev.address,
+            city: def.city || prev.city,
+            state: def.state || prev.state,
+            pincode: def.pincode || prev.pincode,
+            landmark: def.landmark || '',
+          }));
+        }
+      }).catch(() => {});
+
+      api.getProfile(token).then((prof) => {
+        if (prof?.data) {
+          setFormData((prev) => ({
+            ...prev,
+            name: prev.name || prof.data.name || '',
+            phone: prev.phone || prof.data.phone || '',
+            email: prev.email || prof.data.email || '',
+          }));
+        }
+      }).catch(() => {});
+    }
+  }, [isCheckoutOpen]);
+
+  const handleSelectAddress = (addr: CustomerAddress | 'new') => {
+    if (addr === 'new') {
+      setSelectedAddressId('new');
+      setFormData((prev) => ({
+        ...prev,
+        address: '',
+        landmark: '',
+        city: 'Hyderabad',
+        pincode: '500034',
+      }));
+    } else {
+      setSelectedAddressId(addr.id);
+      setFormData((prev) => ({
+        ...prev,
+        name: addr.recipient_name || prev.name,
+        phone: addr.phone || prev.phone,
+        address: addr.address_line,
+        city: addr.city,
+        state: addr.state,
+        pincode: addr.pincode,
+        landmark: addr.landmark || '',
+      }));
+    }
+  };
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submitError, setSubmitError] = useState<string>('');
@@ -148,6 +214,7 @@ export const CheckoutModal: React.FC = () => {
         city: formData.city,
         state: formData.state,
         pincode: formData.pincode,
+        landmark: formData.landmark,
         transport_hub: formData.transport,
         customer_notes: formData.notes,
         items: items.map((i) => ({
@@ -218,13 +285,16 @@ export const CheckoutModal: React.FC = () => {
       return;
     }
 
-    let text = `*DIWALI 2025 CONFIRMED FACTORY ORDER - SHIVAJI CRACKERS*\n`;
+    let text = `*DIWALI 2025 CONFIRMED FACTORY ORDER - SIVAJI FIRECRACKER*\n`;
     text += `*Order ID:* ${createdOrder.orderId}\n`;
     text += `*Date:* ${createdOrder.date}\n\n`;
     text += `*CUSTOMER DETAILS:*\n`;
     text += `*Name:* ${createdOrder.customer.name}\n`;
     text += `*Phone:* ${createdOrder.customer.phone}\n`;
     text += `*Address:* ${createdOrder.customer.address}, ${createdOrder.customer.city}, ${createdOrder.customer.state} - ${createdOrder.customer.pincode}\n`;
+    if (createdOrder.customer.landmark) {
+      text += `*Landmark:* ${createdOrder.customer.landmark}\n`;
+    }
     text += `*Preferred Transport Hub:* ${createdOrder.customer.transport}\n`;
     if (createdOrder.customer.notes) {
       text += `*Notes:* ${createdOrder.customer.notes}\n`;
@@ -232,7 +302,7 @@ export const CheckoutModal: React.FC = () => {
     text += `\n*PAYMENT VERIFICATION:*\n`;
     text += `*UPI ID Paid:* sivajiduddempudi422@axl\n`;
     text += `*UTR / Ref Number:* ${createdOrder.utrNumber}\n`;
-    text += `*Payment Screenshot:* Uploaded to Sivaji Admin System\n`;
+    text += `*Payment Screenshot:* Uploaded to Sivaji Firecracker Admin Portal\n`;
     text += `\n*ORDERED CRACKERS:*\n`;
     createdOrder.items.forEach((item, idx) => {
       const line = item.product.price * item.quantity;
@@ -336,6 +406,69 @@ export const CheckoutModal: React.FC = () => {
             {/* ---------------------------------------------------- */}
             {checkoutStep === 'details' && (
               <form onSubmit={handleProceedToPayment} className="space-y-4">
+                {savedAddresses.length > 0 && (
+                  <div className="mb-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-bold text-[#550C12] uppercase tracking-wider">
+                        Select Delivery Address
+                      </span>
+                      <span className="text-[11px] text-[#8C7A70]">Saved in Account</span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      {savedAddresses.map((addr) => {
+                        const isSelected = selectedAddressId === addr.id;
+                        return (
+                          <button
+                            key={addr.id}
+                            type="button"
+                            onClick={() => handleSelectAddress(addr)}
+                            className={`p-3 rounded-2xl border text-left transition flex items-start gap-2.5 ${
+                              isSelected
+                                ? 'border-[#C98E2A] bg-[#FFF8ED] shadow-sm ring-1 ring-[#C98E2A]'
+                                : 'border-[#E2D7C5] bg-white hover:border-[#C98E2A]/50'
+                            }`}
+                          >
+                            <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${
+                              isSelected ? 'bg-[#550C12] text-white' : 'bg-gray-100 text-gray-500'
+                            }`}>
+                              {addr.address_type === 'home' ? <Home className="w-3.5 h-3.5" /> : <Briefcase className="w-3.5 h-3.5" />}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs font-bold text-[#1C1411] capitalize">
+                                  {addr.address_type} {addr.is_default ? '(Default)' : ''}
+                                </span>
+                                {isSelected && <Check className="w-3.5 h-3.5 text-[#C98E2A]" />}
+                              </div>
+                              <p className="text-[11px] text-gray-600 line-clamp-1">{addr.recipient_name} ({addr.phone})</p>
+                              <p className="text-[11px] text-gray-500 line-clamp-1">{addr.address_line}, {addr.city}</p>
+                            </div>
+                          </button>
+                        );
+                      })}
+                      <button
+                        type="button"
+                        onClick={() => handleSelectAddress('new')}
+                        className={`p-3 rounded-2xl border text-left transition flex items-center gap-2.5 ${
+                          selectedAddressId === 'new'
+                            ? 'border-[#C98E2A] bg-[#FFF8ED] shadow-sm ring-1 ring-[#C98E2A]'
+                            : 'border-dashed border-[#E2D7C5] bg-white hover:border-[#C98E2A]/50'
+                        }`}
+                      >
+                        <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
+                          selectedAddressId === 'new' ? 'bg-[#550C12] text-white' : 'bg-gray-100 text-gray-500'
+                        }`}>
+                          <PlusCircle className="w-3.5 h-3.5" />
+                        </div>
+                        <div>
+                          <span className="text-xs font-bold text-[#1C1411]">+ Enter New Address</span>
+                          <p className="text-[11px] text-gray-500">Custom recipient or location</p>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
@@ -385,10 +518,24 @@ export const CheckoutModal: React.FC = () => {
                         onChange={handleInputChange}
                         required
                         rows={2}
-                        placeholder="Flat / Door No, Apartment name, Street, Landmark..."
+                        placeholder="Flat / Door No, Apartment name, Street..."
                         className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-white text-xs text-[#1C1411] outline-none focus:border-[#C98E2A]"
                       />
                     </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
+                      Landmark (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      name="landmark"
+                      value={formData.landmark}
+                      onChange={handleInputChange}
+                      placeholder="e.g. Near Metro Station, Opp. Shiva Temple"
+                      className="w-full px-3 py-2.5 rounded-xl border border-[#E2D7C5] bg-white text-xs text-[#1C1411] outline-none focus:border-[#C98E2A]"
+                    />
                   </div>
 
                   <div>
@@ -492,7 +639,7 @@ export const CheckoutModal: React.FC = () => {
                     <div className="w-44 h-44 rounded-2xl bg-[#FAF8F5] p-2 border border-[#E2D7C5] shrink-0 flex items-center justify-center shadow-inner">
                       <img
                         src={upiQrUrl}
-                        alt="Sivaji Crackers UPI QR"
+                        alt="Sivaji Firecracker UPI QR"
                         className="w-full h-full object-contain rounded-xl"
                       />
                     </div>

@@ -4,8 +4,8 @@ import { Footer } from '@/components/Footer';
 import { Sparkles, Building2, Smartphone, CheckCircle2, ArrowRight, ShieldCheck, HelpCircle } from 'lucide-react';
 
 export const metadata = {
-  title: 'Payment Information | Shivaji Crackers Sivakasi',
-  description: 'Verified Bank and UPI payment details for Shivaji Crackers Sivakasi factory direct orders.',
+  title: 'Payment Information | Sivaji Firecracker',
+  description: 'Verified Bank and UPI payment details for Sivaji Firecracker factory direct orders.',
 };
 
 export default function PaymentPage() {
@@ -26,7 +26,7 @@ export default function PaymentPage() {
             Payment Information
           </h1>
           <p className="max-w-2xl mx-auto text-xs sm:text-sm text-gray-200 leading-relaxed font-normal">
-            Safe, verified, and transparent banking channels for confirming your Shivaji Crackers Diwali 2025 factory dispatch.
+            Safe, verified, and transparent banking channels for confirming your Sivaji Firecracker Diwali 2025 factory dispatch.
           </p>
         </div>
       </section>
@@ -50,7 +50,7 @@ export default function PaymentPage() {
               <div className="space-y-3 bg-[#FAF8F5] p-4 rounded-2xl border border-[#E2D7C5] text-xs">
                 <div>
                   <span className="text-[10px] font-bold text-[#66574F] uppercase tracking-wider block">Account Name</span>
-                  <span className="font-bold text-[#1C1411] text-sm">SHIVAJI CRACKERS</span>
+                  <span className="font-bold text-[#1C1411] text-sm">SIVAJI FIRECRACKER</span>
                 </div>
                 <div>
                   <span className="text-[10px] font-bold text-[#66574F] uppercase tracking-wider block">Account Number</span>
@@ -107,14 +107,14 @@ export default function PaymentPage() {
             </div>
           </div>
 
-          {/* Admin WhatsApp Desk Card */}
+          {/* Customer Verification Helpline Card */}
           <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2D7C5] shadow-sm flex flex-col justify-between">
             <div>
-              <div className="w-12 h-12 rounded-2xl bg-[#EBF7F0] border border-[#A7E2BE] flex items-center justify-center text-[#07542C] mb-4">
+              <div className="w-12 h-12 rounded-2xl bg-[#FFF8ED] border border-[#C98E2A]/30 flex items-center justify-center text-[#B85D00] mb-4">
                 <Smartphone className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-black text-[#1C1411] mb-1">
-                Admin WhatsApp Desk
+                Customer Verification Desk
               </h3>
               <p className="text-xs text-[#66574F] mb-5">
                 Direct verification hotline for orders, UTR submission & lorry booking.
@@ -122,15 +122,15 @@ export default function PaymentPage() {
 
               <div className="bg-[#FAF8F5] p-4 rounded-2xl border border-[#E2D7C5] text-xs space-y-3">
                 <div>
-                  <span className="text-[10px] font-bold text-[#66574F] uppercase tracking-wider block">Admin WhatsApp Number</span>
-                  <span className="font-mono font-black text-base text-[#07542C]">+91 83740 44445</span>
+                  <span className="text-[10px] font-bold text-[#66574F] uppercase tracking-wider block">Helpline Number</span>
+                  <span className="font-mono font-black text-base text-[#550C12]">+91 83740 44445</span>
                 </div>
                 <div>
                   <span className="text-[10px] font-bold text-[#66574F] uppercase tracking-wider block">Operating Hours</span>
                   <span className="font-bold text-[#1C1411]">7:00 AM – 11:00 PM (Diwali Season)</span>
                 </div>
-                <div className="p-2.5 rounded-xl bg-emerald-50 text-[11px] text-[#07542C] font-medium leading-relaxed border border-[#A7E2BE]">
-                  Submit payment screenshot directly on WhatsApp for priority Sivakasi dispatch.
+                <div className="p-2.5 rounded-xl bg-amber-50 text-[11px] text-[#B85D00] font-medium leading-relaxed border border-amber-200">
+                  After placing your order online, submit payment proof in checkout or account portal.
                 </div>
               </div>
             </div>

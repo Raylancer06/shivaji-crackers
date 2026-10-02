@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Setting;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -80,6 +81,19 @@ class OrderController extends Controller
                     ], 400);
                 }
 
+                // Minimum Cart Value Server-Side Validation
+                $minCartValue = (float) Setting::get('minimum_cart_value', 2000);
+                if ($minCartValue > 0 && $totalSellingPrice < $minCartValue) {
+                    $diff = $minCartValue - $totalSellingPrice;
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => "Minimum order value is ₹" . number_format($minCartValue) . ". Please add ₹" . number_format($diff) . " more to continue.",
+                        'minimum_cart_value' => $minCartValue,
+                        'current_total' => $totalSellingPrice,
+                        'shortfall' => $diff,
+                    ], 422);
+                }
+
                 $discountAmount = $totalMRP - $totalSellingPrice;
                 $orderNumber = 'SIV-' . mt_rand(100000, 999999);
 
@@ -95,7 +109,8 @@ class OrderController extends Controller
                     'city' => $request->city ?: 'Hyderabad',
                     'state' => $request->state ?: 'Telangana',
                     'pincode' => $request->pincode ?: '500034',
-                    'transport_hub' => $request->transport_hub ?: 'VRL Logistics (Hyderabad Hub)',
+                    'landmark' => $request->landmark,
+                    'transport_hub' => $request->transport_hub ?: 'Hyderabad Transport Terminal',
                     'total_mrp' => $totalMRP,
                     'total_selling_price' => $totalSellingPrice,
                     'discount_amount' => $discountAmount,
@@ -110,6 +125,8 @@ class OrderController extends Controller
                     OrderItem::create($item);
                 }
 
+                $publicSettings = Setting::getPublicSettings();
+
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Order created successfully. Please submit payment confirmation.',
@@ -122,10 +139,10 @@ class OrderController extends Controller
                         'final_amount' => $order->final_amount,
                         'status' => $order->status,
                         'upi_instructions' => [
-                            'upi_id' => 'sivajiduddempudi422@axl',
-                            'recipient_name' => 'Sivaji Duddempudi',
+                            'upi_id' => $publicSettings['upi_id'],
+                            'recipient_name' => $publicSettings['upi_payee_name'],
                             'amount' => $order->final_amount,
-                            'admin_whatsapp' => '+91 83740 44445',
+                            'admin_whatsapp' => $publicSettings['business_phone'],
                         ],
                     ],
                 ], 201);

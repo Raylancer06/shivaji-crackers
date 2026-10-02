@@ -57,7 +57,7 @@ export const SafetySection: React.FC = () => {
             </h3>
 
             <p className="text-xs sm:text-sm text-[#66574F] leading-relaxed">
-              Sivaji Crackers firmly upholds statutory manufacturing guidelines. All pyrotechnics sold on this platform comply with Central Pollution Control Board (CPCB) norms.
+              Sivaji Firecracker firmly upholds statutory manufacturing guidelines. All pyrotechnics sold on this platform comply with Central Pollution Control Board (CPCB) norms.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">

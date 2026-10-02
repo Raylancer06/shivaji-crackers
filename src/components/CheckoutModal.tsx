@@ -46,7 +46,7 @@ export const CheckoutModal: React.FC = () => {
   const [checkoutStep, setCheckoutStep] = useState<'details' | 'upi_payment' | 'success'>('details');
 
   const [savedAddresses, setSavedAddresses] = useState<CustomerAddress[]>([]);
-  const [selectedAddressId, setSelectedAddressId] = useState<number | 'new'>('new');
+  const [selectedAddressId, setSelectedAddressId] = useState<string | number | 'new'>('new');
 
   const [formData, setFormData] = useState({
     name: '',
@@ -134,7 +134,7 @@ export const CheckoutModal: React.FC = () => {
 
   const [createdOrder, setCreatedOrder] = useState<{
     orderId: string;
-    backendId?: number;
+    backendId?: string | number;
     date: string;
     items: typeof items;
     customer: typeof formData;
@@ -203,7 +203,7 @@ export const CheckoutModal: React.FC = () => {
       minute: '2-digit',
     });
 
-    let backendOrderId: number | undefined;
+    let backendOrderId: string | number | undefined;
     let finalOrderNumber = fallbackOrderId;
     let serverWaLink: string | undefined;
 

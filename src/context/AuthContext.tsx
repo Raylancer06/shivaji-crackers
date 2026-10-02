@@ -2,9 +2,10 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { api } from '@/services/api';
+import { supabase } from '@/lib/supabase/client';
 
 export interface CustomerUser {
-  id: number;
+  id: string | number;
   name: string;
   email: string;
   phone: string;
@@ -29,7 +30,6 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const TOKEN_KEY = 'sivaji_token';
-const LEGACY_TOKEN_KEY = 'sivaji_customer_token';
 const USER_KEY = 'sivaji_user';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -41,97 +41,75 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const clearSessionStorage = useCallback(() => {
     try {
       localStorage.removeItem(TOKEN_KEY);
-      localStorage.removeItem(LEGACY_TOKEN_KEY);
       localStorage.removeItem(USER_KEY);
     } catch (e) {
-      // Handle private browsing or localStorage restrictions
+      // Ignore
     }
     setToken(null);
     setUser(null);
   }, []);
 
-  // Logout method (real backend logout + frontend state purge)
+  // Logout method
   const logout = useCallback(async () => {
-    const currentToken = token || (typeof window !== 'undefined' ? localStorage.getItem(TOKEN_KEY) : null);
-    if (currentToken) {
-      try {
-        await api.logout(currentToken);
-      } catch (err) {
-        console.warn('Backend logout encountered error, continuing local purge:', err);
-      }
+    try {
+      await api.logout();
+    } catch (err) {
+      console.warn('Logout error:', err);
     }
     clearSessionStorage();
-  }, [token, clearSessionStorage]);
+  }, [clearSessionStorage]);
 
-  // Refresh profile from authoritative backend API
+  // Refresh profile from Supabase
   const refreshProfile = useCallback(async (): Promise<CustomerUser | null> => {
-    const activeToken = token || (typeof window !== 'undefined' ? localStorage.getItem(TOKEN_KEY) || localStorage.getItem(LEGACY_TOKEN_KEY) : null);
-    if (!activeToken) {
-      clearSessionStorage();
-      return null;
-    }
-
     try {
-      const res = await api.getProfile(activeToken);
+      const res = await api.getProfile();
       if (res?.data) {
         setUser(res.data);
-        setToken(activeToken);
         localStorage.setItem(USER_KEY, JSON.stringify(res.data));
         return res.data;
       }
       return null;
     } catch (err: any) {
-      console.warn('Authentication token verification failed, resetting session:', err);
-      // If 401 or invalid token, immediately purge
-      clearSessionStorage();
       return null;
     }
-  }, [token, clearSessionStorage]);
+  }, []);
 
-  // Initialize session on mount
+  // Initialize session on mount + listen to Supabase auth state changes
   useEffect(() => {
     let isMounted = true;
 
     const initAuth = async () => {
       try {
-        const savedToken = localStorage.getItem(TOKEN_KEY) || localStorage.getItem(LEGACY_TOKEN_KEY);
-        const savedUserStr = localStorage.getItem(USER_KEY);
+        const { data: sessionData } = await supabase.auth.getSession();
+        const currentSession = sessionData?.session;
 
-        if (!savedToken) {
-          if (isMounted) {
-            setUser(null);
-            setToken(null);
-            setIsLoading(false);
-          }
-          return;
-        }
+        if (currentSession?.user) {
+          const accessToken = currentSession.access_token;
+          setToken(accessToken);
+          localStorage.setItem(TOKEN_KEY, accessToken);
 
-        // Optimistically set cached user to prevent flickering
-        if (savedUserStr && isMounted) {
-          try {
-            const parsed = JSON.parse(savedUserStr);
-            setUser(parsed);
-            setToken(savedToken);
-          } catch (e) {
-            // Ignore parse errors
+          // Get profile
+          const profileRes = await api.getProfile().catch(() => null);
+          if (isMounted && profileRes?.data) {
+            setUser(profileRes.data);
+            localStorage.setItem(USER_KEY, JSON.stringify(profileRes.data));
+          } else if (isMounted) {
+            const fallbackUser: CustomerUser = {
+              id: currentSession.user.id,
+              name: currentSession.user.user_metadata?.full_name || currentSession.user.email?.split('@')[0] || 'Customer',
+              email: currentSession.user.email || '',
+              phone: currentSession.user.user_metadata?.phone || '',
+              role: currentSession.user.user_metadata?.role || 'customer',
+            };
+            setUser(fallbackUser);
+            localStorage.setItem(USER_KEY, JSON.stringify(fallbackUser));
           }
-        }
-
-        // Authoritatively verify with backend
-        try {
-          const res = await api.getProfile(savedToken);
-          if (isMounted && res?.data) {
-            setUser(res.data);
-            setToken(savedToken);
-            localStorage.setItem(USER_KEY, JSON.stringify(res.data));
-          }
-        } catch (err) {
-          // Token expired or invalid on backend - purge session
+        } else {
           if (isMounted) {
             clearSessionStorage();
           }
         }
-      } catch (e) {
+      } catch (err) {
         if (isMounted) clearSessionStorage();
       } finally {
         if (isMounted) setIsLoading(false);
@@ -140,17 +118,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     initAuth();
 
-    // Cross-tab synchronization
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === TOKEN_KEY || e.key === USER_KEY) {
-        initAuth();
+    // Supabase Auth listener
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        setToken(session.access_token);
+        localStorage.setItem(TOKEN_KEY, session.access_token);
+        const profileRes = await api.getProfile().catch(() => null);
+        if (profileRes?.data) {
+          setUser(profileRes.data);
+          localStorage.setItem(USER_KEY, JSON.stringify(profileRes.data));
+        }
+      } else if (event === 'SIGNED_OUT') {
+        clearSessionStorage();
+      } else if (event === 'TOKEN_REFRESHED' && session) {
+        setToken(session.access_token);
+        localStorage.setItem(TOKEN_KEY, session.access_token);
       }
-    };
+    });
 
-    window.addEventListener('storage', handleStorageChange);
     return () => {
       isMounted = false;
-      window.removeEventListener('storage', handleStorageChange);
+      authListener?.subscription.unsubscribe();
     };
   }, [clearSessionStorage]);
 
@@ -159,9 +147,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(true);
     try {
       const res = await api.login(loginInput, pass);
-      if (res.data?.token && res.data?.user) {
-        const authToken = res.data.token;
+      if (res.data?.user) {
         const authUser = res.data.user;
+        const authToken = res.data.token;
 
         localStorage.setItem(TOKEN_KEY, authToken);
         localStorage.setItem(USER_KEY, JSON.stringify(authUser));
@@ -170,7 +158,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(authUser);
         return authUser;
       }
-      throw new Error(res.message || 'Login failed. Please verify credentials.');
+      throw new Error((res as any)?.message || 'Login failed. Please verify credentials.');
     } finally {
       setIsLoading(false);
     }
@@ -181,9 +169,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(true);
     try {
       const res = await api.register(formData);
-      if (res.data?.token && res.data?.user) {
-        const authToken = res.data.token;
+      if (res.data?.user) {
         const authUser = res.data.user;
+        const authToken = res.data.token;
 
         localStorage.setItem(TOKEN_KEY, authToken);
         localStorage.setItem(USER_KEY, JSON.stringify(authUser));

@@ -34,7 +34,7 @@ import {
 } from 'lucide-react';
 
 interface OrderItem {
-  id: number;
+  id: string | number;
   product_name: string;
   product_sku: string;
   box_quantity: number;
@@ -45,7 +45,7 @@ interface OrderItem {
 }
 
 interface OrderRecord {
-  id: number;
+  id: string | number;
   order_number: string;
   customer_name: string;
   customer_phone: string;
@@ -97,7 +97,7 @@ function AccountPortal() {
   const [addresses, setAddresses] = useState<CustomerAddress[]>([]);
   const [loadingAddresses, setLoadingAddresses] = useState<boolean>(false);
   const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
-  const [editingAddressId, setEditingAddressId] = useState<number | null>(null);
+  const [editingAddressId, setEditingAddressId] = useState<number | string | null>(null);
   const [addressForm, setAddressForm] = useState({
     address_type: 'home',
     recipient_name: '',
@@ -271,7 +271,7 @@ function AccountPortal() {
     }
   };
 
-  const handleDeleteAddress = async (id: number) => {
+  const handleDeleteAddress = async (id: string | number) => {
     if (!token || !confirm('Are you sure you want to delete this address?')) return;
     try {
       await api.deleteAddress(token, id);
@@ -281,7 +281,7 @@ function AccountPortal() {
     }
   };
 
-  const handleSetDefaultAddress = async (id: number) => {
+  const handleSetDefaultAddress = async (id: string | number) => {
     if (!token) return;
     try {
       await api.setDefaultAddress(token, id);

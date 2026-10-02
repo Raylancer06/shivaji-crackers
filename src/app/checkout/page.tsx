@@ -47,7 +47,7 @@ function CheckoutContent() {
   const [submitError, setSubmitError] = useState('');
 
   const [savedAddresses, setSavedAddresses] = useState<CustomerAddress[]>([]);
-  const [selectedAddressId, setSelectedAddressId] = useState<number | 'new'>('new');
+  const [selectedAddressId, setSelectedAddressId] = useState<string | number | 'new'>('new');
 
   const [formData, setFormData] = useState({
     name: '',

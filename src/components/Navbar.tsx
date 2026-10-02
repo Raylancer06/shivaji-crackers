@@ -115,15 +115,9 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
             >
               Contact Us
             </a>
-            <Link
-              href="/account"
-              className="hover:text-[#550C12] hover:border-b-2 hover:border-[#C98E2A] pb-0.5 transition-all whitespace-nowrap text-[#B85D00]"
-            >
-              My Account
-            </Link>
           </div>
 
-          {/* Actions: Search, Account, WhatsApp & Cart */}
+          {/* Actions: Search, Account & Cart */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {/* Search Input */}
             <div className="relative hidden md:block">
@@ -145,17 +139,6 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
             >
               <User className="w-4 h-4 text-[#550C12]" />
             </Link>
-
-            {/* Quick WhatsApp Admin Button */}
-            <a
-              href="https://wa.me/918374044445"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#EBF7F0] border border-[#A7E2BE] text-[#07542C] text-xs font-bold hover:bg-[#D5EFE0] transition-colors shadow-sm whitespace-nowrap"
-            >
-              <MessageCircle className="w-3.5 h-3.5 text-[#10B981]" />
-              <span>WhatsApp Admin</span>
-            </a>
 
             {/* Premium Cart Trigger */}
             <motion.button

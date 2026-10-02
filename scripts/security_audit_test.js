@@ -392,7 +392,7 @@ async function main() {
   // Place a valid test order and confirm retrieval
   console.log('Placing a valid test order to test end-to-end confirmation...');
   // Find a product with enough stock and price
-  const prodCheck = await pgClient.query("SELECT id, sku, selling_price, stock_quantity FROM public.products WHERE is_active = true AND stock_quantity > 10 LIMIT 1;");
+  const prodCheck = await pgClient.query("SELECT id, sku, selling_price, stock_quantity FROM public.products WHERE is_active = true AND stock_quantity >= 10 AND (selling_price * stock_quantity) >= 2500 ORDER BY selling_price DESC LIMIT 1;");
   if (prodCheck.rows.length > 0) {
     const prod = prodCheck.rows[0];
     const qty = Math.ceil(2100 / Number(prod.selling_price));

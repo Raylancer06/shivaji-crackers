@@ -228,7 +228,7 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-[#FAF8F5] flex flex-col justify-between font-sans">
       <Navbar />
 
-      <main className="flex-1 flex items-center justify-center p-4 py-12 sm:py-16">
+      <main className="flex-1 flex items-center justify-center p-4 pt-28 sm:pt-32 pb-12 sm:pb-16">
         <Suspense fallback={<div className="p-8 text-center text-xs text-gray-500">Loading registration...</div>}>
           <RegisterForm />
         </Suspense>

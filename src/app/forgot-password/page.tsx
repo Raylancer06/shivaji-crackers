@@ -36,7 +36,7 @@ export default function ForgotPasswordPage() {
     <div className="min-h-screen bg-[#FAF8F5] flex flex-col justify-between font-sans">
       <Navbar />
 
-      <main className="flex-1 flex items-center justify-center p-4 py-12 sm:py-16">
+      <main className="flex-1 flex items-center justify-center p-4 pt-28 sm:pt-32 pb-12 sm:pb-16">
         <div className="w-full max-w-md bg-white rounded-3xl border border-[#E2D7C5] shadow-regal p-8 sm:p-10 space-y-6">
           <div className="text-center space-y-1">
             <div className="w-12 h-12 rounded-2xl bg-[#FFF8ED] text-[#B85D00] border border-[#C98E2A]/30 flex items-center justify-center mx-auto mb-2 shadow-sm">

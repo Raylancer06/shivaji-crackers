@@ -332,7 +332,7 @@ function AccountPortal() {
     return (
       <div className="min-h-screen bg-[#FAF8F5] flex flex-col justify-between font-sans">
         <Navbar />
-        <main className="flex-1 flex items-center justify-center p-8">
+        <main className="flex-1 flex items-center justify-center p-8 pt-28 sm:pt-32">
           <div className="flex flex-col items-center gap-3">
             <Loader2 className="w-8 h-8 text-[#C98E2A] animate-spin" />
             <p className="text-xs text-[#66574F] font-semibold">Loading your customer account...</p>
@@ -348,7 +348,7 @@ function AccountPortal() {
     return (
       <div className="min-h-screen bg-[#FAF8F5] flex flex-col justify-between font-sans">
         <Navbar />
-        <main className="max-w-xl mx-auto px-4 py-20 text-center space-y-5">
+        <main className="max-w-xl mx-auto px-4 pt-28 sm:pt-32 pb-20 text-center space-y-5">
           <div className="w-16 h-16 rounded-full bg-[#FFF8ED] text-[#B85D00] border border-[#C98E2A]/30 flex items-center justify-center mx-auto shadow-sm">
             <User className="w-8 h-8 text-[#C98E2A]" />
           </div>
@@ -382,7 +382,7 @@ function AccountPortal() {
     <div className="min-h-screen bg-[#FAF8F5] flex flex-col justify-between font-sans">
       <Navbar />
 
-      <main className="max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 md:py-12 space-y-8">
+      <main className="max-w-7xl w-full mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-12 space-y-8">
         {/* Top Header Card */}
         <div className="bg-white rounded-3xl border border-[#E2D7C5] shadow-regal p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="flex items-center gap-4">

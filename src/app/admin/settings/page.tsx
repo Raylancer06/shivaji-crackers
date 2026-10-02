@@ -38,6 +38,11 @@ export default function AdminSettingsPage() {
     shipping_charge: '150',
     free_shipping_enabled: 'false',
     free_shipping_threshold: '5000',
+    bank_transfer_enabled: 'false',
+    bank_account_name: '',
+    bank_account_number: '',
+    bank_ifsc_code: '',
+    bank_name: '',
   });
 
   const [loading, setLoading] = useState(true);
@@ -385,6 +390,103 @@ export default function AdminSettingsPage() {
               <span className="text-[10px] text-stone-400 mt-1 block">
                 Official name shown on Google Pay, PhonePe, Paytm
               </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Bank Transfer Details (Optional / Future Use) */}
+        <div className="bg-white rounded-2xl p-6 border border-stone-200/80 shadow-xs space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-stone-100">
+            <div className="flex items-center gap-2.5">
+              <Building className="w-4 h-4 text-[#C98E2A]" />
+              <div>
+                <h2 className="font-serif font-black text-sm text-[#1C1411]">
+                  Direct Bank Transfer (NEFT / RTGS / IMPS)
+                </h2>
+                <span className="text-[11px] text-[#66574F]">
+                  Configure your business current account when ready. Currently disabled by default.
+                </span>
+              </div>
+            </div>
+            <span
+              className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                settings.bank_transfer_enabled === 'true'
+                  ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                  : 'bg-stone-100 text-stone-600 border border-stone-200'
+              }`}
+            >
+              {settings.bank_transfer_enabled === 'true' ? 'Visible to Customers' : 'Hidden from Customers'}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div className="sm:col-span-2">
+              <label className="block font-bold text-[#1C1411] mb-1">
+                Bank Transfer Visibility
+              </label>
+              <select
+                value={settings.bank_transfer_enabled === 'true' ? 'true' : 'false'}
+                onChange={(e) => handleChange('bank_transfer_enabled', e.target.value)}
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl font-bold text-xs"
+              >
+                <option value="false">Disabled (Hide Bank Details from Payment Page)</option>
+                <option value="true">Enabled (Show Bank Details on Payment Page)</option>
+              </select>
+              <span className="text-[10px] text-stone-400 mt-1 block">
+                Keep disabled if you do not want placeholder bank information visible to customers.
+              </span>
+            </div>
+
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1">
+                Account Holder / Business Name
+              </label>
+              <input
+                type="text"
+                placeholder="e.g. SIVAJI FIRECRACKER"
+                value={settings.bank_account_name || ''}
+                onChange={(e) => handleChange('bank_account_name', e.target.value)}
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl font-bold"
+              />
+            </div>
+
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1">
+                Bank Account Number
+              </label>
+              <input
+                type="text"
+                placeholder="e.g. 33090100007686"
+                value={settings.bank_account_number || ''}
+                onChange={(e) => handleChange('bank_account_number', e.target.value)}
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl font-mono font-bold"
+              />
+            </div>
+
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1">
+                IFSC Code
+              </label>
+              <input
+                type="text"
+                placeholder="e.g. BARB0SIVAKA"
+                value={settings.bank_ifsc_code || ''}
+                onChange={(e) => handleChange('bank_ifsc_code', e.target.value.toUpperCase())}
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl font-mono uppercase font-bold"
+              />
+            </div>
+
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1">
+                Bank Name & Branch
+              </label>
+              <input
+                type="text"
+                placeholder="e.g. Bank of Baroda, Hyderabad Main Branch"
+                value={settings.bank_name || ''}
+                onChange={(e) => handleChange('bank_name', e.target.value)}
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl"
+              />
             </div>
           </div>
         </div>

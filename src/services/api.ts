@@ -17,6 +17,11 @@ export interface StoreSettings {
   admin_notification_email?: string;
   support_phone?: string;
   support_email?: string;
+  bank_transfer_enabled?: boolean;
+  bank_account_name?: string;
+  bank_account_number?: string;
+  bank_ifsc_code?: string;
+  bank_name?: string;
   minimum_cart_value: number;
   upi_id: string;
   upi_payee_name: string;
@@ -171,6 +176,11 @@ export const api = {
         admin_notification_email: map['admin_notification_email'] || 'sivajiduddempudi42@gmail.com',
         support_phone: map['support_phone'] || '+91 83740 44445',
         support_email: map['support_email'] || 'sivajiduddempudi42@gmail.com',
+        bank_transfer_enabled: (map['bank_transfer_enabled'] || '').toLowerCase() === 'true',
+        bank_account_name: map['bank_account_name'] || '',
+        bank_account_number: map['bank_account_number'] || '',
+        bank_ifsc_code: map['bank_ifsc_code'] || '',
+        bank_name: map['bank_name'] || '',
         minimum_cart_value: Number(map['minimum_cart_value']) || 2000,
         upi_id: map['upi_id'] || 'sivajiduddempudi422@axl',
         upi_payee_name: map['upi_payee_name'] || 'Sivaji Duddempudi',
@@ -195,6 +205,11 @@ export const api = {
         admin_notification_email: 'sivajiduddempudi42@gmail.com',
         support_phone: '+91 83740 44445',
         support_email: 'sivajiduddempudi42@gmail.com',
+        bank_transfer_enabled: false,
+        bank_account_name: '',
+        bank_account_number: '',
+        bank_ifsc_code: '',
+        bank_name: '',
         minimum_cart_value: 2000,
         upi_id: 'sivajiduddempudi422@axl',
         upi_payee_name: 'Sivaji Duddempudi',

@@ -32,7 +32,6 @@ export interface CustomerAddress {
   state: string;
   pincode: string;
   landmark?: string;
-  transport_hub?: string;
   is_default: boolean;
   created_at?: string;
 }
@@ -46,7 +45,6 @@ export interface OrderPayload {
   state?: string;
   pincode?: string;
   landmark?: string;
-  transport_hub?: string;
   customer_notes?: string;
   user_id?: number;
   items: Array<{

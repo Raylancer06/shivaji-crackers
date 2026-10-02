@@ -23,7 +23,6 @@ class Order extends Model
         'state',
         'pincode',
         'landmark',
-        'transport_hub',
         'total_mrp',
         'total_selling_price',
         'discount_amount',

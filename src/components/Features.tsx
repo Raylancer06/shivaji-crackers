@@ -18,13 +18,13 @@ export const Features: React.FC = () => {
         {/* Title */}
         <div className="text-center max-w-3xl mx-auto mb-14">
           <span className="text-xs font-serif font-black uppercase tracking-widest text-[#B85D00] block mb-2">
-            Pure Sivakasi Heritage & Traceability
+            Premium Quality & Full Traceability
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-black text-[#1C1411] tracking-tight">
             Why Order Directly from Sivaji Firecracker?
           </h2>
           <p className="text-xs sm:text-sm text-[#550C12] font-semibold mt-1">
-            Genuine Sivakasi Craftsmanship • Zero Middlemen • Direct Factory Wholesale Rates
+            Genuine Master Craftsmanship • Transparent Pricing • Direct Wholesale Rates
           </p>
           <p className="text-xs sm:text-sm text-[#66574F] mt-2 leading-relaxed">
             Preserving festival joy with certified chemical safety, transparent wholesale pricing, and reliable delivery across Hyderabad, Telangana, and South India.
@@ -85,7 +85,7 @@ export const Features: React.FC = () => {
               </div>
               <h3 className="font-serif font-bold text-base text-[#1C1411]">Master Craftsmanship</h3>
               <p className="text-xs text-[#66574F] mt-2 leading-relaxed">
-                High-intensity titanium sparks, extended 60-second fountains, and synchronized multi-color sky repeaters hand-filled by Sivakasi veterans.
+                High-intensity titanium sparks, extended 60-second fountains, and synchronized multi-color sky repeaters hand-crafted by expert pyrotechnic veterans.
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-[#E2D7C5]/60 text-[11px] font-bold text-[#7B141C]">
@@ -105,14 +105,14 @@ export const Features: React.FC = () => {
                 Special Bulk Discounts For Gated Societies & Corporate Offices
               </h3>
               <p className="text-xs sm:text-sm text-[#66574F] leading-relaxed">
-                Organizing a community Diwali night in Hyderabad or corporate employee gifting? We provide custom family hamper bags, society banner printing, and direct pallet lorry delivery right to your society security gate.
+                Organizing a community Diwali night in Hyderabad or corporate employee gifting? We provide custom family hamper bags, society banner printing, and direct delivery right to your society security gate.
               </p>
               <div className="flex flex-wrap gap-4 pt-2 text-xs font-bold text-[#1C1411]">
                 <span className="flex items-center gap-1.5 text-[#07542C]">
-                  <CheckCircle2 className="w-4 h-4" /> Orders &gt; ₹25,000: Extra 5% Factory Rebate
+                  <CheckCircle2 className="w-4 h-4" /> Orders &gt; ₹25,000: Extra 5% Direct Rebate
                 </span>
                 <span className="flex items-center gap-1.5 text-[#07542C]">
-                  <CheckCircle2 className="w-4 h-4" /> Orders &gt; ₹50,000: Free Priority Road Freight
+                  <CheckCircle2 className="w-4 h-4" /> Orders &gt; ₹50,000: Free Priority Delivery
                 </span>
               </div>
             </div>
@@ -120,10 +120,10 @@ export const Features: React.FC = () => {
             <div className="lg:col-span-5 bg-[#FAF7F2] p-6 rounded-3xl border border-[#E2D7C5] flex flex-col gap-3 text-center">
               <h4 className="font-serif text-sm font-black text-[#1C1411]">Need a Custom Society Quotation?</h4>
               <p className="text-xs text-[#66574F]">
-                Reach our Sivakasi bulk dispatch coordinator directly on WhatsApp for custom billing and Hyderabad delivery timelines.
+                Reach our customer care team directly on WhatsApp for custom billing and Hyderabad delivery timelines.
               </p>
               <a
-                href="https://wa.me/918318270300?text=Hi%20Sivaji%20Crackers%2C%20we%20need%20a%20Diwali%20Bulk%20Quotation%20for%20our%20Gated%20Community%20in%20Hyderabad."
+                href="https://wa.me/918374044445?text=Hi%20Sivaji%20Firecracker%2C%20we%20need%20a%20Diwali%20Bulk%20Quotation%20for%20our%20Gated%20Community%20in%20Hyderabad."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="py-3 px-4 rounded-xl bg-[#07542C] hover:bg-[#054022] text-white font-bold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2"

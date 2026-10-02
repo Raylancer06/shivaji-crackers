@@ -27,7 +27,7 @@ const TIERS: PackageTier[] = [
     mrp: 10400,
     description: 'Perfect balanced festival pack for a family with sparklers, flower pots, chakkars, and colorful ground spinners.',
     itemsSummary: 'Family Gift Box (30 Items) + 5 Boxes Sparklers + Flower Pots + Ground Chakkars',
-    tag: 'Fulfills Sivakasi MOQ',
+    tag: 'Meets Minimum Order',
     itemSkus: [
       { sku: 'PROD-105', qty: 2 },
       { sku: 'PROD-011', qty: 5 },

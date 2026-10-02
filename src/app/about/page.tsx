@@ -5,7 +5,7 @@ import { Sparkles, Users, Package, Award, MapPin, ArrowRight, ShieldCheck, Phone
 
 export const metadata = {
   title: 'About Us | Sivaji Firecracker',
-  description: 'Learn about Sivaji Firecracker - leading direct factory fireworks manufacturer & wholesale distributor serving Hyderabad and Pan-India.',
+  description: 'Learn about Sivaji Firecracker - leading fireworks wholesale distributor based in Hyderabad, Telangana, India.',
 };
 
 export default function AboutPage() {
@@ -19,8 +19,8 @@ export default function AboutPage() {
   const milestones = [
     {
       num: '01',
-      title: 'Our Sivakasi Heritage',
-      text: 'Sivaji Firecracker is one of the leading Wholesale & Retail crackers shops operating directly from Sivakasi since 2017. We take immense pride in offering a wide assortment of top-quality fireworks that add royal sparkle, joy, and peace of mind to your festivities.',
+      title: 'Our Quality Heritage',
+      text: 'Sivaji Firecracker is one of the leading Wholesale & Retail crackers distributors based in Hyderabad, Telangana since 2017. We take immense pride in offering a wide assortment of top-quality fireworks that add royal sparkle, joy, and peace of mind to your festivities.',
     },
     {
       num: '02',
@@ -39,8 +39,8 @@ export default function AboutPage() {
     },
     {
       num: '05',
-      title: 'Exquisite Curation & Safe Logistics',
-      text: 'At Sivaji Firecracker, we curate an exquisite collection that transcends ordinary retail fireworks. Whether it is a grand Diwali celebration, a festive wedding, or a community celebration in Hyderabad, our fireworks are packaged in heavy waterproof cartons for safe road transit.',
+      title: 'Exquisite Curation & Safe Delivery',
+      text: 'At Sivaji Firecracker, we curate an exquisite collection that transcends ordinary retail fireworks. Whether it is a grand Diwali celebration, a festive wedding, or a community celebration in Hyderabad, our fireworks are packaged in heavy waterproof cartons for safe direct transit.',
     },
   ];
 
@@ -55,14 +55,14 @@ export default function AboutPage() {
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 border border-[#F0B543]/40 backdrop-blur-md mb-4">
             <Sparkles className="w-3.5 h-3.5 text-[#F0B543]" />
             <span className="text-xs font-bold uppercase tracking-widest text-[#F0B543]">
-              Authentic Sivakasi Pyrotechnics Since 2017
+              Authentic Green Pyrotechnics Since 2017
             </span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-white mb-4">
             About Sivaji Firecracker
           </h1>
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-gray-200 leading-relaxed font-normal">
-            Direct factory gate fireworks distributor delivering verified CSIR-NEERI green crackers directly to Hyderabad, Telangana & Pan-India homes.
+            Direct wholesale fireworks distributor delivering verified CSIR-NEERI green crackers directly to Hyderabad, Telangana & Pan-India homes.
           </p>
         </div>
       </section>

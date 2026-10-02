@@ -35,12 +35,12 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
           <div className="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
             <span className="flex h-1.5 w-1.5 rounded-full bg-[#10B981] shadow-[0_0_8px_#10B981] animate-pulse shrink-0" />
             <span className="text-[#F0B543] font-serif font-bold uppercase text-[10px] tracking-widest">
-              Diwali 2025 Factory Allocation
+              Festival Specials & Seasonal Offers
             </span>
             <span className="text-white/30 hidden sm:inline">•</span>
             <span className="text-white/80 hidden sm:inline">100% CSIR-NEERI Green Certified</span>
             <span className="text-white/30 hidden md:inline">•</span>
-            <span className="text-[#F0B543] hidden md:inline">Up to 80% Direct Factory Savings</span>
+            <span className="text-[#F0B543] hidden md:inline">Up to 80% Direct Wholesale Savings</span>
           </div>
 
           <div className="flex items-center gap-3 shrink-0">

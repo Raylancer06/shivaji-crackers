@@ -26,7 +26,6 @@ import { ImageLightboxModal } from '@/components/ImageLightboxModal';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { CartDrawer } from '@/components/CartDrawer';
-import { CheckoutModal } from '@/components/CheckoutModal';
 import { CartToast } from '@/components/CartToast';
 
 export default function ProductDetailPage() {
@@ -142,7 +141,7 @@ export default function ProductDetailPage() {
             <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E2D7C5] flex items-center justify-between text-xs">
               <span className="flex items-center gap-2 text-[#550C12] font-bold">
                 <Package className="w-4 h-4 text-[#C98E2A]" />
-                <span>Standard Sivakasi Factory Allocation</span>
+                <span>Standard Festival Quality Allocation</span>
               </span>
               <span className="font-mono text-[#07542C] font-semibold text-[11px] bg-[#EBF7F0] px-2.5 py-0.5 rounded-full">
                 PESO Certified
@@ -396,7 +395,6 @@ export default function ProductDetailPage() {
       />
 
       <CartDrawer />
-      <CheckoutModal />
       <CartToast />
       <Footer />
     </div>

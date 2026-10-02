@@ -13,7 +13,6 @@ import { SafetySection } from '@/components/SafetySection';
 import { CustomerTestimonials } from '@/components/CustomerTestimonials';
 import { Footer } from '@/components/Footer';
 import { CartDrawer } from '@/components/CartDrawer';
-import { CheckoutModal } from '@/components/CheckoutModal';
 import { LiveOrderTicker } from '@/components/LiveOrderTicker';
 
 export default function Home() {
@@ -33,7 +32,6 @@ export default function Home() {
       <CustomerTestimonials />
       <Footer />
       <CartDrawer />
-      <CheckoutModal />
       <LiveOrderTicker />
     </main>
   );

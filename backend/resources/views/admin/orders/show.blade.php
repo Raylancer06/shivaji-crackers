@@ -22,11 +22,11 @@
             @php
                 $cleanPhone = preg_replace('/[^0-9]/', '', $order->customer_phone);
                 if (strlen($cleanPhone) === 10) $cleanPhone = '91' . $cleanPhone;
-                $custWaMsg = "Hello {$order->customer_name}, regarding your Sivaji Firecracker Diwali order {$order->order_number} (Amount: ₹" . number_format($order->final_amount) . "). ";
+                $custWaMsg = "Hello {$order->customer_name}, regarding your Sivaji Firecracker order {$order->order_number} (Amount: ₹" . number_format($order->final_amount) . "). ";
                 if ($order->status === 'confirmed') {
                     $custWaMsg .= "Your UPI payment has been VERIFIED. We are preparing your crackers for packaging.";
                 } elseif ($order->status === 'dispatched') {
-                    $custWaMsg .= "Your order has been DISPATCHED via {$order->transport_hub}. Lorry receipt will follow shortly.";
+                    $custWaMsg .= "Your order has been DISPATCHED. Delivery tracking details will follow shortly.";
                 } else {
                     $custWaMsg .= "We have received your order request and payment confirmation.";
                 }
@@ -67,13 +67,6 @@
                         <div class="text-[#66574F] font-semibold">Delivery Address</div>
                         <div class="font-medium text-[#1C1411] mt-0.5 leading-relaxed bg-[#FAF8F5] p-3 rounded-xl border border-[#E5DBC8]">
                             {{ $order->delivery_address }}, {{ $order->city }}, {{ $order->state }} - {{ $order->pincode }}
-                        </div>
-                    </div>
-
-                    <div class="sm:col-span-2">
-                        <div class="text-[#66574F] font-semibold">Preferred Sivakasi Transport Hub</div>
-                        <div class="font-bold text-[#7B141C] mt-0.5">
-                            {{ $order->transport_hub }}
                         </div>
                     </div>
 
@@ -270,7 +263,7 @@
                         <label class="block text-xs font-bold text-[#550C12] uppercase tracking-wider mb-1">
                             Internal Admin Notes
                         </label>
-                        <textarea name="admin_notes" rows="2" placeholder="e.g. VRL LR Number 849201 booked..." class="w-full p-2.5 rounded-xl border border-[#E5DBC8] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:border-[#C98E2A]">{{ $order->admin_notes }}</textarea>
+                        <textarea name="admin_notes" rows="2" placeholder="e.g. Order packed, tracking number assigned..." class="w-full p-2.5 rounded-xl border border-[#E5DBC8] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:border-[#C98E2A]">{{ $order->admin_notes }}</textarea>
                     </div>
 
                     <button type="submit" class="w-full py-3 px-4 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white font-serif font-black text-xs uppercase tracking-wider shadow-md transition">

@@ -7,8 +7,8 @@
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-            <h1 class="font-serif font-black text-2xl sm:text-3xl text-[#1C1411]">Diwali Factory Operations Hub</h1>
-            <p class="text-xs sm:text-sm text-[#66574F] mt-1">Live order tracking, payment verification, and Sivakasi transport allocations.</p>
+            <h1 class="font-serif font-black text-2xl sm:text-3xl text-[#1C1411]">Store Operations Dashboard</h1>
+            <p class="text-xs sm:text-sm text-[#66574F] mt-1">Live order tracking, customer management, and payment verification.</p>
         </div>
         <div class="flex items-center gap-3">
             <a href="{{ route('admin.orders.index', ['status' => 'pending_verification']) }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-md transition">
@@ -128,7 +128,7 @@
                             </td>
                             <td class="p-4">
                                 <div class="font-semibold text-gray-800">{{ $order->city }}</div>
-                                <div class="text-[11px] text-[#7B141C] truncate max-w-xs">{{ $order->transport_hub }}</div>
+                                <div class="text-[11px] text-gray-500 truncate max-w-xs">{{ $order->delivery_address }}</div>
                             </td>
                             <td class="p-4 text-right font-black text-sm text-[#550C12]">
                                 ₹{{ number_format($order->final_amount) }}

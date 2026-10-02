@@ -26,7 +26,7 @@ export default function PaymentPage() {
             Payment Information
           </h1>
           <p className="max-w-2xl mx-auto text-xs sm:text-sm text-gray-200 leading-relaxed font-normal">
-            Safe, verified, and transparent banking channels for confirming your Sivaji Firecracker Diwali 2025 factory dispatch.
+            Safe, verified, and transparent payment channels for confirming your Sivaji Firecracker festival order.
           </p>
         </div>
       </section>
@@ -62,7 +62,7 @@ export default function PaymentPage() {
                 </div>
                 <div>
                   <span className="text-[10px] font-bold text-[#66574F] uppercase tracking-wider block">Bank & Branch</span>
-                  <span className="font-medium text-[#1C1411]">Bank of Baroda, Sivakasi Main Branch</span>
+                  <span className="font-medium text-[#1C1411]">Bank of Baroda, Hyderabad Main Branch</span>
                 </div>
               </div>
             </div>

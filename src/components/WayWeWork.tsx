@@ -27,13 +27,13 @@ const STEPS: Step[] = [
   {
     id: 1,
     title: 'Curating Quality Products',
-    badge: 'Step 01 • Factory Quality',
+    badge: 'Step 01 • Premium Quality',
     shortDesc: 'Curating Quality Products',
     description:
-      'We carefully select a diverse range of high-quality, safe, and eco-friendly crackers from trusted Sivakasi master craftsmen and certified manufacturers.',
+      'We carefully select a diverse range of high-quality, safe, and eco-friendly crackers from trusted and certified pyrotechnic manufacturers.',
     icon: Sparkles,
     highlights: [
-      '100% Genuine Sivakasi Factory Direct Stock',
+      '100% Genuine Certified Green Stock',
       'Tested for consistent burst timing and spark intensity',
       'Zero counterfeit formulations',
     ],
@@ -61,8 +61,8 @@ const STEPS: Step[] = [
       'Visit our interactive digital price list to explore over 150+ varieties of crackers. Select your favourite items, customize quantities, and view real-time wholesale estimates.',
     icon: ShoppingBag,
     highlights: [
-      'Transparent factory wholesale rates with up to 70% off MRP',
-      'Instant minimum order threshold checker (₹3,000 Sivakasi MOQ)',
+      'Transparent wholesale rates with up to 80% off MRP',
+      'Instant minimum order threshold checker (₹2,000 Minimum Cart Value)',
       '1-click family bundle estimators',
     ],
   },
@@ -72,10 +72,10 @@ const STEPS: Step[] = [
     badge: 'Step 04 • Fast Verification',
     shortDesc: 'Order Confirmation & Payment',
     description:
-      'After submitting your estimate inquiry, our Sivaji Firecracker customer desk contacts you within 2 hours to confirm stock and shares verified payment details (UPI / Bank Transfer).',
+      'After placing your order online, your order is recorded in the Sivaji Firecracker admin portal and payment is verified via UPI or Bank Transfer.',
     icon: CreditCard,
     highlights: [
-      'Quick phone confirmation on +91 83740 44445',
+      'Quick phone support on +91 83740 44445',
       'Transparent payment via GPay, PhonePe, or NEFT/RTGS',
       'Official printable estimate invoice generated immediately',
     ],

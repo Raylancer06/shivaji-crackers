@@ -106,13 +106,13 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF8ED] text-[#B85D00] text-xs font-serif font-bold uppercase tracking-wider mb-2 border border-[#C98E2A]/30">
               <Sparkles className="w-3.5 h-3.5 text-[#C98E2A]" />
-              <span>Sivakasi Factory Direct Allocation</span>
+              <span>Direct Wholesale Allocation</span>
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl font-black text-[#1C1411] tracking-tight">
               Wholesale Crackers Price List & Store
             </h2>
             <p className="text-xs sm:text-sm text-[#66574F] mt-1 max-w-2xl font-normal">
-              Direct Sivakasi Factory Rates • Flat 70% Discount on Retail MRP • Hyderabad Express Road Delivery
+              Direct Wholesale Rates • Up to 80% Discount on Retail MRP • Hyderabad Express Delivery
             </p>
           </div>
 
@@ -276,7 +276,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
         {viewMode === 'table' ? (
           <div className="bg-white rounded-3xl shadow-regal border border-[#E2D7C5] overflow-hidden">
             <div className="p-4 bg-[#FFF8ED] border-b border-[#E2D7C5] flex items-center justify-between text-xs font-serif font-bold text-[#550C12]">
-              <span>SIVAJI FIRECRACKER • OFFICIAL 2025 WHOLESALE PRICE LIST SHEET</span>
+              <span>SIVAJI FIRECRACKER • OFFICIAL FESTIVAL WHOLESALE PRICE LIST SHEET</span>
               <span className="text-[#B85D00]">Showing {filteredProducts.length} Licensed Products</span>
             </div>
 
@@ -406,7 +406,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
 
-                      {/* Sivakasi Factory Discount Stamp (≤ 80%) */}
+                      {/* Wholesale Discount Stamp (≤ 80%) */}
                       <div className="absolute top-3 left-3 bg-[#7B141C] text-white px-2.5 py-0.5 rounded-full text-xs font-serif font-black shadow-md border border-[#F0B543]/40">
                         {discountPct}% OFF
                       </div>

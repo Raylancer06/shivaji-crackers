@@ -26,8 +26,8 @@ class DatabaseSeeder extends Seeder
                 'phone' => '+918374044445',
                 'password' => Hash::make('Sivaji@2025!'),
                 'role' => 'admin',
-                'city' => 'Sivakasi',
-                'state' => 'Tamil Nadu',
+                'city' => 'Hyderabad',
+                'state' => 'Telangana',
             ]
         );
 
@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
         $customer = User::firstOrCreate(
             ['email' => 'customer@sivajicrackers.com'],
             [
-                'name' => 'Hyderabad Wholesale Retailer',
+                'name' => 'Hyderabad Customer',
                 'phone' => '+919876543210',
                 'password' => Hash::make('Customer@2025!'),
                 'role' => 'customer',
@@ -43,7 +43,6 @@ class DatabaseSeeder extends Seeder
                 'city' => 'Hyderabad',
                 'state' => 'Telangana',
                 'pincode' => '500033',
-                'transport_hub' => 'VRL Logistics (Hyderabad Hub)',
             ]
         );
 
@@ -119,14 +118,13 @@ class DatabaseSeeder extends Seeder
                 'city' => 'Hyderabad',
                 'state' => 'Telangana',
                 'pincode' => '500033',
-                'transport_hub' => 'VRL Logistics (Hyderabad Hub)',
                 'total_mrp' => 4500.00,
                 'total_selling_price' => 1125.00,
                 'discount_amount' => 3375.00,
                 'final_amount' => 1125.00,
                 'status' => 'pending_verification',
                 'payment_status' => 'submitted',
-                'customer_notes' => 'Please confirm Sivakasi lorry dispatch booking for Hyderabad pickup.',
+                'customer_notes' => 'Please confirm order dispatch.',
             ]
         );
 

@@ -29,9 +29,9 @@ const SPECS = [
   },
   {
     icon: Award,
-    title: 'Supreme Sivakasi Quality',
+    title: 'Supreme Festive Quality',
     description:
-      'The difference lies in our rigorous manufacturing standards. Every chemical batch undergoes laboratory humidity and flash-point testing, ensuring 100% reliable ignition and safe family enjoyment.',
+      'The difference lies in our rigorous quality standards. Every chemical batch undergoes laboratory humidity and flash-point testing, ensuring 100% reliable ignition and safe family enjoyment.',
   },
   {
     icon: Sparkles,
@@ -149,7 +149,7 @@ export const Specifications: React.FC = () => {
                 </div>
                 <div className="pt-4 mt-4 border-t border-[#E2D7C5]/50 flex items-center gap-1.5 text-[11px] font-bold text-[#07542C]">
                   <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>Sivakasi Factory Certified</span>
+                  <span>Quality Tested & Certified</span>
                 </div>
               </div>
             );

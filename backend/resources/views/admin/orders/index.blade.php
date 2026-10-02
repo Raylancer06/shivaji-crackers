@@ -61,7 +61,7 @@
                     <tr>
                         <th class="p-4">Order ID & Date</th>
                         <th class="p-4">Customer Details</th>
-                        <th class="p-4">Hyderabad Delivery & Transport</th>
+                        <th class="p-4">Delivery Location</th>
                         <th class="p-4 text-center">Boxes</th>
                         <th class="p-4 text-right">Order Amount</th>
                         <th class="p-4">Payment UTR</th>
@@ -86,7 +86,7 @@
                             </td>
                             <td class="p-4">
                                 <div class="font-semibold text-gray-800">{{ $order->city }}, {{ $order->state }}</div>
-                                <div class="text-[11px] text-[#7B141C] truncate max-w-xs">{{ $order->transport_hub }}</div>
+                                <div class="text-[11px] text-gray-500 truncate max-w-xs">{{ $order->delivery_address }}</div>
                             </td>
                             <td class="p-4 text-center font-bold">
                                 {{ $order->items->sum('quantity') }}

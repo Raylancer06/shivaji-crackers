@@ -23,7 +23,6 @@ class CustomerAuthController extends Controller
             'city' => 'nullable|string|max:100',
             'state' => 'nullable|string|max:100',
             'pincode' => 'nullable|string|max:10',
-            'transport_hub' => 'nullable|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -44,7 +43,6 @@ class CustomerAuthController extends Controller
             'city' => $request->city ?: 'Hyderabad',
             'state' => $request->state ?: 'Telangana',
             'pincode' => $request->pincode ?: '500034',
-            'transport_hub' => $request->transport_hub ?: 'Standard Delivery',
         ]);
 
         $token = $user->createToken('customer-auth')->plainTextToken;
@@ -62,7 +60,6 @@ class CustomerAuthController extends Controller
                     'city' => $user->city,
                     'state' => $user->state,
                     'pincode' => $user->pincode,
-                    'transport_hub' => $user->transport_hub,
                 ],
                 'token' => $token,
             ],
@@ -116,7 +113,6 @@ class CustomerAuthController extends Controller
                     'city' => $user->city,
                     'state' => $user->state,
                     'pincode' => $user->pincode,
-                    'transport_hub' => $user->transport_hub,
                 ],
                 'token' => $token,
             ],
@@ -139,7 +135,6 @@ class CustomerAuthController extends Controller
                 'city' => $user->city,
                 'state' => $user->state,
                 'pincode' => $user->pincode,
-                'transport_hub' => $user->transport_hub,
             ],
         ]);
     }
@@ -172,7 +167,6 @@ class CustomerAuthController extends Controller
             'city' => 'sometimes|string|max:100',
             'state' => 'sometimes|string|max:100',
             'pincode' => 'sometimes|string|max:10',
-            'transport_hub' => 'sometimes|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -184,7 +178,7 @@ class CustomerAuthController extends Controller
         }
 
         $user->update($request->only([
-            'name', 'phone', 'address_line', 'city', 'state', 'pincode', 'transport_hub'
+            'name', 'phone', 'address_line', 'city', 'state', 'pincode'
         ]));
 
         return response()->json([

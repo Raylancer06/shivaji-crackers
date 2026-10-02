@@ -37,7 +37,7 @@
                         <th class="p-4">Customer Name</th>
                         <th class="p-4">WhatsApp Phone</th>
                         <th class="p-4">Email</th>
-                        <th class="p-4">Delivery City & Hub</th>
+                        <th class="p-4">City & State</th>
                         <th class="p-4 text-center">Orders Placed</th>
                         <th class="p-4">Registered Date</th>
                         <th class="p-4 text-center">Contact</th>
@@ -51,7 +51,7 @@
                             <td class="p-4 text-gray-600">{{ $customer->email }}</td>
                             <td class="p-4">
                                 <div class="font-semibold text-gray-800">{{ $customer->city ?? 'Hyderabad' }}</div>
-                                <div class="text-[11px] text-[#7B141C]">{{ $customer->transport_hub ?? 'VRL Logistics' }}</div>
+                                <div class="text-[11px] text-gray-500">{{ $customer->state ?? 'Telangana' }}</div>
                             </td>
                             <td class="p-4 text-center font-bold text-sm text-[#B85D00]">
                                 {{ $customer->orders_count }}

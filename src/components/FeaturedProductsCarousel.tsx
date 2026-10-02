@@ -83,13 +83,13 @@ export const FeaturedProductsCarousel: React.FC = () => {
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF8ED] text-[#B85D00] text-xs font-bold uppercase tracking-wider mb-2 border border-[#C98E2A]/30">
               <Sparkles className="w-3.5 h-3.5 text-[#C98E2A]" />
-              <span>Diwali 2025 Bestsellers</span>
+              <span>Festival Bestsellers & Top Picks</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-black text-[#1C1411] tracking-tight">
               Featured Festive Crackers
             </h2>
             <p className="text-xs sm:text-sm text-[#66574F] mt-1 max-w-xl font-normal">
-              Direct factory gate pyrotechnics with up to 80% factory direct wholesale discounts. Handpicked favorites ready for express dispatch.
+              Direct wholesale pyrotechnics with up to 80% discount savings. Handpicked favorites ready for direct delivery.
             </p>
           </div>
 

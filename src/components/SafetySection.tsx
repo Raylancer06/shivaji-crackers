@@ -26,7 +26,7 @@ export const SafetySection: React.FC = () => {
             </h3>
 
             <p className="text-xs text-gray-300 mt-2.5 leading-relaxed">
-              Every firework manufactured at our Sivakasi godown carries the statutory CSIR-NEERI Green Logo and QR code. Customers can scan the box using any smartphone to instantly inspect the approved chemical formulation certificate.
+              Every firework supplied by Sivaji Firecracker carries the statutory CSIR-NEERI Green Logo and QR code. Customers can scan the box using any smartphone to instantly inspect the approved chemical formulation certificate.
             </p>
 
             <div className="mt-6 pt-6 border-t border-white/15 space-y-2.5 text-xs text-gray-200">

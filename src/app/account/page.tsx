@@ -549,7 +549,7 @@ function AccountPortal() {
                 ) : orders.length === 0 ? (
                   <div className="text-center py-8 space-y-3">
                     <Package className="w-8 h-8 text-[#C98E2A] mx-auto opacity-60" />
-                    <p className="text-xs text-[#66574F]">No orders placed yet for Diwali 2025.</p>
+                    <p className="text-xs text-[#66574F]">No orders placed yet.</p>
                     <Link
                       href="/estimate"
                       className="inline-block px-4 py-2 rounded-xl bg-[#550C12] text-white text-xs font-bold font-serif"

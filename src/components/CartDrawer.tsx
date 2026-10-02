@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
 import { api } from '@/services/api';
@@ -17,6 +18,7 @@ import {
 } from 'lucide-react';
 
 export const CartDrawer: React.FC = () => {
+  const router = useRouter();
   const {
     items,
     isCartOpen,
@@ -31,7 +33,6 @@ export const CartDrawer: React.FC = () => {
     moqTarget,
     moqMet,
     moqProgress,
-    setIsCheckoutOpen,
   } = useCart();
 
   const [minCartValue, setMinCartValue] = useState<number>(2000);
@@ -51,7 +52,7 @@ export const CartDrawer: React.FC = () => {
   const handleProceedCheckout = () => {
     if (!isMinMet) return;
     setIsCartOpen(false);
-    setIsCheckoutOpen(true);
+    router.push('/checkout');
   };
 
   return (
@@ -263,8 +264,8 @@ export const CartDrawer: React.FC = () => {
                       <span className="line-through">₹{totalMRP.toLocaleString('en-IN')}</span>
                     </div>
                     <div className="flex justify-between text-[#07542C] font-bold">
-                      <span>Direct Sivakasi Factory Discount:</span>
-                      <span>-₹{totalSavings.toLocaleString('en-IN')} (70% Off)</span>
+                      <span>Festival Special Discount:</span>
+                      <span>-₹{totalSavings.toLocaleString('en-IN')} (Wholesale Savings)</span>
                     </div>
                     <div className="flex justify-between text-sm sm:text-base font-serif font-black text-[#1C1411] pt-2 border-t border-[#E2D7C5]">
                       <span>Net Wholesale Total:</span>
@@ -298,7 +299,7 @@ export const CartDrawer: React.FC = () => {
                   </div>
 
                   <p className="text-[10px] text-center text-[#8C7A70]">
-                    Official PESO & CSIR-NEERI Green Certified Dispatch from Sivakasi Godown
+                    Official PESO & CSIR-NEERI Green Certified Fireworks | Sivaji Firecracker
                   </p>
                 </div>
               )}

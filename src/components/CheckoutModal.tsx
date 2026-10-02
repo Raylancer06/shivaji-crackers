@@ -218,7 +218,6 @@ export const CheckoutModal: React.FC = () => {
         state: formData.state,
         pincode: formData.pincode,
         landmark: formData.landmark,
-        transport_hub: formData.transport || 'Standard Delivery',
         customer_notes: formData.notes,
         items: items.map((i) => ({
           product_id: i.product.id,
@@ -357,7 +356,7 @@ export const CheckoutModal: React.FC = () => {
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#F0B543] animate-pulse" />
                 <span className="text-[11px] font-bold text-[#F0B543] uppercase tracking-wider">
-                  Diwali 2025 Factory Gate Order
+                  Festival Wholesale Direct Order
                 </span>
               </div>
               <h2 className="font-serif text-xl sm:text-2xl font-black text-white mt-0.5">

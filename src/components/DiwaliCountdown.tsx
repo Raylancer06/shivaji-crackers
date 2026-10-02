@@ -41,10 +41,10 @@ export const DiwaliCountdown: React.FC = () => {
           </div>
           <div>
             <span className="font-serif font-bold text-xs uppercase tracking-wider text-[#F0B543] block">
-              Diwali 2025 Godown Dispatch Cutoff
+              Festival Dispatch & Delivery Cutoff
             </span>
             <span className="text-[11px] text-gray-300">
-              Festival dispatch slots filling fast to ensure timely Diwali delivery
+              Seasonal delivery slots filling fast to ensure timely festive arrival
             </span>
           </div>
         </div>

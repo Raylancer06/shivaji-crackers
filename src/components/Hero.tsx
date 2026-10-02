@@ -33,13 +33,13 @@ interface Slide {
 const SLIDES: Slide[] = [
   {
     id: 1,
-    badge: 'DIWALI 2025 DIRECT SIVAKASI ALLOCATION',
+    badge: 'FESTIVAL SPECIALS & WHOLESALE OFFERS',
     title: 'The Regal Light of',
-    titleAccent: 'Sivakasi Fireworks',
-    tagline: 'Direct Sivakasi Factory Gate Wholesale • Flat 70% Off Factory MRP',
+    titleAccent: 'Festive Fireworks',
+    tagline: 'Direct Wholesale Pricing • Flat 70% Off Retail MRP',
     description:
-      'Direct factory-gate pyrotechnics from Sivakasi master craftsmen. 100% CSIR-NEERI green certified chemistries with verified QR codes, delivered safely across Hyderabad & Telangana at uninflated wholesale rates.',
-    priceNote: 'Factory Wholesale Starting ₹36/box • Flat 70% Off MRP',
+      'Authentic festive pyrotechnics from trusted master craftsmen. 100% CSIR-NEERI green certified chemistries with verified QR codes, delivered safely across Hyderabad & Telangana at uninflated wholesale rates.',
+    priceNote: 'Wholesale Starting ₹36/box • Flat 70% Off MRP',
     image:
       'https://lh3.googleusercontent.com/aida-public/AB6AXuDQXmjYNnFd_NqJwXa7RXRdB3PSj_YIMYgM82dwW6UYssWqyTcn7P5T8sulXVl4eJslpKl4uR469TnVm0rwwcwhr1NcNj2Cg0_17WkBBGIV3NkThZiqVZaCMn-MMziYWmJBwnM-IG94Ced2KSBRd9dMHvRG5JBqo1tOJOHh6IdpncroQpBv3OnDyrQxNXHDg_SIC5TS8GCQjUjCjS8KqDdO4oxrAL_wTTC9NxQ0BAWNhXTTtk7J_VTP',
     ctaText: 'Open Wholesale Price List',
@@ -67,7 +67,7 @@ const SLIDES: Slide[] = [
     titleAccent: 'Platinum Mega Hampers',
     tagline: 'Complete Family Celebration Hampers • 28 to 65 Assorted Varieties',
     description:
-      'Complete festival gift boxes containing sparklers, giant flower pots, chakkars, and sky shots. Packed in Sivakasi with waterproof heavy parcel wrapping for safe road lorry dispatch.',
+      'Complete festival gift boxes containing sparklers, giant flower pots, chakkars, and sky shots, packed securely with heavy parcel wrapping for safe delivery.',
     priceNote: 'Family Pack ₹780 (MRP ₹2,600) | Platinum Box ₹1,560 (MRP ₹5,200)',
     image:
       'https://images.unsplash.com/photo-1543807535-eceef0bc6599?w=1600&auto=format&fit=crop&q=80',
@@ -218,13 +218,13 @@ export const Hero: React.FC = () => {
                   </button>
 
                   <a
-                    href="https://wa.me/918318270300?text=Hello%20Sivaji%20Crackers%2C%20I%20would%20like%20to%20get%20the%20Diwali%202025%20Wholesale%20Estimate%20and%20Lorry%20Booking%20details."
+                    href="https://wa.me/918374044445?text=Hello%20Sivaji%20Firecracker%2C%20I%20would%20like%20to%20inquire%20about%20festival%20wholesale%20crackers%20and%20orders."
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs sm:text-sm backdrop-blur-md transition-all"
                   >
                     <MessageCircle className="w-4 h-4 text-[#10B981]" />
-                    <span>WhatsApp Order (+91 8318270300)</span>
+                    <span>WhatsApp Order (+91 83740 44445)</span>
                   </a>
                 </div>
               </motion.div>
@@ -273,9 +273,9 @@ export const Hero: React.FC = () => {
             </div>
             <div>
               <span className="font-serif font-bold text-xs text-[#1C1411] block">
-                Years Sivakasi Craft
+                Years Festive Craft
               </span>
-              <span className="text-[11px] text-[#66574F]">Direct Godown Estd 2008</span>
+              <span className="text-[11px] text-[#66574F]">Trusted Quality Since 2008</span>
             </div>
           </div>
 

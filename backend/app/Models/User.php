@@ -23,7 +23,6 @@ class User extends Authenticatable
         'city',
         'state',
         'pincode',
-        'transport_hub',
     ];
 
     protected $hidden = [

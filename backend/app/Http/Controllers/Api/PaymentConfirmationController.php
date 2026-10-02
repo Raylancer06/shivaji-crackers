@@ -68,14 +68,13 @@ class PaymentConfirmationController extends Controller
         ]);
 
         // Build itemized WhatsApp message for Admin
-        $waMessage = "*DIWALI 2025 CONFIRMED FACTORY ORDER - SHIVAJI CRACKERS*\n";
+        $waMessage = "*CONFIRMED ORDER - SIVAJI FIRECRACKER*\n";
         $waMessage .= "*Order ID:* {$order->order_number}\n";
         $waMessage .= "*Date:* " . now()->format('d M Y, h:i A') . "\n\n";
         $waMessage .= "*CUSTOMER DETAILS:*\n";
         $waMessage .= "*Name:* {$order->customer_name}\n";
         $waMessage .= "*Phone:* {$order->customer_phone}\n";
         $waMessage .= "*Address:* {$order->delivery_address}, {$order->city}, {$order->state} - {$order->pincode}\n";
-        $waMessage .= "*Preferred Transport:* {$order->transport_hub}\n";
         if ($order->customer_notes) {
             $waMessage .= "*Notes:* {$order->customer_notes}\n";
         }
@@ -89,9 +88,9 @@ class PaymentConfirmationController extends Controller
             $waMessage .= "{$num}. {$item->product_name} (Box: {$item->box_quantity} {$item->quantity_unit}) x {$item->quantity} boxes = ₹{$item->subtotal}\n";
         }
         $waMessage .= "\n*Total MRP:* ₹" . number_format($order->total_mrp) . "\n";
-        $waMessage .= "*Factory Direct Price:* ₹" . number_format($order->final_amount) . "\n";
-        $waMessage .= "*Direct Savings:* ₹" . number_format($order->discount_amount) . "\n\n";
-        $waMessage .= "Please verify the payment in admin portal and issue lorry transport LR booking.";
+        $waMessage .= "*Wholesale Direct Price:* ₹" . number_format($order->final_amount) . "\n";
+        $waMessage .= "*Total Savings:* ₹" . number_format($order->discount_amount) . "\n\n";
+        $waMessage .= "Please verify the payment in admin portal and confirm order dispatch.";
 
         $waLink = "https://wa.me/918374044445?text=" . urlencode($waMessage);
 

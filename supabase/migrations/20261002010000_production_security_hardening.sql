@@ -1,35 +1,4 @@
-const fs = require('fs');
-const path = require('path');
-const { Client } = require('pg');
 
-// Auto-load .env.local if present
-const envLocalPath = path.join(__dirname, '..', '.env.local');
-if (fs.existsSync(envLocalPath)) {
-  const envContent = fs.readFileSync(envLocalPath, 'utf8');
-  envContent.split('\n').forEach(line => {
-    const match = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/);
-    if (match) {
-      const key = match[1];
-      let value = (match[2] || '').trim().replace(/^['"](.*)['"]$/, '$1');
-      if (!process.env[key]) process.env[key] = value;
-    }
-  });
-}
-
-async function run() {
-  const client = new Client({
-    host: process.env.SUPABASE_DB_HOST || 'db.jdaqvsgbchcljcwabiqy.supabase.co',
-    port: parseInt(process.env.SUPABASE_DB_PORT || '5432', 10),
-    database: process.env.SUPABASE_DB_NAME || 'postgres',
-    user: process.env.SUPABASE_DB_USER || 'postgres',
-    password: process.env.SUPABASE_DB_PASSWORD || process.env.PGPASSWORD,
-    ssl: { rejectUnauthorized: false }
-  });
-
-  await client.connect();
-  console.log('Connected to Supabase PostgreSQL.');
-
-  const migrationSql = `
 -- ====================================================================
 -- SIVAJI FIRECRACKER PRODUCTION SECURITY HARDENING MIGRATION
 -- ====================================================================
@@ -583,18 +552,3 @@ CREATE POLICY "Admins can manage site settings"
   TO authenticated
   USING (public.is_admin())
   WITH CHECK (public.is_admin());
-`;
-
-  // Write migration SQL file
-  const migrationPath = path.join(__dirname, '..', 'supabase', 'migrations', '20261002010000_production_security_hardening.sql');
-  fs.writeFileSync(migrationPath, migrationSql);
-  console.log('Saved migration file:', migrationPath);
-
-  console.log('Applying migration SQL to PostgreSQL...');
-  await client.query(migrationSql);
-  console.log('✓ Successfully applied production security hardening!');
-
-  await client.end();
-}
-
-run().catch(console.error);

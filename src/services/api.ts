@@ -494,6 +494,51 @@ export const api = {
   // Get Single Order with Items & Payment
   async getOrder(orderNumber: string) {
     try {
+      // 1. Try secure stored procedure first (handles customer isolation and guest order lookup)
+      const { data: rpcOrder, error: rpcErr } = await supabase.rpc('get_order_confirmation', {
+        p_order_number: orderNumber,
+      });
+
+      if (!rpcErr && rpcOrder) {
+        return {
+          status: 'success',
+          data: {
+            id: rpcOrder.id,
+            order_number: rpcOrder.order_number,
+            customer_name: rpcOrder.customer_name,
+            customer_phone: rpcOrder.customer_phone,
+            customer_email: rpcOrder.customer_email,
+            delivery_address: rpcOrder.delivery_address,
+            city: rpcOrder.city,
+            state: rpcOrder.state,
+            pincode: rpcOrder.pincode,
+            landmark: rpcOrder.landmark,
+            customer_notes: rpcOrder.notes,
+            total_mrp: Number(rpcOrder.subtotal) + Number(rpcOrder.discount),
+            total_selling_price: Number(rpcOrder.subtotal),
+            discount_amount: Number(rpcOrder.discount),
+            final_amount: Number(rpcOrder.final_total),
+            status: rpcOrder.status,
+            payment_status: rpcOrder.payment_status,
+            created_at: rpcOrder.created_at,
+            items: (rpcOrder.order_items || []).map((it: any) => ({
+              id: it.id,
+              product_id: it.product_id,
+              product_name: it.product_name,
+              box_quantity: it.box_quantity,
+              quantity_unit: it.quantity_unit,
+              mrp: Number(it.mrp),
+              selling_price: Number(it.unit_price),
+              quantity: Number(it.quantity),
+              total_mrp: Number(it.mrp) * Number(it.quantity),
+              total_selling_price: Number(it.line_total),
+            })),
+            paymentConfirmation: rpcOrder.paymentConfirmation || undefined,
+          },
+        };
+      }
+
+      // 2. Direct fallback (for admin queries)
       const { data: order, error } = await supabase
         .from('orders')
         .select(`

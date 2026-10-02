@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Sparkles,
@@ -191,13 +192,13 @@ export const WayWeWork: React.FC = () => {
               </div>
 
               <div className="flex flex-wrap items-center gap-3 pt-4">
-                <a
-                  href="#catalog"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#550C12] to-[#7B141C] text-white text-xs font-bold shadow-md hover:shadow-regal transition-all"
+                <Link
+                  href="/estimate"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#550C12] to-[#7B141C] text-white text-xs font-bold shadow-md hover:shadow-regal transition-all cursor-pointer"
                 >
                   <span>Build Your Estimate</span>
                   <ArrowRight className="w-3.5 h-3.5" />
-                </a>
+                </Link>
                 <a
                   href="tel:+918374044445"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#FAF8F5] text-[#550C12] border border-[#E2D7C5] hover:border-[#550C12] text-xs font-bold transition-all"

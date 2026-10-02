@@ -17,6 +17,28 @@ export interface StoreSettings {
   upi_id: string;
   upi_payee_name: string;
   currency_symbol: string;
+  shipping_charge: number;
+  free_shipping_enabled: boolean;
+  free_shipping_threshold: number;
+  budget_builder_enabled: boolean;
+  budget_builder_badge: string;
+  budget_builder_title: string;
+  budget_builder_subtitle: string;
+  budget_builder_description: string;
+}
+
+export interface BudgetPackage {
+  id: string;
+  name: string;
+  subtitle: string;
+  tag: string;
+  budget: number;
+  mrp: number;
+  description: string;
+  items_summary: string;
+  item_skus: { sku: string; qty: number }[];
+  sort_order: number;
+  is_active: boolean;
 }
 
 export interface CustomerAddress {
@@ -145,6 +167,14 @@ export const api = {
         upi_id: map['upi_id'] || 'sivajiduddempudi422@axl',
         upi_payee_name: map['upi_payee_name'] || 'Sivaji Duddempudi',
         currency_symbol: map['currency_symbol'] || '₹',
+        shipping_charge: Number(map['shipping_charge']) || 0,
+        free_shipping_enabled: (map['free_shipping_enabled'] || '').toLowerCase() === 'true',
+        free_shipping_threshold: Number(map['free_shipping_threshold']) || 0,
+        budget_builder_enabled: (map['budget_builder_enabled'] || 'true').toLowerCase() !== 'false',
+        budget_builder_badge: map['budget_builder_badge'] || 'Instant 1-Click Bundle Calculator',
+        budget_builder_title: map['budget_builder_title'] || 'Smart Budget Builder For Families & Societies',
+        budget_builder_subtitle: map['budget_builder_subtitle'] || 'Curated Diwali celebration bundles tailored for every budget',
+        budget_builder_description: map['budget_builder_description'] || "Don't have time to pick 40 individual crackers? Select your celebration budget below. Our master packers have balanced sparklers, flower pots, and sky shots to give you the highest variety and savings.",
       };
     } catch (err) {
       console.warn('Supabase settings query error, falling back to defaults:', err);
@@ -157,7 +187,46 @@ export const api = {
         upi_id: 'sivajiduddempudi422@axl',
         upi_payee_name: 'Sivaji Duddempudi',
         currency_symbol: '₹',
+        shipping_charge: 150,
+        free_shipping_enabled: false,
+        free_shipping_threshold: 5000,
+        budget_builder_enabled: true,
+        budget_builder_badge: 'Instant 1-Click Bundle Calculator',
+        budget_builder_title: 'Smart Budget Builder For Families & Societies',
+        budget_builder_subtitle: 'Curated Diwali celebration bundles tailored for every budget',
+        budget_builder_description: "Don't have time to pick 40 individual crackers? Select your celebration budget below. Our master packers have balanced sparklers, flower pots, and sky shots to give you the highest variety and savings.",
       };
+    }
+  },
+
+  // Budget Packages (Curated Diwali Bundles)
+  async getBudgetPackages(): Promise<BudgetPackage[]> {
+    try {
+      const { data, error } = await supabase
+        .from('budget_packages')
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order', { ascending: true });
+
+      if (error) throw error;
+      if (!data || data.length === 0) return [];
+
+      return data.map((row: any) => ({
+        id: row.id,
+        name: row.name,
+        subtitle: row.subtitle || '',
+        tag: row.tag || '',
+        budget: Number(row.budget),
+        mrp: Number(row.mrp),
+        description: row.description || '',
+        items_summary: row.items_summary || '',
+        item_skus: Array.isArray(row.item_skus) ? row.item_skus : [],
+        sort_order: Number(row.sort_order) || 1,
+        is_active: Boolean(row.is_active),
+      }));
+    } catch (err) {
+      console.warn('Failed to load budget packages from database:', err);
+      return [];
     }
   },
 
@@ -323,20 +392,29 @@ export const api = {
   // Confirm Payment with Screenshot Upload to Private Supabase Storage
   async confirmPayment(orderId: string | number, formData: FormData, token?: string | null): Promise<ApiResponse<PaymentConfirmResponseData>> {
     try {
-      const utrNumber = formData.get('utr_number') as string;
+      const utrNumber = (formData.get('utr_number') as string) || '';
       const notes = (formData.get('notes') as string) || '';
       const screenshotFile = formData.get('screenshot') as File | null;
 
-      if (!utrNumber || !utrNumber.trim()) {
-        throw new Error('Please provide the 12-digit UPI UTR number.');
+      if (!utrNumber.trim() && (!screenshotFile || !screenshotFile.name)) {
+        throw new Error('Please provide the UPI UTR number or upload a payment screenshot.');
       }
 
-      // 1. Resolve Order Record
-      const { data: order, error: orderErr } = await supabase
+      // 1. Resolve Order Record (by UUID or order_number)
+      const cleanOrderId = String(orderId).trim();
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(cleanOrderId);
+      
+      let orderQuery = supabase
         .from('orders')
-        .select('id, order_number, final_total, customer_id')
-        .or(`id.eq.${orderId},order_number.eq.${orderId}`)
-        .single();
+        .select('id, order_number, final_total, customer_id');
+
+      if (isUuid) {
+        orderQuery = orderQuery.eq('id', cleanOrderId);
+      } else {
+        orderQuery = orderQuery.eq('order_number', cleanOrderId);
+      }
+
+      const { data: order, error: orderErr } = await orderQuery.maybeSingle();
 
       if (orderErr || !order) {
         throw new Error('Order not found for payment confirmation.');
@@ -371,7 +449,7 @@ export const api = {
           order_id: order.id,
           payment_method: 'UPI',
           amount: order.final_total,
-          utr_transaction_id: utrNumber.trim(),
+          utr_transaction_id: utrNumber.trim() || 'PROOF_UPLOADED',
           screenshot_storage_path: screenshotPath,
           notes: notes.trim() || null,
           status: 'submitted',

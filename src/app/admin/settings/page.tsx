@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect } from 'react';
 import { adminApi } from '@/services/supabaseAdmin';
@@ -24,8 +24,9 @@ export default function AdminSettingsPage() {
     upi_payee_name: 'Sivaji Duddempudi',
     support_phone: '+91 98765 43210',
     support_email: 'support@sivajifirecrackers.com',
-    shipping_charge: '0',
-    free_shipping_threshold: '3000',
+    shipping_charge: '150',
+    free_shipping_enabled: 'false',
+    free_shipping_threshold: '5000',
   });
 
   const [loading, setLoading] = useState(true);
@@ -204,18 +205,18 @@ export default function AdminSettingsPage() {
           <div className="flex items-center gap-2.5 pb-3 border-b border-stone-100">
             <Truck className="w-4 h-4 text-[#C98E2A]" />
             <h2 className="font-serif font-black text-sm text-[#1C1411]">
-              Cart Rules & Delivery Charges
+              Cart Rules & Delivery Charges (Backend Controlled)
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
             <div>
               <label className="block font-bold text-[#1C1411] mb-1">
                 Minimum Cart Subtotal (₹) *
               </label>
               <input
                 type="number"
-                min="500"
+                min="0"
                 step="100"
                 required
                 value={settings.minimum_cart_value || '2000'}
@@ -236,10 +237,27 @@ export default function AdminSettingsPage() {
                 min="0"
                 value={settings.shipping_charge || '0'}
                 onChange={(e) => handleChange('shipping_charge', e.target.value)}
-                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl font-mono"
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl font-mono font-bold text-[#1C1411]"
               />
               <span className="text-[10px] text-stone-400 mt-1 block">
-                Set 0 for free delivery
+                Applied to cart & checkout when free shipping is off
+              </span>
+            </div>
+
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1">
+                Free Shipping Policy
+              </label>
+              <select
+                value={settings.free_shipping_enabled === 'true' ? 'true' : 'false'}
+                onChange={(e) => handleChange('free_shipping_enabled', e.target.value)}
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl font-bold text-xs"
+              >
+                <option value="false">Disabled (Always Charge Shipping)</option>
+                <option value="true">Enabled (Free Above Threshold)</option>
+              </select>
+              <span className="text-[10px] text-stone-400 mt-1 block">
+                No automatic or hardcoded free delivery
               </span>
             </div>
 
@@ -250,10 +268,18 @@ export default function AdminSettingsPage() {
               <input
                 type="number"
                 min="0"
-                value={settings.free_shipping_threshold || '3000'}
+                disabled={settings.free_shipping_enabled !== 'true'}
+                value={settings.free_shipping_threshold || '5000'}
                 onChange={(e) => handleChange('free_shipping_threshold', e.target.value)}
-                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl font-mono"
+                className={`w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl font-mono ${
+                  settings.free_shipping_enabled !== 'true' ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
               />
+              <span className="text-[10px] text-stone-400 mt-1 block">
+                {settings.free_shipping_enabled === 'true'
+                  ? 'Orders >= this amount get ₹0 delivery'
+                  : 'Inactive (Free shipping is disabled)'}
+              </span>
             </div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Clock, Flame, ShieldAlert, Sparkles } from 'lucide-react';
 
 export const DiwaliCountdown: React.FC = () => {
@@ -84,12 +85,12 @@ export const DiwaliCountdown: React.FC = () => {
             </div>
           </div>
 
-          <a
-            href="#catalog"
-            className="ml-2 hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#C98E2A] text-[#1C1411] font-serif font-black text-xs hover:bg-[#F0B543] transition-colors shadow-sm"
+          <Link
+            href="/estimate"
+            className="ml-2 hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#C98E2A] text-[#1C1411] font-serif font-black text-xs hover:bg-[#F0B543] transition-colors shadow-sm cursor-pointer"
           >
             <span>Book Now</span>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

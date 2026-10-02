@@ -42,6 +42,9 @@ function CheckoutContent() {
   const { user, token } = useAuth();
 
   const [minCartValue, setMinCartValue] = useState<number>(2000);
+  const [shippingCharge, setShippingCharge] = useState<number>(0);
+  const [freeShippingEnabled, setFreeShippingEnabled] = useState<boolean>(false);
+  const [freeShippingThreshold, setFreeShippingThreshold] = useState<number>(0);
   const [copiedUpi, setCopiedUpi] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
@@ -68,12 +71,15 @@ function CheckoutContent() {
     notes: '',
   });
 
-  // Load backend store settings (Minimum Cart Value)
+  // Load backend store settings (Minimum Cart Value, Shipping)
   useEffect(() => {
     api.getSettings().then((settings) => {
       if (typeof settings.minimum_cart_value === 'number') {
         setMinCartValue(settings.minimum_cart_value);
       }
+      setShippingCharge(settings.shipping_charge ?? 0);
+      setFreeShippingEnabled(Boolean(settings.free_shipping_enabled));
+      setFreeShippingThreshold(settings.free_shipping_threshold ?? 0);
     }).catch(() => {});
   }, []);
 
@@ -168,6 +174,10 @@ function CheckoutContent() {
   const isMinMet = totalWholesale >= minCartValue;
   const shortfall = Math.max(0, minCartValue - totalWholesale);
 
+  const isFreeShipping = freeShippingEnabled && freeShippingThreshold > 0 && totalWholesale >= freeShippingThreshold;
+  const appliedShipping = isFreeShipping ? 0 : shippingCharge;
+  const finalPayableTotal = totalWholesale + appliedShipping;
+
   const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitError('');
@@ -218,11 +228,13 @@ function CheckoutContent() {
       }
 
       // 2. Upload Payment Proof if provided
-      if (paymentData.screenshotFile) {
+      if (paymentData.utrNumber.trim() || paymentData.screenshotFile) {
         try {
           const payFormData = new FormData();
           payFormData.append('utr_number', paymentData.utrNumber.trim());
-          payFormData.append('screenshot', paymentData.screenshotFile);
+          if (paymentData.screenshotFile) {
+            payFormData.append('screenshot', paymentData.screenshotFile);
+          }
           if (paymentData.notes.trim()) payFormData.append('notes', paymentData.notes.trim());
 
           await api.confirmPayment(createdOrder.id, payFormData, token);
@@ -277,7 +289,7 @@ function CheckoutContent() {
   }
 
   const upiQrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
-    `upi://pay?pa=sivajiduddempudi422@axl&pn=Sivaji%20Duddempudi&am=${totalWholesale}&cu=INR&tn=Sivaji%20Order`
+    `upi://pay?pa=sivajiduddempudi422@axl&pn=Sivaji%20Duddempudi&am=${finalPayableTotal}&cu=INR&tn=Sivaji%20Order`
   )}`;
 
   return (
@@ -607,7 +619,7 @@ function CheckoutContent() {
                   Payee Name: <strong className="text-[#1C1411]">Sivaji Duddempudi</strong>
                 </p>
                 <p className="text-[11px] text-emerald-700 font-semibold">
-                  Exact Wholesale Amount to Pay: ₹{totalWholesale.toLocaleString('en-IN')}
+                  Exact Total Amount to Pay: ₹{finalPayableTotal.toLocaleString('en-IN')}
                 </p>
               </div>
             </div>
@@ -729,14 +741,22 @@ function CheckoutContent() {
               </div>
               <div className="flex justify-between text-gray-700">
                 <span>Delivery / Shipping:</span>
-                <span className="text-emerald-700 font-bold">Free Delivery</span>
+                {appliedShipping === 0 ? (
+                  <span className="text-emerald-700 font-bold">
+                    {isFreeShipping ? 'Free Delivery (Festival Offer)' : 'Free Delivery'}
+                  </span>
+                ) : (
+                  <span className="font-bold text-[#1C1411]">
+                    +₹{appliedShipping.toLocaleString('en-IN')}
+                  </span>
+                )}
               </div>
               <div className="flex items-baseline justify-between pt-3 border-t border-gray-200">
                 <span className="font-serif font-black text-sm text-[#1C1411]">
                   Net Payable Amount:
                 </span>
                 <span className="font-serif font-black text-2xl text-[#550C12]">
-                  ₹{totalWholesale.toLocaleString('en-IN')}
+                  ₹{finalPayableTotal.toLocaleString('en-IN')}
                 </span>
               </div>
             </div>

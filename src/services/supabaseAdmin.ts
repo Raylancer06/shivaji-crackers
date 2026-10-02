@@ -438,4 +438,69 @@ export const adminApi = {
         );
     }
   },
+
+  // Budget Packages & Section Control
+  async getBudgetPackages() {
+    const { data, error } = await supabase
+      .from('budget_packages')
+      .select('*')
+      .order('sort_order', { ascending: true });
+
+    if (error) throw error;
+    return data || [];
+  },
+
+  async saveBudgetPackage(pkg: any) {
+    const payload = {
+      name: pkg.name,
+      subtitle: pkg.subtitle || null,
+      tag: pkg.tag || null,
+      budget: Number(pkg.budget),
+      mrp: Number(pkg.mrp),
+      description: pkg.description || null,
+      items_summary: pkg.items_summary || null,
+      item_skus: Array.isArray(pkg.item_skus) ? pkg.item_skus : [],
+      sort_order: Number(pkg.sort_order) || 1,
+      is_active: pkg.is_active !== undefined ? Boolean(pkg.is_active) : true,
+      updated_at: new Date().toISOString(),
+    };
+
+    if (pkg.id && !pkg.id.startsWith('new_')) {
+      const { data, error } = await supabase
+        .from('budget_packages')
+        .update(payload)
+        .eq('id', pkg.id)
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    } else {
+      const { data, error } = await supabase
+        .from('budget_packages')
+        .insert({
+          id: pkg.id ? pkg.id.toLowerCase().replace(/[^a-z0-9_-]/g, '_') : undefined,
+          ...payload,
+        })
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    }
+  },
+
+  async deleteBudgetPackage(id: string) {
+    const { error } = await supabase
+      .from('budget_packages')
+      .delete()
+      .eq('id', id);
+    if (error) throw error;
+  },
+
+  async toggleBudgetPackage(id: string, is_active: boolean) {
+    const { error } = await supabase
+      .from('budget_packages')
+      .update({ is_active, updated_at: new Date().toISOString() })
+      .eq('id', id);
+    if (error) throw error;
+  },
 };

@@ -78,6 +78,52 @@ export default function OrderConfirmationPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  const [submittingProof, setSubmittingProof] = useState(false);
+  const [proofUtr, setProofUtr] = useState('');
+  const [proofFile, setProofFile] = useState<File | null>(null);
+  const [proofError, setProofError] = useState('');
+  const [proofSuccess, setProofSuccess] = useState(false);
+  const [showProofForm, setShowProofForm] = useState(false);
+
+  const handleUploadProof = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!order) return;
+    if (!proofUtr.trim() && !proofFile) {
+      setProofError('Please enter your UPI UTR number or attach a screenshot.');
+      return;
+    }
+
+    setSubmittingProof(true);
+    setProofError('');
+    try {
+      const fd = new FormData();
+      if (proofUtr.trim()) fd.append('utr_number', proofUtr.trim());
+      if (proofFile) fd.append('screenshot', proofFile);
+
+      await api.confirmPayment(order.id, fd);
+      setProofSuccess(true);
+      setShowProofForm(false);
+
+      // Refresh order
+      const res = await api.getOrder(order.order_number);
+      if (res?.data) {
+        setOrder(res.data);
+      }
+      try {
+        confetti({
+          particleCount: 80,
+          spread: 60,
+          origin: { y: 0.6 },
+          colors: ['#D4972B', '#0B8043', '#F0B543'],
+        });
+      } catch (e) {}
+    } catch (err: any) {
+      setProofError(err.message || 'Failed to submit payment proof.');
+    } finally {
+      setSubmittingProof(false);
+    }
+  };
+
   useEffect(() => {
     if (!orderNumber) return;
 
@@ -372,12 +418,24 @@ export default function OrderConfirmationPage() {
 
               {/* Price Calculation Summary */}
               <div className="pt-4 border-t border-[#E2D7C5] flex flex-col sm:flex-row justify-between items-start gap-4">
-                {/* Payment Information */}
-                <div className="p-4 rounded-2xl bg-[#FFF8ED] border border-[#C98E2A]/30 text-xs space-y-2 w-full sm:max-w-md">
-                  <div className="flex items-center gap-2 font-bold text-[#550C12]">
-                    <CreditCard className="w-4 h-4 text-[#C98E2A]" />
-                    <span>Payment Verification Details</span>
+                {/* Payment Information & Proof Upload */}
+                <div className="p-4 rounded-2xl bg-[#FFF8ED] border border-[#C98E2A]/30 text-xs space-y-3 w-full sm:max-w-md">
+                  <div className="flex items-center justify-between font-bold text-[#550C12]">
+                    <div className="flex items-center gap-2">
+                      <CreditCard className="w-4 h-4 text-[#C98E2A]" />
+                      <span>Payment Verification Details</span>
+                    </div>
+                    {order.paymentConfirmation?.utr_number && (
+                      <button
+                        type="button"
+                        onClick={() => setShowProofForm(!showProofForm)}
+                        className="text-[10px] text-[#550C12] underline font-semibold cursor-pointer"
+                      >
+                        {showProofForm ? 'Hide Form' : 'Update Proof'}
+                      </button>
+                    )}
                   </div>
+
                   <div className="text-[11px] space-y-1 text-[#66574F]">
                     <div>
                       UPI ID: <strong className="font-mono text-[#1C1411]">sivajiduddempudi422@axl</strong>
@@ -394,9 +452,48 @@ export default function OrderConfirmationPage() {
                       </div>
                     )}
                     <div className="text-emerald-700 font-medium">
-                      Status: Verification pending from store admin.
+                      Status: {order.payment_status === 'verified' ? 'Payment Verified & Confirmed' : 'Verification pending from store admin'}
                     </div>
                   </div>
+
+                  {/* Form to submit proof if not yet submitted or user wants to update */}
+                  {(!order.paymentConfirmation?.utr_number || showProofForm) && (
+                    <form onSubmit={handleUploadProof} className="pt-2 border-t border-[#E2D7C5]/60 space-y-2.5">
+                      <span className="block font-bold text-[11px] text-[#550C12]">
+                        Submit / Update Payment Proof
+                      </span>
+                      {proofError && (
+                        <p className="text-[11px] text-red-600 font-semibold">{proofError}</p>
+                      )}
+                      {proofSuccess && (
+                        <p className="text-[11px] text-emerald-700 font-semibold">Payment proof submitted successfully!</p>
+                      )}
+                      <div>
+                        <input
+                          type="text"
+                          value={proofUtr}
+                          onChange={(e) => setProofUtr(e.target.value)}
+                          placeholder="12-digit UPI UTR Number"
+                          className="w-full px-2.5 py-1.5 rounded-lg border border-[#E2D7C5] bg-white text-xs font-mono outline-none focus:border-[#C98E2A]"
+                        />
+                      </div>
+                      <div>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => setProofFile(e.target.files?.[0] || null)}
+                          className="w-full text-[11px] text-stone-600 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-semibold file:bg-[#550C12] file:text-white hover:file:bg-[#7B141C] cursor-pointer"
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        disabled={submittingProof}
+                        className="w-full py-2 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white text-xs font-bold transition shadow-xs cursor-pointer disabled:opacity-50"
+                      >
+                        {submittingProof ? 'Submitting Proof...' : 'Submit Payment Proof'}
+                      </button>
+                    </form>
+                  )}
                 </div>
 
                 {/* Totals */}

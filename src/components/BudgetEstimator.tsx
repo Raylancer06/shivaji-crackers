@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from '@/context/CartContext';
+import { api, BudgetPackage } from '@/services/api';
 import { PRODUCTS } from '@/data/products';
 import { Sparkles, ShoppingBag, Check, ArrowRight, Gift } from 'lucide-react';
 import confetti from 'canvas-confetti';
@@ -18,7 +19,7 @@ interface PackageTier {
   tag: string;
 }
 
-const TIERS: PackageTier[] = [
+const DEFAULT_TIERS: PackageTier[] = [
   {
     id: 'starter',
     name: 'Diwali Anandham Family Pack',
@@ -60,7 +61,7 @@ const TIERS: PackageTier[] = [
     budget: 9800,
     mrp: 32600,
     description: 'Designed for enthusiasts who want maximum aerial sky fireworks, continuous multi-shot display cakes, and heavy sound.',
-    itemsSummary: 'Family Gift Box (60 Items) + 3.5\" Fancy Pipes + Multi-Colour Out + Jumbo Chakkars',
+    itemsSummary: 'Family Gift Box (60 Items) + 3.5" Fancy Pipes + Multi-Colour Out + Jumbo Chakkars',
     tag: 'Night Sky Spectacle',
     itemSkus: [
       { sku: 'PROD-108', qty: 2 },
@@ -74,16 +75,85 @@ const TIERS: PackageTier[] = [
 
 export const BudgetEstimator: React.FC = () => {
   const { addToCart, setIsCartOpen } = useCart();
-  const [selectedTier, setSelectedTier] = useState<PackageTier>(TIERS[1]);
+  const [tiers, setTiers] = useState<PackageTier[]>(DEFAULT_TIERS);
+  const [selectedTier, setSelectedTier] = useState<PackageTier>(DEFAULT_TIERS[1]);
   const [added, setAdded] = useState(false);
+  const [sectionEnabled, setSectionEnabled] = useState(true);
 
-  const handleAddBundle = () => {
-    selectedTier.itemSkus.forEach(({ sku, qty }) => {
-      const product = PRODUCTS.find((p) => p.id === sku) || PRODUCTS[0];
-      if (product) {
-        addToCart(product, qty);
+  // Section copy loaded dynamically from backend
+  const [sectionInfo, setSectionInfo] = useState({
+    badge: 'Instant 1-Click Bundle Calculator',
+    title: 'Smart Budget Builder For Families & Societies',
+    subtitle: 'Curated Diwali celebration bundles tailored for every budget',
+    description: "Don't have time to pick 40 individual crackers? Select your celebration budget below. Our master packers have balanced sparklers, flower pots, and sky shots to give you the highest variety and savings.",
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+
+    // Load backend section settings and active packages from Supabase
+    Promise.all([api.getSettings(), api.getBudgetPackages()])
+      .then(([settings, backendPackages]) => {
+        if (!isMounted) return;
+
+        if (settings) {
+          setSectionEnabled(settings.budget_builder_enabled !== false);
+          setSectionInfo({
+            badge: settings.budget_builder_badge || 'Instant 1-Click Bundle Calculator',
+            title: settings.budget_builder_title || 'Smart Budget Builder For Families & Societies',
+            subtitle: settings.budget_builder_subtitle || 'Curated Diwali celebration bundles tailored for every budget',
+            description: settings.budget_builder_description || "Don't have time to pick 40 individual crackers? Select your celebration budget below. Our master packers have balanced sparklers, flower pots, and sky shots to give you the highest variety and savings.",
+          });
+        }
+
+        if (backendPackages && backendPackages.length > 0) {
+          const mappedTiers: PackageTier[] = backendPackages.map((bp) => ({
+            id: bp.id,
+            name: bp.name,
+            subtitle: bp.subtitle,
+            budget: bp.budget,
+            mrp: bp.mrp,
+            description: bp.description,
+            itemsSummary: bp.items_summary,
+            itemSkus: bp.item_skus || [],
+            tag: bp.tag || 'Diwali Pack',
+          }));
+
+          setTiers(mappedTiers);
+          setSelectedTier(mappedTiers[1] || mappedTiers[0]);
+        }
+      })
+      .catch((err) => {
+        console.warn('Error fetching budget packages from backend:', err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  if (!sectionEnabled) {
+    return null;
+  }
+
+  const handleAddBundle = (tierToAdd?: PackageTier) => {
+    const target = tierToAdd || selectedTier;
+    if (!target) return;
+
+    if (target.itemSkus && target.itemSkus.length > 0) {
+      target.itemSkus.forEach(({ sku, qty }) => {
+        const product = PRODUCTS.find((p) => p.id === sku) || PRODUCTS[0];
+        if (product) {
+          addToCart(product, qty);
+        }
+      });
+    } else {
+      // Fallback: Add gift box
+      const fallbackProd = PRODUCTS.find((p) => p.id === 'PROD-105') || PRODUCTS[0];
+      if (fallbackProd) {
+        addToCart(fallbackProd, 1);
       }
-    });
+    }
 
     setAdded(true);
     try {
@@ -108,23 +178,24 @@ export const BudgetEstimator: React.FC = () => {
         <div className="text-center max-w-3xl mx-auto mb-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF8ED] text-[#B85D00] text-xs font-serif font-bold uppercase tracking-wider mb-2 border border-[#C98E2A]/30">
             <Gift className="w-3.5 h-3.5 text-[#C98E2A]" />
-            <span>Instant 1-Click Bundle Calculator</span>
+            <span>{sectionInfo.badge}</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl font-black text-[#1C1411] tracking-tight">
-            Smart Budget Builder For Families & Societies
+            {sectionInfo.title}
           </h2>
           <p className="text-xs sm:text-sm text-[#550C12] font-semibold mt-1">
-            Curated Diwali celebration bundles tailored for every budget
+            {sectionInfo.subtitle}
           </p>
           <p className="text-xs sm:text-sm text-[#66574F] mt-2 leading-relaxed">
-            Don't have time to pick 40 individual crackers? Select your celebration budget below. Our master packers have balanced sparklers, flower pots, and sky shots to give you the highest variety and savings.
+            {sectionInfo.description}
           </p>
         </div>
 
-        {/* 3 Tier Cards */}
+        {/* Dynamic Tier Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {TIERS.map((tier) => {
-            const isSelected = selectedTier.id === tier.id;
+          {tiers.map((tier) => {
+            const isSelected = selectedTier?.id === tier.id;
+            const savings = tier.mrp - tier.budget;
             return (
               <div
                 key={tier.id}
@@ -140,46 +211,59 @@ export const BudgetEstimator: React.FC = () => {
                   <span className="font-serif text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#FFF8ED] text-[#B85D00] border border-[#C98E2A]/30">
                     {tier.tag}
                   </span>
-                  <span className="font-serif font-black text-xs text-[#07542C] bg-[#EBF7F0] px-2 py-0.5 rounded">
-                    Save ₹{(tier.mrp - tier.budget).toLocaleString('en-IN')}
-                  </span>
+                  {savings > 0 && (
+                    <span className="font-serif font-black text-xs text-[#07542C] bg-[#EBF7F0] px-2 py-0.5 rounded">
+                      Save ₹{savings.toLocaleString('en-IN')}
+                    </span>
+                  )}
                 </div>
 
                 {/* Content */}
                 <div>
                   <h3 className="font-serif font-black text-xl text-[#1C1411]">{tier.name}</h3>
-                  <p className="text-xs text-[#7B141C] font-medium mt-0.5">{tier.subtitle}</p>
+                  {tier.subtitle && (
+                    <p className="text-xs text-[#7B141C] font-medium mt-0.5">{tier.subtitle}</p>
+                  )}
 
                   <div className="flex items-baseline gap-2.5 my-4">
                     <span className="font-serif font-black text-3xl text-[#550C12]">
                       ₹{tier.budget.toLocaleString('en-IN')}
                     </span>
-                    <span className="text-xs text-gray-400 line-through">
-                      MRP ₹{tier.mrp.toLocaleString('en-IN')}
-                    </span>
+                    {tier.mrp > 0 && (
+                      <span className="text-xs text-gray-400 line-through">
+                        MRP ₹{tier.mrp.toLocaleString('en-IN')}
+                      </span>
+                    )}
                   </div>
 
                   <p className="text-xs text-[#66574F] leading-relaxed mb-4">{tier.description}</p>
 
-                  <div className="p-3 bg-[#FAF8F5] rounded-xl border border-[#E2D7C5] text-[11px] text-[#1C1411] font-semibold space-y-1 mb-4">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#B85D00] block">
-                      Box Breakdown:
-                    </span>
-                    <p>{tier.itemsSummary}</p>
-                  </div>
+                  {tier.itemsSummary && (
+                    <div className="p-3 bg-[#FAF8F5] rounded-xl border border-[#E2D7C5] text-[11px] text-[#1C1411] font-semibold space-y-1 mb-4">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#B85D00] block">
+                        Box Breakdown:
+                      </span>
+                      <p>{tier.itemsSummary}</p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Select Radio Pill */}
                 <button
                   type="button"
-                  className={`w-full py-2.5 rounded-xl font-serif font-bold text-xs flex items-center justify-center gap-1.5 transition-all ${
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedTier(tier);
+                    handleAddBundle(tier);
+                  }}
+                  className={`w-full py-2.5 rounded-xl font-serif font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                     isSelected
-                      ? 'bg-[#550C12] text-white shadow-sm'
+                      ? 'bg-[#550C12] text-white shadow-sm hover:bg-[#7B141C]'
                       : 'bg-white border border-[#E2D7C5] text-[#550C12] hover:bg-[#F2EBE0]'
                   }`}
                 >
-                  {isSelected ? <Check className="w-3.5 h-3.5 text-[#F0B543]" /> : null}
-                  <span>{isSelected ? 'Selected Bundle' : 'Select This Pack'}</span>
+                  <Check className="w-3.5 h-3.5 text-[#F0B543]" />
+                  <span>{isSelected ? 'Add This Bundle' : 'Select & Add Pack'}</span>
                 </button>
               </div>
             );
@@ -187,48 +271,50 @@ export const BudgetEstimator: React.FC = () => {
         </div>
 
         {/* Bottom 1-Click Action Bar */}
-        <div className="mt-10 bg-white p-5 sm:p-6 rounded-3xl shadow-regal border border-[#E2D7C5] flex flex-col sm:flex-row items-center justify-between gap-5">
-          <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-[#FFF8ED] text-[#550C12] border border-[#C98E2A]/30 flex items-center justify-center shrink-0">
-              <Sparkles className="w-6 h-6 text-[#C98E2A]" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h4 className="font-serif font-bold text-base text-[#1C1411]">
-                  Ready to Order: {selectedTier.name}
-                </h4>
-                <span className="text-xs font-serif font-black text-[#550C12]">
-                  (₹{selectedTier.budget.toLocaleString('en-IN')})
-                </span>
+        {selectedTier && (
+          <div className="mt-10 bg-white p-5 sm:p-6 rounded-3xl shadow-regal border border-[#E2D7C5] flex flex-col sm:flex-row items-center justify-between gap-5">
+            <div className="flex items-center gap-3.5">
+              <div className="w-12 h-12 rounded-2xl bg-[#FFF8ED] text-[#550C12] border border-[#C98E2A]/30 flex items-center justify-center shrink-0">
+                <Sparkles className="w-6 h-6 text-[#C98E2A]" />
               </div>
-              <p className="text-xs text-[#66574F]">
-                100% CSIR-NEERI Green Certified • Fast & Safe Delivery to Hyderabad & Telangana
-              </p>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h4 className="font-serif font-bold text-base text-[#1C1411]">
+                    Ready to Order: {selectedTier.name}
+                  </h4>
+                  <span className="text-xs font-serif font-black text-[#550C12]">
+                    (₹{selectedTier.budget.toLocaleString('en-IN')})
+                  </span>
+                </div>
+                <p className="text-xs text-[#66574F]">
+                  100% CSIR-NEERI Green Certified • Fast & Safe Delivery to Hyderabad & Telangana
+                </p>
+              </div>
             </div>
-          </div>
 
-          <button
-            onClick={handleAddBundle}
-            className={`px-6 py-3.5 rounded-xl font-serif font-bold text-sm text-white shadow-regal hover:shadow-deep transition-all flex items-center gap-2 shrink-0 ${
-              added
-                ? 'bg-[#07542C]'
-                : 'bg-gradient-to-r from-[#550C12] via-[#7B141C] to-[#550C12] hover:scale-[1.02] active:scale-[0.98]'
-            }`}
-          >
-            {added ? (
-              <>
-                <Check className="w-4 h-4 animate-bounce" />
-                <span>Bundle Added to Cart!</span>
-              </>
-            ) : (
-              <>
-                <ShoppingBag className="w-4 h-4 text-[#F0B543]" />
-                <span>Add Selected Bundle to Cart</span>
-                <ArrowRight className="w-4 h-4 ml-1" />
-              </>
-            )}
-          </button>
-        </div>
+            <button
+              onClick={() => handleAddBundle()}
+              className={`px-6 py-3.5 rounded-xl font-serif font-bold text-sm text-white shadow-regal hover:shadow-deep transition-all flex items-center gap-2 shrink-0 cursor-pointer ${
+                added
+                  ? 'bg-[#07542C]'
+                  : 'bg-gradient-to-r from-[#550C12] via-[#7B141C] to-[#550C12] hover:scale-[1.02] active:scale-[0.98]'
+              }`}
+            >
+              {added ? (
+                <>
+                  <Check className="w-4 h-4 animate-bounce" />
+                  <span>Bundle Added to Cart!</span>
+                </>
+              ) : (
+                <>
+                  <ShoppingBag className="w-4 h-4 text-[#F0B543]" />
+                  <span>Add Selected Bundle to Cart</span>
+                  <ArrowRight className="w-4 h-4 ml-1" />
+                </>
+              )}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

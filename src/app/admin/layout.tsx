@@ -13,6 +13,7 @@ import {
   Layers,
   Users,
   Settings,
+  Gift,
   LogOut,
   ExternalLink,
   ShieldCheck,
@@ -27,6 +28,7 @@ const NAV_ITEMS = [
   { href: '/admin/payments', label: 'Payment Verification', icon: CreditCard },
   { href: '/admin/products', label: 'Products', icon: Package },
   { href: '/admin/categories', label: 'Categories', icon: Layers },
+  { href: '/admin/budget-builder', label: 'Budget Bundles', icon: Gift },
   { href: '/admin/customers', label: 'Customers', icon: Users },
   { href: '/admin/settings', label: 'Store Settings', icon: Settings },
 ];

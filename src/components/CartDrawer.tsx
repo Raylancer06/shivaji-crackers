@@ -36,14 +36,24 @@ export const CartDrawer: React.FC = () => {
   } = useCart();
 
   const [minCartValue, setMinCartValue] = useState<number>(2000);
+  const [shippingCharge, setShippingCharge] = useState<number>(0);
+  const [freeShippingEnabled, setFreeShippingEnabled] = useState<boolean>(false);
+  const [freeShippingThreshold, setFreeShippingThreshold] = useState<number>(0);
 
   useEffect(() => {
     api.getSettings().then((s) => {
-      if (s?.minimum_cart_value !== undefined) {
-        setMinCartValue(s.minimum_cart_value);
+      if (s) {
+        if (s.minimum_cart_value !== undefined) setMinCartValue(s.minimum_cart_value);
+        setShippingCharge(s.shipping_charge ?? 0);
+        setFreeShippingEnabled(Boolean(s.free_shipping_enabled));
+        setFreeShippingThreshold(s.free_shipping_threshold ?? 0);
       }
-    });
+    }).catch(() => {});
   }, []);
+
+  const isFreeShipping = freeShippingEnabled && freeShippingThreshold > 0 && totalWholesale >= freeShippingThreshold;
+  const appliedShipping = isFreeShipping ? 0 : shippingCharge;
+  const finalCartTotal = totalWholesale + appliedShipping;
 
   const isMinMet = minCartValue === 0 || totalWholesale >= minCartValue;
   const shortfall = Math.max(0, minCartValue - totalWholesale);
@@ -267,10 +277,22 @@ export const CartDrawer: React.FC = () => {
                       <span>Festival Special Discount:</span>
                       <span>-₹{totalSavings.toLocaleString('en-IN')} (Wholesale Savings)</span>
                     </div>
+                    <div className="flex justify-between text-[#66574F]">
+                      <span>Estimated Delivery:</span>
+                      {appliedShipping === 0 ? (
+                        <span className="text-[#07542C] font-bold">
+                          {isFreeShipping ? 'Free Delivery (Festival Offer)' : 'Free Delivery'}
+                        </span>
+                      ) : (
+                        <span className="font-bold text-[#1C1411]">
+                          +₹{appliedShipping.toLocaleString('en-IN')}
+                        </span>
+                      )}
+                    </div>
                     <div className="flex justify-between text-sm sm:text-base font-serif font-black text-[#1C1411] pt-2 border-t border-[#E2D7C5]">
-                      <span>Net Wholesale Total:</span>
+                      <span>Estimated Total:</span>
                       <span className="text-[#550C12] text-lg font-serif">
-                        ₹{totalWholesale.toLocaleString('en-IN')}
+                        ₹{finalCartTotal.toLocaleString('en-IN')}
                       </span>
                     </div>
                   </div>

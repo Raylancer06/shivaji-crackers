@@ -470,16 +470,30 @@ export default function AdminOrdersPage() {
                       )}
                     </div>
                     {screenshotUrl && (
-                      <div className="pt-2">
+                      <div className="pt-2 space-y-2">
                         <a
                           href={screenshotUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#550C12] underline"
+                          className="inline-block rounded-xl overflow-hidden border border-amber-300 bg-white p-1 max-w-[220px] hover:opacity-95 transition shadow-xs"
                         >
-                          <ExternalLink className="w-3.5 h-3.5" />
-                          <span>View Signed Payment Screenshot</span>
+                          <img
+                            src={screenshotUrl}
+                            alt="Payment Proof Screenshot"
+                            className="w-full h-auto object-contain max-h-40 rounded-lg"
+                          />
                         </a>
+                        <div>
+                          <a
+                            href={screenshotUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#550C12] underline cursor-pointer"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            <span>Open Full Size Screenshot</span>
+                          </a>
+                        </div>
                       </div>
                     )}
                   </div>

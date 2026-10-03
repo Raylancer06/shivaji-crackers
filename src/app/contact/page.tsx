@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { Sparkles, Phone, Mail, MapPin, Send, Truck, CheckCircle2 } from 'lucide-react';
+import { api } from '@/services/api';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -13,6 +14,21 @@ export default function ContactPage() {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [email, setEmail] = useState('sivajiduddempudi42@gmail.com');
+  const [phone, setPhone] = useState('+91 83740 44445');
+
+  useEffect(() => {
+    api.getSettings().then((s) => {
+      if (s) {
+        if (s.business_email || s.support_email || s.admin_notification_email) {
+          setEmail(s.business_email || s.support_email || s.admin_notification_email || 'sivajiduddempudi42@gmail.com');
+        }
+        if (s.support_phone || s.business_phone) {
+          setPhone(s.support_phone || s.business_phone || '+91 83740 44445');
+        }
+      }
+    });
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,7 +69,7 @@ export default function ContactPage() {
 
               <div className="space-y-4 text-xs">
                 <a
-                  href="tel:+918374044445"
+                  href={`tel:${phone.replace(/\s+/g, '')}`}
                   className="flex items-start gap-3 p-3 rounded-2xl hover:bg-[#FAF8F5] transition-colors border border-transparent hover:border-[#E2D7C5]"
                 >
                   <div className="w-10 h-10 rounded-xl bg-[#FFF8ED] text-[#B85D00] flex items-center justify-center shrink-0">
@@ -61,21 +77,24 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <span className="font-bold text-[#66574F] block text-[10px] uppercase tracking-wider">Direct Call Helpline</span>
-                    <span className="font-black text-base text-[#1C1411]">+91 83740 44445</span>
+                    <span className="font-black text-base text-[#1C1411]">{phone}</span>
                     <span className="text-[#66574F] block mt-0.5">Mon - Sun (8:00 AM - 10:00 PM)</span>
                   </div>
                 </a>
 
-                <div className="flex items-start gap-3 p-3 rounded-2xl border border-[#E2D7C5]/50 bg-[#FAF8F5]">
+                <a
+                  href={`mailto:${email}`}
+                  className="flex items-start gap-3 p-3 rounded-2xl border border-[#E2D7C5]/50 bg-[#FAF8F5] hover:border-[#E2D7C5] transition-colors"
+                >
                   <div className="w-10 h-10 rounded-xl bg-white text-[#550C12] border border-[#E2D7C5] flex items-center justify-center shrink-0">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
                     <span className="font-bold text-[#66574F] block text-[10px] uppercase tracking-wider">Email Inquiry</span>
-                    <span className="font-bold text-sm text-[#1C1411]">orders@sivajifirecracker.com</span>
+                    <span className="font-bold text-sm text-[#1C1411]">{email}</span>
                     <span className="text-[#66574F] block mt-0.5">Wholesale inquiries & society quotes</span>
                   </div>
-                </div>
+                </a>
 
                 <div className="flex items-start gap-3 p-3 rounded-2xl border border-[#E2D7C5]/50 bg-[#FAF8F5]">
                   <div className="w-10 h-10 rounded-xl bg-white text-[#550C12] border border-[#E2D7C5] flex items-center justify-center shrink-0">

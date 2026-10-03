@@ -31,7 +31,7 @@ async function run() {
     { key: 'business_name', value: 'Sivaji Firecracker', description: 'Official business name' },
     { key: 'business_city', value: 'Hyderabad', description: 'Operating city location' },
     { key: 'business_phone', value: '+91 83740 44445', description: 'Official customer care phone' },
-    { key: 'business_email', value: 'orders@sivajifirecracker.com', description: 'Customer support email' },
+    { key: 'business_email', value: 'sivajiduddempudi42@gmail.com', description: 'Customer support email' },
     { key: 'upi_id', value: 'sivajiduddempudi422@axl', description: 'Official UPI ID for manual payments' },
     { key: 'upi_payee_name', value: 'Sivaji Duddempudi', description: 'Recipient payee name for UPI' },
     { key: 'currency_symbol', value: '₹', description: 'Currency symbol' },

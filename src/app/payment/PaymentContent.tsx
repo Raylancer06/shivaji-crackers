@@ -20,7 +20,7 @@ export const PaymentContent: React.FC = () => {
     business_name: 'Sivaji Firecracker',
     business_city: 'Hyderabad',
     business_phone: '+91 83740 44445',
-    business_email: 'orders@sivajifirecracker.com',
+    business_email: 'sivajiduddempudi42@gmail.com',
     minimum_cart_value: 2000,
     upi_id: 'sivajiduddempudi422@axl',
     upi_payee_name: 'Sivaji Duddempudi',

@@ -103,6 +103,14 @@ export default function AdminSettingsPage() {
         fullName: adminFullName.trim(),
       });
 
+      await adminApi.updateSettings({
+        business_email: adminEmail.trim(),
+        admin_email: adminEmail.trim(),
+        admin_notification_email: adminEmail.trim(),
+        admin_whatsapp_number: adminPhone.replace(/\D/g, ''),
+        support_phone: adminPhone.trim(),
+      });
+
       setAdminCredSuccess('Admin login email, password, and order notification channels updated successfully!');
       setAdminPassword('');
       fetchSettings();
@@ -123,6 +131,7 @@ export default function AdminSettingsPage() {
         ...settings,
         admin_email: adminEmail.trim(),
         admin_notification_email: adminEmail.trim(),
+        business_email: adminEmail.trim(),
         admin_whatsapp_number: adminPhone.replace(/\D/g, ''),
       });
       setSuccessMsg('Store settings updated successfully.');

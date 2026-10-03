@@ -113,6 +113,14 @@ function mapProduct(row: any): Product {
   const mrp = Number(row.mrp);
   const price = Number(row.selling_price);
   const discountPercent = mrp > 0 ? Math.round(((mrp - price) / mrp) * 100) : 0;
+  let image = row.image_url;
+  if (
+    !image ||
+    image.includes('0d5b1c4c7f720f698946c7f6ab08f687') ||
+    image.includes('90bb1f4b30160008da9655e42bb9cd99')
+  ) {
+    image = '/placeholder-cracker.svg';
+  }
   return {
     id: row.sku || row.id,
     name: row.name,
@@ -124,7 +132,7 @@ function mapProduct(row: any): Product {
     quantityUnit: row.quantity_unit || 'Pieces',
     pieces: row.pieces || `Box Contains: ${row.box_quantity || 1} ${row.quantity_unit || 'Pieces'}`,
     soundLevel: row.sound_level || 'Festival Sound',
-    image: row.image_url,
+    image: image,
     description: row.description || '',
     greenCertified: Boolean(row.green_certified),
     featured: Boolean(row.is_featured),
@@ -171,7 +179,7 @@ export const api = {
         business_name: map['business_name'] || 'Sivaji Firecracker',
         business_city: map['business_city'] || 'Hyderabad',
         business_phone: map['business_phone'] || '+91 83740 44445',
-        business_email: map['business_email'] || 'orders@sivajifirecracker.com',
+        business_email: map['business_email'] || 'sivajiduddempudi42@gmail.com',
         admin_whatsapp_number: map['admin_whatsapp_number'] || '918374044445',
         admin_notification_email: map['admin_notification_email'] || 'sivajiduddempudi42@gmail.com',
         support_phone: map['support_phone'] || '+91 83740 44445',
@@ -200,7 +208,7 @@ export const api = {
         business_name: 'Sivaji Firecracker',
         business_city: 'Hyderabad',
         business_phone: '+91 83740 44445',
-        business_email: 'orders@sivajifirecracker.com',
+        business_email: 'sivajiduddempudi42@gmail.com',
         admin_whatsapp_number: '918374044445',
         admin_notification_email: 'sivajiduddempudi42@gmail.com',
         support_phone: '+91 83740 44445',

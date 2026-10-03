@@ -1,9 +1,26 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ShieldCheck, MapPin, Scale, Truck, Phone, Mail } from 'lucide-react';
+import { api } from '@/services/api';
 
 export const Footer: React.FC = () => {
+  const [email, setEmail] = useState('sivajiduddempudi42@gmail.com');
+  const [phone, setPhone] = useState('+91 83740 44445');
+
+  useEffect(() => {
+    api.getSettings().then((s) => {
+      if (s) {
+        if (s.business_email || s.support_email || s.admin_notification_email) {
+          setEmail(s.business_email || s.support_email || s.admin_notification_email || 'sivajiduddempudi42@gmail.com');
+        }
+        if (s.support_phone || s.business_phone) {
+          setPhone(s.support_phone || s.business_phone || '+91 83740 44445');
+        }
+      }
+    });
+  }, []);
+
   return (
     <footer className="bg-white border-t border-[#E2D7C5] text-[#1C1411] font-sans">
       {/* Upper Footer */}
@@ -100,18 +117,18 @@ export const Footer: React.FC = () => {
                 </p>
                 <div className="space-y-1.5 pt-1">
                   <a
-                    href="tel:+918374044445"
+                    href={`tel:${phone.replace(/\s+/g, '')}`}
                     className="inline-flex items-center justify-center gap-2 w-full py-2 bg-[#550C12] hover:bg-[#7B141C] text-white rounded-xl font-bold text-xs transition-colors shadow-sm"
                   >
                     <Phone className="w-3.5 h-3.5 text-[#F0B543]" />
-                    <span>+91 83740 44445</span>
+                    <span>{phone}</span>
                   </a>
                   <a
-                    href="mailto:orders@sivajifirecracker.com"
+                    href={`mailto:${email}`}
                     className="inline-flex items-center justify-center gap-2 w-full py-1.5 bg-white border border-[#E2D7C5] text-[#550C12] hover:bg-[#FAF7F2] rounded-xl font-semibold text-xs transition-colors"
                   >
                     <Mail className="w-3.5 h-3.5" />
-                    <span>orders@sivajifirecracker.com</span>
+                    <span>{email}</span>
                   </a>
                 </div>
               </div>

@@ -24,7 +24,11 @@ function LoginForm() {
   // If already logged in, redirect immediately
   useEffect(() => {
     if (user) {
-      router.replace(redirectUrl);
+      if (user.role === 'admin' && redirectUrl === '/account') {
+        router.replace('/admin');
+      } else {
+        router.replace(redirectUrl);
+      }
     }
   }, [user, redirectUrl, router]);
 
@@ -39,8 +43,12 @@ function LoginForm() {
     setError('');
 
     try {
-      await login(loginInput.trim(), password.trim());
-      router.push(redirectUrl);
+      const authUser = await login(loginInput.trim(), password.trim());
+      if (authUser?.role === 'admin' && redirectUrl === '/account') {
+        router.push('/admin');
+      } else {
+        router.push(redirectUrl);
+      }
     } catch (err: any) {
       setError(err.message || 'Login failed. Please verify your credentials.');
       setSubmitting(false);
@@ -167,14 +175,25 @@ function LoginForm() {
         </button>
       </form>
 
-      <div className="text-center pt-2 border-t border-gray-100 text-xs text-[#66574F]">
-        Don't have an account yet?{' '}
-        <Link
-          href={`/register${redirectUrl !== '/account' ? `?redirect=${encodeURIComponent(redirectUrl)}` : ''}`}
-          className="font-bold text-[#550C12] hover:underline"
-        >
-          Create New Account
-        </Link>
+      <div className="text-center pt-2 border-t border-gray-100 space-y-2 text-xs text-[#66574F]">
+        <div>
+          Don't have an account yet?{' '}
+          <Link
+            href={`/register${redirectUrl !== '/account' ? `?redirect=${encodeURIComponent(redirectUrl)}` : ''}`}
+            className="font-bold text-[#550C12] hover:underline"
+          >
+            Create New Account
+          </Link>
+        </div>
+        <div className="pt-2 border-t border-dashed border-gray-200">
+          <Link
+            href="/admin/login"
+            className="inline-flex items-center gap-1.5 font-bold text-[#B85D00] hover:text-[#550C12] transition-colors"
+          >
+            <KeyRound className="w-3.5 h-3.5" />
+            <span>Store Admin Portal Login →</span>
+          </Link>
+        </div>
       </div>
     </div>
   );

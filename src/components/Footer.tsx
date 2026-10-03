@@ -91,6 +91,12 @@ export const Footer: React.FC = () => {
                   Contact Us & Hyderabad Hub
                 </a>
               </li>
+              <li>
+                <a href="/admin/login" className="text-[#66574F] hover:text-[#550C12] transition-colors flex items-center gap-1.5 font-medium">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#C98E2A]" />
+                  <span>Admin Portal</span>
+                </a>
+              </li>
             </ul>
           </div>
 

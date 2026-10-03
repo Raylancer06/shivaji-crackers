@@ -383,6 +383,35 @@ function AccountPortal() {
       <Navbar />
 
       <main className="max-w-7xl w-full mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-12 space-y-8">
+        {/* Admin Shortcut Banner if user is Admin */}
+        {user.role === 'admin' && (
+          <div className="bg-gradient-to-r from-[#200306] via-[#3D060B] to-[#550C12] text-white rounded-3xl p-6 border-2 border-[#F0B543]/40 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3.5">
+              <div className="w-12 h-12 rounded-2xl bg-[#F0B543]/20 border border-[#F0B543]/50 text-[#F0B543] flex items-center justify-center shrink-0">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="inline-block text-[10px] font-black uppercase tracking-wider bg-[#F0B543] text-[#200306] px-2.5 py-0.5 rounded-full mb-1">
+                  Store Administrator
+                </span>
+                <h3 className="font-serif font-black text-base text-white">
+                  Admin Operations Portal Access
+                </h3>
+                <p className="text-xs text-[#E2D7C5]">
+                  Manage customer orders, verify UPI payments, update pricing & inventory.
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/admin"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#C98E2A] to-[#F0B543] hover:from-[#F0B543] hover:to-[#C98E2A] text-[#1C1411] font-serif font-black text-xs transition shadow-md shrink-0"
+            >
+              <LayoutDashboard className="w-4 h-4" />
+              <span>Go to Admin Portal →</span>
+            </Link>
+          </div>
+        )}
+
         {/* Top Header Card */}
         <div className="bg-white rounded-3xl border border-[#E2D7C5] shadow-regal p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="flex items-center gap-4">

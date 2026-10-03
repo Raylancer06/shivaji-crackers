@@ -66,10 +66,10 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
 
   const navLinks = [
     { label: 'Home', href: '/', icon: Home },
-    { label: 'Estimate & Price List', href: '/estimate', icon: Calculator, badge: 'Wholesale' },
+    { label: 'Estimate', href: '/estimate', icon: Calculator, badge: 'Wholesale' },
     { label: 'Payment Info', href: '/payment', icon: CreditCard },
     { label: 'About Us', href: '/about', icon: Info },
-    { label: 'Contact & Helpline', href: '/contact', icon: PhoneCall },
+    { label: 'Contact', href: '/contact', icon: PhoneCall },
   ];
 
   return (
@@ -133,7 +133,7 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
           </Link>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden lg:flex items-center gap-5 xl:gap-6 text-xs font-bold uppercase tracking-wider text-[#5C4D44] shrink-0">
+          <div className="hidden lg:flex items-center gap-5 xl:gap-7 text-xs font-bold uppercase tracking-wider text-[#5C4D44] shrink-0">
             {navLinks.map((link) => (
               <Link
                 key={link.href}

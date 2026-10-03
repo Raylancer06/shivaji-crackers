@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase/client';
 import { adminApi } from '@/services/supabaseAdmin';
-import { ShieldCheck, Lock, Mail, AlertCircle, Loader2, Eye, EyeOff, KeyRound } from 'lucide-react';
+import { ShieldCheck, Lock, Mail, AlertCircle, Loader2, Eye, EyeOff } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -52,13 +52,6 @@ export default function AdminLoginPage() {
     }
   };
 
-  const handleAutoFill = () => {
-    setEmail('sivajiduddempudi42@gmail.com');
-    setPassword('sivajiadmin2026');
-    setShowPassword(true);
-    setError('');
-  };
-
   return (
     <div className="min-h-screen bg-[#200306] flex items-center justify-center p-4 font-sans relative overflow-hidden">
       {/* Background Glow */}
@@ -76,26 +69,6 @@ export default function AdminLoginPage() {
           <p className="text-xs font-bold uppercase tracking-wider text-[#B85D00]">
             Store Operations & Admin Portal
           </p>
-        </div>
-
-        {/* QA Helper Box */}
-        <div className="bg-[#FFF8ED] border border-[#C98E2A]/30 rounded-2xl p-3.5 text-xs flex items-center justify-between gap-3">
-          <div className="min-w-0">
-            <div className="flex items-center gap-1.5 font-bold text-[#550C12]">
-              <KeyRound className="w-3.5 h-3.5 text-[#C98E2A] shrink-0" />
-              <span>Admin QA Login</span>
-            </div>
-            <p className="text-[11px] text-[#66574F] mt-0.5 truncate font-mono">
-              sivajiduddempudi42@gmail.com
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={handleAutoFill}
-            className="px-3 py-1.5 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white font-serif font-bold text-[11px] transition shrink-0 shadow-sm"
-          >
-            Auto Fill
-          </button>
         </div>
 
         {error && (
@@ -117,7 +90,7 @@ export default function AdminLoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="sivajiduddempudi42@gmail.com"
+                placeholder="admin@example.com"
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs font-medium text-[#1C1411] focus:outline-none focus:ring-2 focus:ring-[#C98E2A] transition"
               />
             </div>
@@ -134,7 +107,7 @@ export default function AdminLoginPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="sivajiadmin2026"
+                placeholder="••••••••••••"
                 className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs font-medium text-[#1C1411] focus:outline-none focus:ring-2 focus:ring-[#C98E2A] transition"
               />
               <button

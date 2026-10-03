@@ -40,7 +40,7 @@ export default function ContactPage() {
       <Navbar />
 
       {/* Hero Header */}
-      <section className="pt-28 pb-14 bg-gradient-to-b from-[#200306] to-[#3D060B] text-white relative">
+      <section className="py-10 sm:py-14 bg-gradient-to-b from-[#200306] to-[#3D060B] text-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 border border-[#F0B543]/40 backdrop-blur-md mb-4">
             <Sparkles className="w-3.5 h-3.5 text-[#F0B543]" />

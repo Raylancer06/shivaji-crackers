@@ -89,7 +89,7 @@ export default function ProductDetailPage() {
     <div className="min-h-screen bg-[#FAF8F5] flex flex-col justify-between font-sans selection:bg-[#C98E2A] selection:text-white">
       <Navbar />
 
-      <main className="max-w-7xl w-full mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-12">
+      <main className="max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 pb-12">
         {/* Breadcrumb Bar */}
         <div className="flex items-center gap-2 text-xs text-[#66574F] mb-6 overflow-x-auto whitespace-nowrap">
           <Link href="/" className="hover:text-[#550C12] transition">Home</Link>

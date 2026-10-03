@@ -73,9 +73,13 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 font-sans">
+    <header className="sticky top-0 z-50 font-sans w-full bg-white shadow-xs">
       {/* Top Luxury Announcement Ribbon */}
-      <div className="bg-[#3D060B] text-[#F3E7D3] text-[11px] py-1.5 px-3 sm:px-4 font-medium border-b border-[#C98E2A]/20 tracking-wider">
+      <div
+        className={`bg-[#3D060B] text-[#F3E7D3] text-[11px] px-3 sm:px-4 font-medium tracking-wider transition-all duration-300 overflow-hidden ${
+          scrolled ? 'max-h-0 py-0 opacity-0 pointer-events-none border-b-0' : 'max-h-12 py-1.5 opacity-100 border-b border-[#C98E2A]/20'
+        }`}
+      >
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
             <span className="flex h-1.5 w-1.5 rounded-full bg-[#10B981] shadow-[0_0_8px_#10B981] animate-pulse shrink-0" />
@@ -100,12 +104,12 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
         </div>
       </div>
 
-      {/* Main Glass Navbar - Clean Responsive Layout */}
+      {/* Main Solid Opaque Navbar */}
       <nav
-        className={`transition-all duration-300 border-b ${
+        className={`w-full transition-all duration-300 border-b border-[#E2D7C5] bg-white ${
           scrolled || mobileMenuOpen
-            ? 'bg-[#FAF8F5]/98 backdrop-blur-md shadow-regal py-2 border-[#E2D7C5]'
-            : 'bg-[#FAF8F5]/90 backdrop-blur-sm py-2.5 sm:py-3 border-[#E2D7C5]/60'
+            ? 'shadow-md py-2'
+            : 'shadow-xs py-2.5 sm:py-3'
         }`}
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-6 flex items-center justify-between gap-2 sm:gap-3 lg:gap-6">
@@ -263,16 +267,16 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setMobileMenuOpen(false)}
-              className="fixed inset-0 top-[75px] sm:top-[85px] bg-black/50 backdrop-blur-xs z-30 lg:hidden"
+              className="fixed inset-0 top-0 bg-black/60 z-40 lg:hidden"
             />
 
             {/* Menu Slide Down Panel */}
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.25, ease: 'easeOut' }}
-              className="fixed inset-x-0 top-[75px] sm:top-[85px] z-40 bg-[#FAF8F5] border-b-2 border-[#C98E2A]/30 shadow-2xl max-h-[calc(100vh-85px)] overflow-y-auto lg:hidden"
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
+              className="absolute top-full left-0 right-0 z-50 bg-[#FAF8F5] border-b-2 border-[#C98E2A]/30 shadow-2xl max-h-[85vh] overflow-y-auto lg:hidden"
             >
               <div className="px-4 py-4 space-y-3.5">
                 {/* Search Bar for Mobile */}

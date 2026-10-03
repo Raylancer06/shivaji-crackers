@@ -55,13 +55,6 @@ function LoginForm() {
     }
   };
 
-  const handleAutoFill = () => {
-    setLoginInput('customer@sivajifirecrackers.com');
-    setPassword('customer2026');
-    setShowPassword(true);
-    setError('');
-  };
-
   return (
     <div className="w-full max-w-md bg-white rounded-3xl border border-[#E2D7C5] shadow-regal p-8 sm:p-10 space-y-6">
       <div className="text-center space-y-1">
@@ -74,26 +67,6 @@ function LoginForm() {
         <p className="text-xs text-[#66574F]">
           Access your Sivaji Firecracker orders, view invoices, and manage saved addresses.
         </p>
-      </div>
-
-      {/* QA Customer Helper Box */}
-      <div className="bg-[#FFF8ED] border border-[#C98E2A]/30 rounded-2xl p-3.5 text-xs flex items-center justify-between gap-3">
-        <div className="min-w-0">
-          <div className="flex items-center gap-1.5 font-bold text-[#550C12]">
-            <KeyRound className="w-3.5 h-3.5 text-[#C98E2A] shrink-0" />
-            <span>Customer QA Login</span>
-          </div>
-          <p className="text-[11px] text-[#66574F] mt-0.5 truncate">
-            customer@sivajifirecrackers.com
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={handleAutoFill}
-          className="px-3 py-1.5 rounded-xl bg-[#550C12] hover:bg-[#7B141C] text-white font-serif font-bold text-[11px] transition shrink-0 shadow-sm"
-        >
-          Auto Fill
-        </button>
       </div>
 
       {error && (
@@ -142,7 +115,7 @@ function LoginForm() {
               disabled={submitting}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="customer2026"
+              placeholder="••••••••••••"
               className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-[#E2D7C5] bg-[#FAF8F5] text-xs text-[#1C1411] outline-none focus:bg-white focus:border-[#C98E2A] disabled:opacity-60"
             />
             <button
@@ -204,7 +177,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-[#FAF8F5] flex flex-col justify-between font-sans">
       <Navbar />
 
-      <main className="flex-1 flex items-center justify-center p-4 pt-28 sm:pt-32 pb-12 sm:pb-16">
+      <main className="flex-1 flex items-center justify-center p-4 py-10 sm:py-16">
         <Suspense fallback={<div className="p-8 text-center text-xs text-gray-500">Loading sign in...</div>}>
           <LoginForm />
         </Suspense>

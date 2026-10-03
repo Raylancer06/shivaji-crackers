@@ -263,7 +263,7 @@ export default function OrderConfirmationPage() {
     <div className="min-h-screen bg-[#FAF8F5] flex flex-col justify-between font-sans">
       <Navbar />
 
-      <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-12">
+      <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-10 pb-12">
         {loading ? (
           <div className="py-20 text-center space-y-4">
             <div className="w-12 h-12 border-4 border-[#C98E2A] border-t-[#550C12] rounded-full animate-spin mx-auto" />

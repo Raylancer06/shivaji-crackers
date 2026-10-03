@@ -137,7 +137,7 @@ export const Hero: React.FC = () => {
     <section
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className="relative pt-24 pb-12 sm:pt-28 sm:pb-16 bg-[#FAF8F5] overflow-hidden font-sans"
+      className="relative py-6 sm:py-8 bg-[#FAF8F5] overflow-hidden font-sans"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Slideshow Container Frame */}

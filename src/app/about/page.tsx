@@ -49,7 +49,7 @@ export default function AboutPage() {
       <Navbar />
 
       {/* Hero Header */}
-      <section className="pt-28 pb-16 bg-gradient-to-b from-[#200306] to-[#3D060B] text-white relative overflow-hidden">
+      <section className="py-10 sm:py-16 bg-gradient-to-b from-[#200306] to-[#3D060B] text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F0B543_1px,transparent_1px)] [background-size:16px_16px]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 border border-[#F0B543]/40 backdrop-blur-md mb-4">

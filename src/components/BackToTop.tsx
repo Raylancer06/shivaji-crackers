@@ -10,13 +10,16 @@ export const BackToTop: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  if (pathname?.startsWith('/admin') || pathname?.startsWith('/checkout')) return null;
-
   useEffect(() => {
+    if (pathname?.startsWith('/admin') || pathname?.startsWith('/checkout')) {
+      setIsVisible(false);
+      return;
+    }
+
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      
+
       if (scrollTop > 300) {
         setIsVisible(true);
       } else {
@@ -31,7 +34,9 @@ export const BackToTop: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [pathname]);
+
+  if (pathname?.startsWith('/admin') || pathname?.startsWith('/checkout')) return null;
 
   const scrollToTop = () => {
     window.scrollTo({

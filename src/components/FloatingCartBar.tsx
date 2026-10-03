@@ -45,37 +45,18 @@ export const FloatingCartBar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // 1. Exclude Admin routes
-  if (pathname?.startsWith('/admin')) return null;
-
-  // 2. Exclude Checkout route and when Checkout modal is active
-  if (pathname?.startsWith('/checkout') || isCheckoutOpen) return null;
-
-  // 3. Exclude when Cart Drawer modal is open
-  if (isCartOpen) return null;
-
-  // 4. Exclude Cart route and Order confirmation
-  if (
+  const isExcluded = Boolean(
+    pathname?.startsWith('/admin') ||
+    pathname?.startsWith('/checkout') ||
+    pathname?.startsWith('/order-confirmation') ||
     pathname === '/cart' ||
     pathname?.startsWith('/cart') ||
-    pathname?.startsWith('/order-confirmation')
-  ) {
-    return null;
-  }
-
-  // 5. Exclude Estimate page (disabled by default unless explicitly allowed in Admin)
-  if (
-    (pathname === '/estimate' || pathname?.startsWith('/estimate')) &&
-    !settings.floating_cart_on_estimate
-  ) {
-    return null;
-  }
-
-  // 6. Master switch: disabled in settings
-  if (settings.floating_cart_enabled === false) return null;
-
-  // 7. No items in cart
-  if (totalBoxes === 0) return null;
+    isCheckoutOpen ||
+    isCartOpen ||
+    totalBoxes === 0 ||
+    settings.floating_cart_enabled === false ||
+    ((pathname === '/estimate' || pathname?.startsWith('/estimate')) && !settings.floating_cart_on_estimate)
+  );
 
   // Mobile View Option:
   // If floating_cart_mobile_enabled is false (default), hide on small screens (< 768px) with 'hidden md:block'
@@ -84,7 +65,7 @@ export const FloatingCartBar: React.FC = () => {
 
   return (
     <AnimatePresence>
-      {show && (
+      {!isExcluded && show && (
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}

@@ -20,9 +20,9 @@ export const SparkleCanvas: React.FC = () => {
   const pathname = usePathname();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  if (pathname?.startsWith('/admin')) return null;
-
   useEffect(() => {
+    if (pathname?.startsWith('/admin')) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -151,7 +151,9 @@ export const SparkleCanvas: React.FC = () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('click', handleClick);
     };
-  }, []);
+  }, [pathname]);
+
+  if (pathname?.startsWith('/admin')) return null;
 
   return (
     <canvas

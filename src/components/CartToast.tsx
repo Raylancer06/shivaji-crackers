@@ -4,17 +4,17 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
-import { ShoppingBag, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export const CartToast: React.FC = () => {
   const pathname = usePathname();
   const { lastAddedItem, setIsCartOpen } = useCart();
 
-  if (pathname?.startsWith('/admin') || pathname?.startsWith('/checkout')) return null;
+  const isExcluded = pathname?.startsWith('/admin') || pathname?.startsWith('/checkout');
 
   return (
     <AnimatePresence>
-      {lastAddedItem && (
+      {!isExcluded && lastAddedItem && (
         <motion.div
           initial={{ opacity: 0, y: 50, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}

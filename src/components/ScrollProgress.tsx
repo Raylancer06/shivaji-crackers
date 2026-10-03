@@ -7,9 +7,9 @@ export const ScrollProgress: React.FC = () => {
   const pathname = usePathname();
   const [progress, setProgress] = useState(0);
 
-  if (pathname?.startsWith('/admin')) return null;
-
   useEffect(() => {
+    if (pathname?.startsWith('/admin')) return;
+
     const handleScroll = () => {
       const totalScroll = document.documentElement.scrollTop;
       const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -21,7 +21,9 @@ export const ScrollProgress: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [pathname]);
+
+  if (pathname?.startsWith('/admin')) return null;
 
   return (
     <div className="fixed top-0 left-0 right-0 h-[3px] z-[60] pointer-events-none bg-black/5">

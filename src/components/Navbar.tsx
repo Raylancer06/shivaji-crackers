@@ -114,8 +114,8 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-6 flex items-center justify-between gap-2 sm:gap-3 lg:gap-6">
           {/* Brand Emblem & Logo */}
-          <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink-0">
-            <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full p-0.5 bg-gradient-to-tr from-[#C98E2A] via-[#F0B543] to-[#550C12] shadow-sm flex items-center justify-center shrink-0">
+          <Link href="/" className="flex items-center gap-2 group shrink-0">
+            <div className="h-7 w-7 sm:h-8 sm:w-8 rounded-full p-0.5 bg-gradient-to-tr from-[#C98E2A] via-[#F0B543] to-[#550C12] shadow-sm flex items-center justify-center shrink-0">
               <img
                 src="/logo.svg"
                 alt="Sivaji Firecracker Logo"
@@ -123,10 +123,10 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
               />
             </div>
             <div className="flex flex-col">
-              <span className="font-black text-sm sm:text-base lg:text-lg text-[#550C12] tracking-wider leading-none group-hover:text-[#7B141C] transition-colors whitespace-nowrap">
+              <span className="font-black text-xs sm:text-sm lg:text-base text-[#550C12] tracking-wider leading-none group-hover:text-[#7B141C] transition-colors whitespace-nowrap">
                 SIVAJI FIRECRACKER
               </span>
-              <span className="text-[8px] sm:text-[9px] lg:text-[10px] font-bold text-[#B85D00] tracking-widest uppercase mt-0.5 whitespace-nowrap">
+              <span className="text-[7.5px] sm:text-[8px] lg:text-[9px] font-bold text-[#B85D00] tracking-widest uppercase mt-0.5 whitespace-nowrap">
                 Direct Wholesale • Hyderabad Express
               </span>
             </div>

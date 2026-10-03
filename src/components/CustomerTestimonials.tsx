@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Star, ShieldCheck, MapPin, Truck, CheckCircle2, Quote } from 'lucide-react';
 
 const REVIEWS = [
@@ -35,10 +36,16 @@ const REVIEWS = [
 
 export const CustomerTestimonials: React.FC = () => {
   return (
-    <section className="py-16 sm:py-24 bg-white border-t border-[#E2D7C5] font-sans">
+    <section className="py-16 sm:py-24 bg-white border-t border-[#E2D7C5] font-sans overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.55 }}
+          className="text-center max-w-3xl mx-auto mb-12"
+        >
           <span className="text-xs font-serif font-black uppercase tracking-widest text-[#B85D00] block mb-2">
             Verified Customer Trust & Testimonials
           </span>
@@ -51,14 +58,32 @@ export const CustomerTestimonials: React.FC = () => {
           <p className="text-xs sm:text-sm text-[#66574F] mt-2 leading-relaxed">
             Over 50,000 satisfied Diwali celebrations since 2008. Read real experiences from customers who ordered direct from Sivaji Firecracker.
           </p>
-        </div>
+        </motion.div>
 
         {/* Reviews Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-50px' }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.12 }
+            }
+          }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+        >
           {REVIEWS.map((rev, i) => (
-            <div
+            <motion.div
               key={i}
-              className="bg-[#FAF7F2] p-6 rounded-3xl border border-[#E2D7C5] shadow-sm hover:shadow-regal transition-all flex flex-col justify-between"
+              variants={{
+                hidden: { opacity: 0, y: 25 },
+                visible: { opacity: 1, y: 0 }
+              }}
+              whileHover={{ y: -6, scale: 1.015 }}
+              transition={{ duration: 0.35 }}
+              className="bg-[#FAF7F2] p-6 rounded-3xl border border-[#E2D7C5] shadow-sm hover:shadow-xl transition-shadow flex flex-col justify-between hover:border-[#C98E2A]/50"
             >
               <div>
                 {/* Rating & Quote icon */}
@@ -92,9 +117,9 @@ export const CustomerTestimonials: React.FC = () => {
                   {rev.boxes}
                 </span>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

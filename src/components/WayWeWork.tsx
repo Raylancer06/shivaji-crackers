@@ -106,7 +106,13 @@ export const WayWeWork: React.FC = () => {
     <section className="py-16 md:py-24 bg-[#F2EBE0]/60 relative border-t border-b border-[#E2D7C5]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-2xl mx-auto mb-12"
+        >
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF8ED] text-[#B85D00] text-xs font-bold uppercase tracking-wider mb-2 border border-[#C98E2A]/30">
             <Sparkles className="w-3.5 h-3.5 text-[#C98E2A]" />
             <span>How Sivaji Firecracker Operates</span>
@@ -117,10 +123,16 @@ export const WayWeWork: React.FC = () => {
           <p className="text-xs sm:text-sm text-[#66574F] mt-2 font-normal">
             Five simple steps is all it takes to elevate your festival celebration with authentic factory-direct crackers.
           </p>
-        </div>
+        </motion.div>
 
         {/* 5-Step Interactive Navigation Pill Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 mb-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-30px' }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 mb-10"
+        >
           {STEPS.map((s) => {
             const isActive = s.id === activeStep;
             const StepIcon = s.icon;
@@ -129,10 +141,10 @@ export const WayWeWork: React.FC = () => {
                 key={s.id}
                 type="button"
                 onClick={() => setActiveStep(s.id)}
-                className={`p-3.5 rounded-2xl text-left transition-all border flex flex-col justify-between ${
+                className={`p-3.5 rounded-2xl text-left transition-all border flex flex-col justify-between cursor-pointer ${
                   isActive
                     ? 'bg-[#550C12] text-white border-[#550C12] shadow-regal scale-[1.02]'
-                    : 'bg-white/80 hover:bg-white text-[#1C1411] border-[#E2D7C5] hover:border-[#C98E2A]/50'
+                    : 'bg-white/80 hover:bg-white text-[#1C1411] border-[#E2D7C5] hover:border-[#C98E2A]/50 hover:shadow-sm'
                 }`}
               >
                 <div className="flex items-center justify-between mb-2">
@@ -155,7 +167,7 @@ export const WayWeWork: React.FC = () => {
               </button>
             );
           })}
-        </div>
+        </motion.div>
 
         {/* Active Step Showcase Card */}
         <AnimatePresence mode="wait">

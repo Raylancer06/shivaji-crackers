@@ -10,7 +10,13 @@ export const SafetySection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Left: Green QR Card */}
-          <div className="lg:col-span-5 bg-gradient-to-br from-[#3D060B] via-[#550C12] to-[#1C1411] text-white p-6 sm:p-8 rounded-3xl shadow-regal relative overflow-hidden border border-[#C98E2A]/30">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-5 bg-gradient-to-br from-[#3D060B] via-[#550C12] to-[#1C1411] text-white p-6 sm:p-8 rounded-3xl shadow-regal relative overflow-hidden border border-[#C98E2A]/30"
+          >
             <div className="absolute top-0 right-0 w-48 h-48 bg-[#C98E2A]/10 blur-3xl rounded-full" />
             <div className="flex items-center gap-2 mb-4">
               <span className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-[#F0B543]">
@@ -43,10 +49,16 @@ export const SafetySection: React.FC = () => {
                 <span>Safe sound decibels within statutory PESO limit</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right: Statutory Compliance & Safe Firing Guidelines */}
-          <div className="lg:col-span-7 space-y-4">
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="lg:col-span-7 space-y-4"
+          >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFF8ED] text-[#B85D00] text-xs font-serif font-bold border border-[#C98E2A]/30">
               <Scale className="w-4 h-4 text-[#C98E2A]" />
               <span>Hon'ble Supreme Court of India Compliance (Civil Appeal 235-236/2018)</span>
@@ -85,7 +97,7 @@ export const SafetySection: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

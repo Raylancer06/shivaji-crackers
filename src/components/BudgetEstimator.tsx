@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
 import { api, BudgetPackage } from '@/services/api';
 import { PRODUCTS } from '@/data/products';
@@ -175,7 +176,13 @@ export const BudgetEstimator: React.FC = () => {
     <section id="budget-builder" className="py-14 sm:py-20 bg-[#FAF8F5] border-t border-[#E2D7C5] font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-3xl mx-auto mb-10"
+        >
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF8ED] text-[#B85D00] text-xs font-serif font-bold uppercase tracking-wider mb-2 border border-[#C98E2A]/30">
             <Gift className="w-3.5 h-3.5 text-[#C98E2A]" />
             <span>{sectionInfo.badge}</span>
@@ -189,20 +196,25 @@ export const BudgetEstimator: React.FC = () => {
           <p className="text-xs sm:text-sm text-[#66574F] mt-2 leading-relaxed">
             {sectionInfo.description}
           </p>
-        </div>
+        </motion.div>
 
         {/* Dynamic Tier Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {tiers.map((tier) => {
+          {tiers.map((tier, index) => {
             const isSelected = selectedTier?.id === tier.id;
             const savings = tier.mrp - tier.budget;
             return (
-              <div
+              <motion.div
                 key={tier.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, delay: index * 0.12 }}
+                whileHover={{ y: -6, scale: 1.015 }}
                 onClick={() => setSelectedTier(tier)}
                 className={`cursor-pointer rounded-3xl p-6 transition-all duration-300 relative flex flex-col justify-between border ${
                   isSelected
-                    ? 'bg-white shadow-deep border-[#550C12] ring-2 ring-[#C98E2A]/60 scale-[1.02]'
+                    ? 'bg-white shadow-deep border-[#550C12] ring-2 ring-[#C98E2A]/60'
                     : 'bg-[#FAF8F5] hover:bg-white border-[#E2D7C5] shadow-sm hover:shadow-regal'
                 }`}
               >
@@ -265,14 +277,20 @@ export const BudgetEstimator: React.FC = () => {
                   <Check className="w-3.5 h-3.5 text-[#F0B543]" />
                   <span>{isSelected ? 'Add This Bundle' : 'Select & Add Pack'}</span>
                 </button>
-              </div>
+              </motion.div>
             );
           })}
         </div>
 
         {/* Bottom 1-Click Action Bar */}
         {selectedTier && (
-          <div className="mt-10 bg-white p-5 sm:p-6 rounded-3xl shadow-regal border border-[#E2D7C5] flex flex-col sm:flex-row items-center justify-between gap-5">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-20px' }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-10 bg-white p-5 sm:p-6 rounded-3xl shadow-regal border border-[#E2D7C5] flex flex-col sm:flex-row items-center justify-between gap-5"
+          >
             <div className="flex items-center gap-3.5">
               <div className="w-12 h-12 rounded-2xl bg-[#FFF8ED] text-[#550C12] border border-[#C98E2A]/30 flex items-center justify-center shrink-0">
                 <Sparkles className="w-6 h-6 text-[#C98E2A]" />
@@ -313,7 +331,7 @@ export const BudgetEstimator: React.FC = () => {
                 </>
               )}
             </button>
-          </div>
+          </motion.div>
         )}
       </div>
     </section>

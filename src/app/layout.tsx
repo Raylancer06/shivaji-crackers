@@ -7,6 +7,7 @@ import { ScrollProgress } from "@/components/ScrollProgress";
 import { SparkleCanvas } from "@/components/SparkleCanvas";
 import { CartToast } from "@/components/CartToast";
 import { FloatingCartBar } from "@/components/FloatingCartBar";
+import { BackToTop } from "@/components/BackToTop";
 
 export const metadata: Metadata = {
   title: "Sivaji Firecracker | Authentic Factory Direct Green Fireworks & Price List",
@@ -35,6 +36,7 @@ export default function RootLayout({
             {children}
             <CartToast />
             <FloatingCartBar />
+            <BackToTop />
           </CartProvider>
         </AuthProvider>
       </body>

@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import {
   ShieldCheck,
   Truck,
@@ -13,10 +14,16 @@ import {
 
 export const Features: React.FC = () => {
   return (
-    <section id="why-us" className="py-16 md:py-24 bg-[#F2EBE0] border-t border-[#E2D7C5] font-sans">
+    <section id="why-us" className="py-16 md:py-24 bg-[#F2EBE0] border-t border-[#E2D7C5] font-sans overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Title */}
-        <div className="text-center max-w-3xl mx-auto mb-14">
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className="text-center max-w-3xl mx-auto mb-14"
+        >
           <span className="text-xs font-serif font-black uppercase tracking-widest text-[#B85D00] block mb-2">
             Premium Quality & Full Traceability
           </span>
@@ -29,11 +36,31 @@ export const Features: React.FC = () => {
           <p className="text-xs sm:text-sm text-[#66574F] mt-2 leading-relaxed">
             Preserving festival joy with certified chemical safety, transparent wholesale pricing, and reliable delivery across Hyderabad, Telangana, and South India.
           </p>
-        </div>
+        </motion.div>
 
         {/* Feature Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-white p-6 rounded-3xl border border-[#E2D7C5] shadow-regal flex flex-col justify-between">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-50px' }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.12 }
+            }
+          }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 25 },
+              visible: { opacity: 1, y: 0 }
+            }}
+            whileHover={{ y: -6, scale: 1.01 }}
+            transition={{ duration: 0.4 }}
+            className="bg-white p-6 rounded-3xl border border-[#E2D7C5] shadow-regal flex flex-col justify-between hover:shadow-xl transition-shadow"
+          >
             <div>
               <div className="w-12 h-12 rounded-2xl bg-[#FFF8ED] text-[#550C12] border border-[#C98E2A]/30 flex items-center justify-center mb-4 shadow-sm">
                 <Factory className="w-6 h-6" />
@@ -46,9 +73,17 @@ export const Features: React.FC = () => {
             <div className="mt-4 pt-3 border-t border-[#E2D7C5]/60 text-[11px] font-bold text-[#B85D00]">
               Zero Middlemen Markup
             </div>
-          </div>
+          </motion.div>
 
-          <div className="bg-white p-6 rounded-3xl border border-[#E2D7C5] shadow-regal flex flex-col justify-between">
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 25 },
+              visible: { opacity: 1, y: 0 }
+            }}
+            whileHover={{ y: -6, scale: 1.01 }}
+            transition={{ duration: 0.4 }}
+            className="bg-white p-6 rounded-3xl border border-[#E2D7C5] shadow-regal flex flex-col justify-between hover:shadow-xl transition-shadow"
+          >
             <div>
               <div className="w-12 h-12 rounded-2xl bg-[#EBF7F0] text-[#07542C] border border-[#A7E2BE] flex items-center justify-center mb-4 shadow-sm">
                 <ShieldCheck className="w-6 h-6" />
@@ -61,9 +96,17 @@ export const Features: React.FC = () => {
             <div className="mt-4 pt-3 border-t border-[#E2D7C5]/60 text-[11px] font-bold text-[#07542C]">
               100% Supreme Court Compliant
             </div>
-          </div>
+          </motion.div>
 
-          <div className="bg-white p-6 rounded-3xl border border-[#E2D7C5] shadow-regal flex flex-col justify-between">
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 25 },
+              visible: { opacity: 1, y: 0 }
+            }}
+            whileHover={{ y: -6, scale: 1.01 }}
+            transition={{ duration: 0.4 }}
+            className="bg-white p-6 rounded-3xl border border-[#E2D7C5] shadow-regal flex flex-col justify-between hover:shadow-xl transition-shadow"
+          >
             <div>
               <div className="w-12 h-12 rounded-2xl bg-[#FFF8ED] text-[#B85D00] border border-[#C98E2A]/30 flex items-center justify-center mb-4 shadow-sm">
                 <Truck className="w-6 h-6" />
@@ -76,9 +119,17 @@ export const Features: React.FC = () => {
             <div className="mt-4 pt-3 border-t border-[#E2D7C5]/60 text-[11px] font-bold text-[#550C12]">
               Safe & Tracked Delivery
             </div>
-          </div>
+          </motion.div>
 
-          <div className="bg-white p-6 rounded-3xl border border-[#E2D7C5] shadow-regal flex flex-col justify-between">
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 25 },
+              visible: { opacity: 1, y: 0 }
+            }}
+            whileHover={{ y: -6, scale: 1.01 }}
+            transition={{ duration: 0.4 }}
+            className="bg-white p-6 rounded-3xl border border-[#E2D7C5] shadow-regal flex flex-col justify-between hover:shadow-xl transition-shadow"
+          >
             <div>
               <div className="w-12 h-12 rounded-2xl bg-[#FDE8E8] text-[#7B141C] border border-[#F8B4B4] flex items-center justify-center mb-4 shadow-sm">
                 <Sparkles className="w-6 h-6" />
@@ -91,11 +142,18 @@ export const Features: React.FC = () => {
             <div className="mt-4 pt-3 border-t border-[#E2D7C5]/60 text-[11px] font-bold text-[#7B141C]">
               Vibrant Dazzling Colors
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Society & Corporate Tiers Section */}
-        <div id="society-tiers" className="mt-14 p-6 sm:p-8 bg-white rounded-3xl border border-[#E2D7C5] shadow-regal">
+        <motion.div
+          id="society-tiers"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className="mt-14 p-6 sm:p-8 bg-white rounded-3xl border border-[#E2D7C5] shadow-regal"
+        >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7 space-y-3">
               <span className="text-xs font-serif font-bold text-[#B85D00] uppercase tracking-wider flex items-center gap-1.5">
@@ -133,7 +191,7 @@ export const Features: React.FC = () => {
               </a>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

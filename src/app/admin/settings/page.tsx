@@ -25,6 +25,7 @@ import {
   Clock,
   Megaphone,
   Award,
+  ShoppingBag,
 } from 'lucide-react';
 
 export default function AdminSettingsPage() {
@@ -70,6 +71,10 @@ export default function AdminSettingsPage() {
     announcement_text_1: 'Festival Specials & Seasonal Offers',
     announcement_text_2: '100% CSIR-NEERI Green Certified',
     announcement_text_3: 'Up to 80% Direct Wholesale Savings',
+    // Floating Cart Bar Controls
+    floating_cart_enabled: 'true',
+    floating_cart_mobile_enabled: 'false',
+    floating_cart_on_estimate: 'false',
   });
 
   const [loading, setLoading] = useState(true);
@@ -951,6 +956,85 @@ export default function AdminSettingsPage() {
                 onChange={(e) => handleChange('announcement_text_3', e.target.value)}
                 className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl"
               />
+            </div>
+          </div>
+        </div>
+
+        {/* 4. Floating Cart Bar & Mobile Display Controls */}
+        <div className="bg-white rounded-2xl p-6 border border-stone-200/80 shadow-xs space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-stone-100">
+            <div className="flex items-center gap-2.5">
+              <ShoppingBag className="w-4 h-4 text-[#C98E2A]" />
+              <div>
+                <h2 className="font-serif font-black text-sm text-[#1C1411]">
+                  Floating Cart Bar & Screen Display Options
+                </h2>
+                <span className="text-[11px] text-[#66574F]">
+                  Configure bottom cart bar visibility on mobile devices and specific store pages
+                </span>
+              </div>
+            </div>
+            <span
+              className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                settings.floating_cart_enabled !== 'false'
+                  ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                  : 'bg-stone-100 text-stone-600 border border-stone-200'
+              }`}
+            >
+              {settings.floating_cart_enabled !== 'false' ? 'Active' : 'Disabled'}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1">
+                Floating Cart Bar
+              </label>
+              <select
+                value={settings.floating_cart_enabled !== 'false' ? 'true' : 'false'}
+                onChange={(e) => handleChange('floating_cart_enabled', e.target.value)}
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl font-bold"
+              >
+                <option value="true">Enabled (Show Bottom Bar)</option>
+                <option value="false">Disabled (Completely Hide)</option>
+              </select>
+              <span className="text-[10px] text-stone-500 mt-1 block">
+                Master switch for bottom floating cart
+              </span>
+            </div>
+
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1">
+                Mobile View Display
+              </label>
+              <select
+                value={settings.floating_cart_mobile_enabled === 'true' ? 'true' : 'false'}
+                onChange={(e) => handleChange('floating_cart_mobile_enabled', e.target.value)}
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl font-bold"
+              >
+                <option value="false">Disabled (Hide on Mobile - Clean View)</option>
+                <option value="true">Enabled (Show on Mobile Screens)</option>
+              </select>
+              <span className="text-[10px] text-stone-500 mt-1 block">
+                Hiding on mobile keeps screens clean & unblocked
+              </span>
+            </div>
+
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1">
+                Estimate Page Display
+              </label>
+              <select
+                value={settings.floating_cart_on_estimate === 'true' ? 'true' : 'false'}
+                onChange={(e) => handleChange('floating_cart_on_estimate', e.target.value)}
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl font-bold"
+              >
+                <option value="false">Disabled (Hide on Estimate Page)</option>
+                <option value="true">Enabled (Show on Estimate Page)</option>
+              </select>
+              <span className="text-[10px] text-stone-500 mt-1 block">
+                Always hidden automatically in Cart Drawer & Checkout
+              </span>
             </div>
           </div>
         </div>

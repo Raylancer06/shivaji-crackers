@@ -56,6 +56,10 @@ export interface StoreSettings {
   announcement_text_1?: string;
   announcement_text_2?: string;
   announcement_text_3?: string;
+  // Floating Cart Bar Controls
+  floating_cart_enabled?: boolean;
+  floating_cart_mobile_enabled?: boolean;
+  floating_cart_on_estimate?: boolean;
 }
 
 export interface BudgetPackage {
@@ -245,6 +249,10 @@ export const api = {
         announcement_text_1: map['announcement_text_1'] || 'Festival Specials & Seasonal Offers',
         announcement_text_2: map['announcement_text_2'] || '100% CSIR-NEERI Green Certified',
         announcement_text_3: map['announcement_text_3'] || 'Up to 80% Direct Wholesale Savings',
+        // Floating Cart Bar Controls
+        floating_cart_enabled: (map['floating_cart_enabled'] || 'true').toLowerCase() !== 'false',
+        floating_cart_mobile_enabled: (map['floating_cart_mobile_enabled'] || 'false').toLowerCase() === 'true',
+        floating_cart_on_estimate: (map['floating_cart_on_estimate'] || 'false').toLowerCase() === 'true',
       };
     } catch (err) {
       console.warn('Supabase settings query error, falling back to defaults:', err);
@@ -293,6 +301,9 @@ export const api = {
         announcement_text_1: 'Festival Specials & Seasonal Offers',
         announcement_text_2: '100% CSIR-NEERI Green Certified',
         announcement_text_3: 'Up to 80% Direct Wholesale Savings',
+        floating_cart_enabled: true,
+        floating_cart_mobile_enabled: false,
+        floating_cart_on_estimate: false,
       };
     }
   },

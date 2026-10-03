@@ -10,7 +10,7 @@ export const BackToTop: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  if (pathname?.startsWith('/admin')) return null;
+  if (pathname?.startsWith('/admin') || pathname?.startsWith('/checkout')) return null;
 
   useEffect(() => {
     const handleScroll = () => {

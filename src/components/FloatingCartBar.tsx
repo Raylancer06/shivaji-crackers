@@ -4,22 +4,83 @@ import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
+import { api, StoreSettings } from '@/services/api';
 import { ShoppingBag, ArrowRight } from 'lucide-react';
 
 export const FloatingCartBar: React.FC = () => {
   const pathname = usePathname();
-  const { totalBoxes, totalWholesale, totalSavings, setIsCartOpen } = useCart();
+  const { totalBoxes, totalWholesale, totalSavings, setIsCartOpen, isCartOpen, isCheckoutOpen } = useCart();
   const [show, setShow] = useState(false);
+  const [settings, setSettings] = useState<Partial<StoreSettings>>({
+    floating_cart_enabled: true,
+    floating_cart_mobile_enabled: false,
+    floating_cart_on_estimate: false,
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+    api.getSettings().then((s) => {
+      if (isMounted && s) setSettings(s);
+    }).catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
-      setShow(window.scrollY > 300);
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+
+      // Auto-hide when user scrolls down within 180px of page bottom
+      // to guarantee footer credits ("Designed & Developed by Raylancer") & disclaimer are 100% visible
+      const isNearBottom = scrollY + windowHeight >= docHeight - 180;
+
+      setShow(scrollY > 250 && !isNearBottom);
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  if (pathname?.startsWith('/admin') || totalBoxes === 0) return null;
+  // 1. Exclude Admin routes
+  if (pathname?.startsWith('/admin')) return null;
+
+  // 2. Exclude Checkout route and when Checkout modal is active
+  if (pathname?.startsWith('/checkout') || isCheckoutOpen) return null;
+
+  // 3. Exclude when Cart Drawer modal is open
+  if (isCartOpen) return null;
+
+  // 4. Exclude Cart route and Order confirmation
+  if (
+    pathname === '/cart' ||
+    pathname?.startsWith('/cart') ||
+    pathname?.startsWith('/order-confirmation')
+  ) {
+    return null;
+  }
+
+  // 5. Exclude Estimate page (disabled by default unless explicitly allowed in Admin)
+  if (
+    (pathname === '/estimate' || pathname?.startsWith('/estimate')) &&
+    !settings.floating_cart_on_estimate
+  ) {
+    return null;
+  }
+
+  // 6. Master switch: disabled in settings
+  if (settings.floating_cart_enabled === false) return null;
+
+  // 7. No items in cart
+  if (totalBoxes === 0) return null;
+
+  // Mobile View Option:
+  // If floating_cart_mobile_enabled is false (default), hide on small screens (< 768px) with 'hidden md:block'
+  // If true, display on mobile as well with 'block'
+  const responsiveVisibility = settings.floating_cart_mobile_enabled ? 'block' : 'hidden md:block';
 
   return (
     <AnimatePresence>
@@ -28,7 +89,8 @@ export const FloatingCartBar: React.FC = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }}
-          className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 w-11/12 max-w-md pointer-events-auto font-sans"
+          transition={{ duration: 0.25, ease: 'easeOut' }}
+          className={`fixed bottom-5 left-1/2 -translate-x-1/2 z-40 w-11/12 max-w-md pointer-events-auto font-sans ${responsiveVisibility}`}
         >
           <div
             onClick={() => setIsCartOpen(true)}

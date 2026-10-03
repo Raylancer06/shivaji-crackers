@@ -10,7 +10,7 @@ export const CartToast: React.FC = () => {
   const pathname = usePathname();
   const { lastAddedItem, setIsCartOpen } = useCart();
 
-  if (pathname?.startsWith('/admin')) return null;
+  if (pathname?.startsWith('/admin') || pathname?.startsWith('/checkout')) return null;
 
   return (
     <AnimatePresence>

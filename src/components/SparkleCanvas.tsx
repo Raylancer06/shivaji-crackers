@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 
 interface Particle {
   x: number;
@@ -16,7 +17,10 @@ interface Particle {
 }
 
 export const SparkleCanvas: React.FC = () => {
+  const pathname = usePathname();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  if (pathname?.startsWith('/admin')) return null;
 
   useEffect(() => {
     const canvas = canvasRef.current;

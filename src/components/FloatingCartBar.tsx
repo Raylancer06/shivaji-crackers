@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
 import { ShoppingBag, ArrowRight } from 'lucide-react';
 
 export const FloatingCartBar: React.FC = () => {
+  const pathname = usePathname();
   const { totalBoxes, totalWholesale, totalSavings, setIsCartOpen } = useCart();
   const [show, setShow] = useState(false);
 
@@ -17,7 +19,7 @@ export const FloatingCartBar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  if (totalBoxes === 0) return null;
+  if (pathname?.startsWith('/admin') || totalBoxes === 0) return null;
 
   return (
     <AnimatePresence>

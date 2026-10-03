@@ -1,12 +1,16 @@
-﻿"use client";
+"use client";
 
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
 import { ShoppingBag, ArrowRight } from 'lucide-react';
 
 export const CartToast: React.FC = () => {
+  const pathname = usePathname();
   const { lastAddedItem, setIsCartOpen } = useCart();
+
+  if (pathname?.startsWith('/admin')) return null;
 
   return (
     <AnimatePresence>

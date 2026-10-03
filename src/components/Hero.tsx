@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
 import { PRODUCTS } from '@/data/products';
+import { api, StoreSettings } from '@/services/api';
 import {
   Sparkles,
   ShieldCheck,
@@ -95,6 +96,26 @@ export const Hero: React.FC = () => {
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const { addToCart, setIsCartOpen } = useCart();
+  const [settings, setSettings] = useState<Partial<StoreSettings>>({
+    badge_1_num: '15+',
+    badge_1_title: 'Years Festive Craft',
+    badge_1_subtitle: 'Trusted Quality Since 2008',
+    badge_2_num: '70%',
+    badge_2_title: 'Direct Factory Rate',
+    badge_2_subtitle: 'Flat Discount on MRP',
+    badge_3_title: '100% Green Certified',
+    badge_3_subtitle: 'CSIR-NEERI & PESO Lic',
+    badge_4_title: 'Fast & Safe Delivery',
+    badge_4_subtitle: 'Tracked Dispatches',
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+    api.getSettings().then((s) => {
+      if (isMounted && s) setSettings(s);
+    }).catch(() => {});
+    return () => { isMounted = false; };
+  }, []);
 
   useEffect(() => {
     if (isPaused) return;
@@ -265,29 +286,33 @@ export const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* Clean Luxury Credentials Bar Below Slider (Single Elegant Line) */}
+        {/* Clean Luxury Credentials Bar Below Slider (Dynamic from Admin Settings) */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-6">
           <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-[#E2D7C5] shadow-sm flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-[#FFF8ED] text-[#550C12] border border-[#C98E2A]/30 flex items-center justify-center shrink-0 font-serif font-black text-sm">
-              15+
+              {settings.badge_1_num || '15+'}
             </div>
             <div>
               <span className="font-serif font-bold text-xs text-[#1C1411] block">
-                Years Festive Craft
+                {settings.badge_1_title || 'Years Festive Craft'}
               </span>
-              <span className="text-[11px] text-[#66574F]">Trusted Quality Since 2008</span>
+              <span className="text-[11px] text-[#66574F]">
+                {settings.badge_1_subtitle || 'Trusted Quality Since 2008'}
+              </span>
             </div>
           </div>
 
           <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-[#E2D7C5] shadow-sm flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-[#FFF8ED] text-[#B85D00] border border-[#C98E2A]/30 flex items-center justify-center shrink-0 font-serif font-black text-sm">
-              70%
+              {settings.badge_2_num || '70%'}
             </div>
             <div>
               <span className="font-serif font-bold text-xs text-[#1C1411] block">
-                Direct Factory Rate
+                {settings.badge_2_title || 'Direct Factory Rate'}
               </span>
-              <span className="text-[11px] text-[#66574F]">Flat Discount on MRP</span>
+              <span className="text-[11px] text-[#66574F]">
+                {settings.badge_2_subtitle || 'Flat Discount on MRP'}
+              </span>
             </div>
           </div>
 
@@ -297,9 +322,11 @@ export const Hero: React.FC = () => {
             </div>
             <div>
               <span className="font-serif font-bold text-xs text-[#1C1411] block">
-                100% Green Certified
+                {settings.badge_3_title || '100% Green Certified'}
               </span>
-              <span className="text-[11px] text-[#66574F]">CSIR-NEERI & PESO Lic</span>
+              <span className="text-[11px] text-[#66574F]">
+                {settings.badge_3_subtitle || 'CSIR-NEERI & PESO Lic'}
+              </span>
             </div>
           </div>
 
@@ -309,9 +336,11 @@ export const Hero: React.FC = () => {
             </div>
             <div>
               <span className="font-serif font-bold text-xs text-[#1C1411] block">
-                Fast & Safe Delivery
+                {settings.badge_4_title || 'Fast & Safe Delivery'}
               </span>
-              <span className="text-[11px] text-[#66574F]">Tracked Dispatches</span>
+              <span className="text-[11px] text-[#66574F]">
+                {settings.badge_4_subtitle || 'Tracked Dispatches'}
+              </span>
             </div>
           </div>
         </div>

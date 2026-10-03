@@ -26,7 +26,7 @@ import {
   Briefcase,
   PlusCircle,
 } from 'lucide-react';
-import { api, CustomerAddress } from '@/services/api';
+import { api, CustomerAddress, StoreSettings } from '@/services/api';
 import { useAuth } from '@/context/AuthContext';
 
 export const CheckoutModal: React.FC = () => {
@@ -41,6 +41,21 @@ export const CheckoutModal: React.FC = () => {
     clearCart,
   } = useCart();
   const { user, token } = useAuth();
+
+  const [settings, setSettings] = useState<Partial<StoreSettings>>({
+    upi_id: 'sivajiduddempudi422@axl',
+    upi_payee_name: 'Sivaji Duddempudi',
+    business_phone: '+91 83740 44445',
+    admin_whatsapp_number: '918374044445',
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+    api.getSettings().then((s) => {
+      if (isMounted && s) setSettings(s);
+    }).catch(() => {});
+    return () => { isMounted = false; };
+  }, []);
 
   // Multi-step: 'details' -> 'upi_payment' -> 'success'
   const [checkoutStep, setCheckoutStep] = useState<'details' | 'upi_payment' | 'success'>('details');
@@ -167,7 +182,8 @@ export const CheckoutModal: React.FC = () => {
   };
 
   const copyUpiId = () => {
-    navigator.clipboard.writeText('sivajiduddempudi422@axl');
+    const upi = settings.upi_id || 'sivajiduddempudi422@axl';
+    navigator.clipboard.writeText(upi);
     setCopiedUpi(true);
     setTimeout(() => setCopiedUpi(false), 2000);
   };
@@ -301,7 +317,7 @@ export const CheckoutModal: React.FC = () => {
       text += `*Notes:* ${createdOrder.customer.notes}\n`;
     }
     text += `\n*PAYMENT VERIFICATION:*\n`;
-    text += `*UPI ID Paid:* sivajiduddempudi422@axl\n`;
+    text += `*UPI ID Paid:* ${settings.upi_id || 'sivajiduddempudi422@axl'}\n`;
     text += `*UTR / Ref Number:* ${createdOrder.utrNumber}\n`;
     text += `*Payment Screenshot:* Uploaded to Sivaji Firecracker Admin Portal\n`;
     text += `\n*ORDERED CRACKERS:*\n`;
@@ -315,7 +331,8 @@ export const CheckoutModal: React.FC = () => {
     text += `Please verify my payment in the admin portal and confirm order dispatch.`;
 
     const encoded = encodeURIComponent(text);
-    window.open(`https://wa.me/918374044445?text=${encoded}`, '_blank');
+    const waNum = (settings.admin_whatsapp_number || settings.business_phone || '918374044445').replace(/\D/g, '');
+    window.open(`https://wa.me/${waNum}?text=${encoded}`, '_blank');
   };
 
   const closeModal = () => {
@@ -327,8 +344,10 @@ export const CheckoutModal: React.FC = () => {
 
   if (!isCheckoutOpen) return null;
 
+  const upiIdVal = settings.upi_id || 'sivajiduddempudi422@axl';
+  const payeeNameVal = settings.upi_payee_name || 'Sivaji Duddempudi';
   const upiQrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
-    `upi://pay?pa=sivajiduddempudi422@axl&pn=Sivaji%20Duddempudi&am=${totalWholesale}&cu=INR&tn=Sivaji%20Diwali%20Order`
+    `upi://pay?pa=${upiIdVal}&pn=${encodeURIComponent(payeeNameVal)}&am=${totalWholesale}&cu=INR&tn=Sivaji%20Diwali%20Order`
   )}`;
 
   return (
@@ -632,18 +651,18 @@ export const CheckoutModal: React.FC = () => {
                         Official Business UPI Account
                       </span>
                       <h3 className="font-serif font-black text-lg text-[#1C1411]">
-                        Sivaji Duddempudi
+                        {settings.upi_payee_name || 'Sivaji Duddempudi'}
                       </h3>
 
                       {/* Official Business UPI ID with Copy Button */}
                       <div className="flex items-center gap-2 bg-[#FAF8F5] p-2.5 rounded-xl border border-[#E2D7C5]">
                         <span className="font-mono font-bold text-xs sm:text-sm text-[#550C12] select-all flex-1">
-                          sivajiduddempudi422@axl
+                          {settings.upi_id || 'sivajiduddempudi422@axl'}
                         </span>
                         <button
                           type="button"
                           onClick={copyUpiId}
-                          className="px-2.5 py-1 rounded-lg bg-[#550C12] hover:bg-[#7B141C] text-white text-[11px] font-bold flex items-center gap-1 transition"
+                          className="px-2.5 py-1 rounded-lg bg-[#550C12] hover:bg-[#7B141C] text-white text-[11px] font-bold flex items-center gap-1 transition cursor-pointer"
                         >
                           {copiedUpi ? (
                             <>
@@ -669,7 +688,7 @@ export const CheckoutModal: React.FC = () => {
                   <div className="text-[11px] text-[#66574F] bg-[#FFF8ED] p-3 rounded-xl border border-[#C98E2A]/30 space-y-1">
                     <div className="font-bold text-[#550C12]">Payment Steps:</div>
                     <div>1. Open PhonePe, Google Pay, or Paytm.</div>
-                    <div>2. Scan QR or transfer exact amount to <code className="font-mono font-bold text-[#550C12]">sivajiduddempudi422@axl</code>.</div>
+                    <div>2. Scan QR or transfer exact amount to <code className="font-mono font-bold text-[#550C12]">{settings.upi_id || 'sivajiduddempudi422@axl'}</code>.</div>
                     <div>3. Note down the 12-digit UTR / UPI Reference Number.</div>
                     <div>4. Upload payment screenshot below for fast admin verification.</div>
                   </div>

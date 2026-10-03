@@ -20,6 +20,11 @@ import {
   Eye,
   EyeOff,
   User,
+  Sparkles,
+  Flame,
+  Clock,
+  Megaphone,
+  Award,
 } from 'lucide-react';
 
 export default function AdminSettingsPage() {
@@ -43,6 +48,28 @@ export default function AdminSettingsPage() {
     bank_account_number: '',
     bank_ifsc_code: '',
     bank_name: '',
+    // Hero Trust Badges (4 Cards below slider)
+    badge_1_num: '15+',
+    badge_1_title: 'Years Festive Craft',
+    badge_1_subtitle: 'Trusted Quality Since 2008',
+    badge_2_num: '70%',
+    badge_2_title: 'Direct Factory Rate',
+    badge_2_subtitle: 'Flat Discount on MRP',
+    badge_3_title: '100% Green Certified',
+    badge_3_subtitle: 'CSIR-NEERI & PESO Lic',
+    badge_4_title: 'Fast & Safe Delivery',
+    badge_4_subtitle: 'Tracked Dispatches',
+    // Delivery Cutoff & Countdown Bar
+    countdown_enabled: 'true',
+    countdown_title: 'Festival Dispatch & Delivery Cutoff',
+    countdown_subtitle: 'Seasonal delivery slots filling fast to ensure timely festive arrival',
+    countdown_target_date: '2026-10-21T18:00:00',
+    countdown_button_text: 'Book Now',
+    countdown_button_link: '/estimate',
+    // Top Announcement Ribbon
+    announcement_text_1: 'Festival Specials & Seasonal Offers',
+    announcement_text_2: '100% CSIR-NEERI Green Certified',
+    announcement_text_3: 'Up to 80% Direct Wholesale Savings',
   });
 
   const [loading, setLoading] = useState(true);
@@ -614,6 +641,314 @@ export default function AdminSettingsPage() {
                 type="email"
                 value={settings.support_email || ''}
                 onChange={(e) => handleChange('support_email', e.target.value)}
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* 1. Hero Trust Badges (4 Cards Under Slider) */}
+        <div className="bg-white rounded-2xl p-6 border border-stone-200/80 shadow-xs space-y-5">
+          <div className="flex items-center justify-between pb-3 border-b border-stone-100">
+            <div className="flex items-center gap-2.5">
+              <Sparkles className="w-4 h-4 text-[#C98E2A]" />
+              <div>
+                <h2 className="font-serif font-black text-sm text-[#1C1411]">
+                  Hero Trust Credentials & Badges (Front-End Cards)
+                </h2>
+                <span className="text-[11px] text-[#66574F]">
+                  Manage the 4 trust credential cards displayed directly below the main hero slider
+                </span>
+              </div>
+            </div>
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#FFF8ED] text-[#B85D00] border border-[#C98E2A]/30">
+              Homepage Badges
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            {/* Badge 1 */}
+            <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E2D7C5] space-y-3">
+              <span className="font-bold text-[#550C12] block border-b border-[#E2D7C5]/60 pb-1">
+                Badge 1 (Experience / Craftsmanship)
+              </span>
+              <div className="grid grid-cols-3 gap-2">
+                <div className="col-span-1">
+                  <label className="block font-bold text-stone-700 mb-1">Highlight</label>
+                  <input
+                    type="text"
+                    value={settings.badge_1_num || '15+'}
+                    onChange={(e) => handleChange('badge_1_num', e.target.value)}
+                    placeholder="15+"
+                    className="w-full px-2.5 py-2 bg-white border border-stone-300 rounded-lg font-bold"
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label className="block font-bold text-stone-700 mb-1">Title</label>
+                  <input
+                    type="text"
+                    value={settings.badge_1_title || 'Years Festive Craft'}
+                    onChange={(e) => handleChange('badge_1_title', e.target.value)}
+                    placeholder="Years Festive Craft"
+                    className="w-full px-2.5 py-2 bg-white border border-stone-300 rounded-lg"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block font-bold text-stone-700 mb-1">Subtitle</label>
+                <input
+                  type="text"
+                  value={settings.badge_1_subtitle || 'Trusted Quality Since 2008'}
+                  onChange={(e) => handleChange('badge_1_subtitle', e.target.value)}
+                  placeholder="Trusted Quality Since 2008"
+                  className="w-full px-2.5 py-2 bg-white border border-stone-300 rounded-lg text-stone-600"
+                />
+              </div>
+            </div>
+
+            {/* Badge 2 */}
+            <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E2D7C5] space-y-3">
+              <span className="font-bold text-[#550C12] block border-b border-[#E2D7C5]/60 pb-1">
+                Badge 2 (Wholesale Savings / Discount)
+              </span>
+              <div className="grid grid-cols-3 gap-2">
+                <div className="col-span-1">
+                  <label className="block font-bold text-stone-700 mb-1">Highlight</label>
+                  <input
+                    type="text"
+                    value={settings.badge_2_num || '70%'}
+                    onChange={(e) => handleChange('badge_2_num', e.target.value)}
+                    placeholder="70%"
+                    className="w-full px-2.5 py-2 bg-white border border-stone-300 rounded-lg font-bold"
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label className="block font-bold text-stone-700 mb-1">Title</label>
+                  <input
+                    type="text"
+                    value={settings.badge_2_title || 'Direct Factory Rate'}
+                    onChange={(e) => handleChange('badge_2_title', e.target.value)}
+                    placeholder="Direct Factory Rate"
+                    className="w-full px-2.5 py-2 bg-white border border-stone-300 rounded-lg"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block font-bold text-stone-700 mb-1">Subtitle</label>
+                <input
+                  type="text"
+                  value={settings.badge_2_subtitle || 'Flat Discount on MRP'}
+                  onChange={(e) => handleChange('badge_2_subtitle', e.target.value)}
+                  placeholder="Flat Discount on MRP"
+                  className="w-full px-2.5 py-2 bg-white border border-stone-300 rounded-lg text-stone-600"
+                />
+              </div>
+            </div>
+
+            {/* Badge 3 */}
+            <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E2D7C5] space-y-3">
+              <span className="font-bold text-[#550C12] block border-b border-[#E2D7C5]/60 pb-1">
+                Badge 3 (Green Certification / Safety)
+              </span>
+              <div>
+                <label className="block font-bold text-stone-700 mb-1">Title</label>
+                <input
+                  type="text"
+                  value={settings.badge_3_title || '100% Green Certified'}
+                  onChange={(e) => handleChange('badge_3_title', e.target.value)}
+                  placeholder="100% Green Certified"
+                  className="w-full px-2.5 py-2 bg-white border border-stone-300 rounded-lg"
+                />
+              </div>
+              <div>
+                <label className="block font-bold text-stone-700 mb-1">Subtitle</label>
+                <input
+                  type="text"
+                  value={settings.badge_3_subtitle || 'CSIR-NEERI & PESO Lic'}
+                  onChange={(e) => handleChange('badge_3_subtitle', e.target.value)}
+                  placeholder="CSIR-NEERI & PESO Lic"
+                  className="w-full px-2.5 py-2 bg-white border border-stone-300 rounded-lg text-stone-600"
+                />
+              </div>
+            </div>
+
+            {/* Badge 4 */}
+            <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E2D7C5] space-y-3">
+              <span className="font-bold text-[#550C12] block border-b border-[#E2D7C5]/60 pb-1">
+                Badge 4 (Delivery & Shipping)
+              </span>
+              <div>
+                <label className="block font-bold text-stone-700 mb-1">Title</label>
+                <input
+                  type="text"
+                  value={settings.badge_4_title || 'Fast & Safe Delivery'}
+                  onChange={(e) => handleChange('badge_4_title', e.target.value)}
+                  placeholder="Fast & Safe Delivery"
+                  className="w-full px-2.5 py-2 bg-white border border-stone-300 rounded-lg"
+                />
+              </div>
+              <div>
+                <label className="block font-bold text-stone-700 mb-1">Subtitle</label>
+                <input
+                  type="text"
+                  value={settings.badge_4_subtitle || 'Tracked Dispatches'}
+                  onChange={(e) => handleChange('badge_4_subtitle', e.target.value)}
+                  placeholder="Tracked Dispatches"
+                  className="w-full px-2.5 py-2 bg-white border border-stone-300 rounded-lg text-stone-600"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 2. Festival Dispatch & Delivery Cutoff Countdown Bar */}
+        <div className="bg-white rounded-2xl p-6 border border-stone-200/80 shadow-xs space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-stone-100">
+            <div className="flex items-center gap-2.5">
+              <Flame className="w-4 h-4 text-[#C98E2A]" />
+              <div>
+                <h2 className="font-serif font-black text-sm text-[#1C1411]">
+                  Festival Dispatch & Delivery Cutoff Bar
+                </h2>
+                <span className="text-[11px] text-[#66574F]">
+                  Manage the urgency ticker bar displayed directly beneath hero credentials
+                </span>
+              </div>
+            </div>
+            <span
+              className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                settings.countdown_enabled !== 'false'
+                  ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                  : 'bg-stone-100 text-stone-600 border border-stone-200'
+              }`}
+            >
+              {settings.countdown_enabled !== 'false' ? 'Active on Frontend' : 'Hidden'}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1">
+                Display Cutoff Ticker?
+              </label>
+              <select
+                value={settings.countdown_enabled !== 'false' ? 'true' : 'false'}
+                onChange={(e) => handleChange('countdown_enabled', e.target.value)}
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl font-bold"
+              >
+                <option value="true">Enabled (Show Countdown Bar)</option>
+                <option value="false">Disabled (Hide Countdown Bar)</option>
+              </select>
+            </div>
+
+            <div className="sm:col-span-2">
+              <label className="block font-bold text-[#1C1411] mb-1">
+                Section Heading
+              </label>
+              <input
+                type="text"
+                value={settings.countdown_title || 'Festival Dispatch & Delivery Cutoff'}
+                onChange={(e) => handleChange('countdown_title', e.target.value)}
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl font-bold"
+              />
+            </div>
+
+            <div className="sm:col-span-3">
+              <label className="block font-bold text-[#1C1411] mb-1">
+                Section Subtitle / Description
+              </label>
+              <input
+                type="text"
+                value={settings.countdown_subtitle || 'Seasonal delivery slots filling fast to ensure timely festive arrival'}
+                onChange={(e) => handleChange('countdown_subtitle', e.target.value)}
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl"
+              />
+            </div>
+
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1">
+                Target Date / Cutoff Time
+              </label>
+              <input
+                type="text"
+                placeholder="2026-10-21T18:00:00"
+                value={settings.countdown_target_date || '2026-10-21T18:00:00'}
+                onChange={(e) => handleChange('countdown_target_date', e.target.value)}
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl font-mono"
+              />
+              <span className="text-[10px] text-stone-400 mt-1 block">
+                Format: YYYY-MM-DDTHH:MM:SS
+              </span>
+            </div>
+
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1">
+                CTA Button Text
+              </label>
+              <input
+                type="text"
+                value={settings.countdown_button_text || 'Book Now'}
+                onChange={(e) => handleChange('countdown_button_text', e.target.value)}
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl font-bold"
+              />
+            </div>
+
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1">
+                CTA Button URL
+              </label>
+              <input
+                type="text"
+                value={settings.countdown_button_link || '/estimate'}
+                onChange={(e) => handleChange('countdown_button_link', e.target.value)}
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl font-mono"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* 3. Top Announcement Ribbon Content */}
+        <div className="bg-white rounded-2xl p-6 border border-stone-200/80 shadow-xs space-y-4">
+          <div className="flex items-center gap-2.5 pb-3 border-b border-stone-100">
+            <Megaphone className="w-4 h-4 text-[#C98E2A]" />
+            <h2 className="font-serif font-black text-sm text-[#1C1411]">
+              Top Header Announcement Ribbon
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1">
+                Announcement 1 (Highlighted Gold)
+              </label>
+              <input
+                type="text"
+                value={settings.announcement_text_1 || 'Festival Specials & Seasonal Offers'}
+                onChange={(e) => handleChange('announcement_text_1', e.target.value)}
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl"
+              />
+            </div>
+
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1">
+                Announcement 2 (White)
+              </label>
+              <input
+                type="text"
+                value={settings.announcement_text_2 || '100% CSIR-NEERI Green Certified'}
+                onChange={(e) => handleChange('announcement_text_2', e.target.value)}
+                className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl"
+              />
+            </div>
+
+            <div>
+              <label className="block font-bold text-[#1C1411] mb-1">
+                Announcement 3 (Gold)
+              </label>
+              <input
+                type="text"
+                value={settings.announcement_text_3 || 'Up to 80% Direct Wholesale Savings'}
+                onChange={(e) => handleChange('announcement_text_3', e.target.value)}
                 className="w-full px-3 py-2 bg-stone-50 border border-stone-300 rounded-xl"
               />
             </div>

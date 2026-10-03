@@ -21,6 +21,7 @@ import {
   Flame,
 } from 'lucide-react';
 import { Product, PRODUCTS, CATEGORIES } from '@/data/products';
+import { api } from '@/services/api';
 import { useCart } from '@/context/CartContext';
 import { ImageLightboxModal } from '@/components/ImageLightboxModal';
 import { Navbar } from '@/components/Navbar';
@@ -42,10 +43,24 @@ export default function ProductDetailPage() {
 
   useEffect(() => {
     if (!productId) return;
+    let isMounted = true;
+
+    // Instant local fallback
     const found = PRODUCTS.find((p) => p.id === productId || p.id.toLowerCase() === productId.toLowerCase());
     if (found) {
       setProduct(found);
     }
+
+    // Live Supabase database fetch (reflects admin edits immediately)
+    api.getProduct(productId).then((liveProd) => {
+      if (isMounted && liveProd) {
+        setProduct(liveProd);
+      }
+    }).catch(() => {});
+
+    return () => {
+      isMounted = false;
+    };
   }, [productId]);
 
   if (!product) {

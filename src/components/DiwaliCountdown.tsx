@@ -2,9 +2,19 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Clock, Flame, ShieldAlert, Sparkles } from 'lucide-react';
+import { Flame } from 'lucide-react';
+import { api, StoreSettings } from '@/services/api';
 
 export const DiwaliCountdown: React.FC = () => {
+  const [settings, setSettings] = useState<Partial<StoreSettings>>({
+    countdown_enabled: true,
+    countdown_title: 'Festival Dispatch & Delivery Cutoff',
+    countdown_subtitle: 'Seasonal delivery slots filling fast to ensure timely festive arrival',
+    countdown_target_date: '2026-10-21T18:00:00',
+    countdown_button_text: 'Book Now',
+    countdown_button_link: '/estimate',
+  });
+
   const [timeLeft, setTimeLeft] = useState({
     days: 18,
     hours: 14,
@@ -13,24 +23,44 @@ export const DiwaliCountdown: React.FC = () => {
   });
 
   useEffect(() => {
-    // Tick down seconds smoothly
+    let isMounted = true;
+    api.getSettings().then((s) => {
+      if (isMounted && s) setSettings(s);
+    }).catch(() => {});
+    return () => { isMounted = false; };
+  }, []);
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const targetStr = settings.countdown_target_date || '2026-10-21T18:00:00';
+      const targetTime = new Date(targetStr).getTime();
+      const now = Date.now();
+      const diff = targetTime - now;
+
+      if (isNaN(diff) || diff <= 0) {
+        return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      return { days, hours, minutes, seconds };
+    };
+
+    setTimeLeft(calculateTimeLeft());
+
     const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev.seconds > 0) {
-          return { ...prev, seconds: prev.seconds - 1 };
-        } else if (prev.minutes > 0) {
-          return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
-        } else if (prev.hours > 0) {
-          return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        } else if (prev.days > 0) {
-          return { ...prev, days: prev.days - 1, hours: 23, minutes: 59, seconds: 59 };
-        }
-        return prev;
-      });
+      setTimeLeft(calculateTimeLeft());
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [settings.countdown_target_date]);
+
+  if (settings.countdown_enabled === false) {
+    return null;
+  }
 
   return (
     <div className="w-full bg-gradient-to-r from-[#3D060B] via-[#550C12] to-[#3D060B] text-white border-y border-[#C98E2A]/40 py-3.5 px-4 font-sans">
@@ -42,10 +72,10 @@ export const DiwaliCountdown: React.FC = () => {
           </div>
           <div>
             <span className="font-serif font-bold text-xs uppercase tracking-wider text-[#F0B543] block">
-              Festival Dispatch & Delivery Cutoff
+              {settings.countdown_title || 'Festival Dispatch & Delivery Cutoff'}
             </span>
             <span className="text-[11px] text-gray-300">
-              Seasonal delivery slots filling fast to ensure timely festive arrival
+              {settings.countdown_subtitle || 'Seasonal delivery slots filling fast to ensure timely festive arrival'}
             </span>
           </div>
         </div>
@@ -86,10 +116,10 @@ export const DiwaliCountdown: React.FC = () => {
           </div>
 
           <Link
-            href="/estimate"
+            href={settings.countdown_button_link || '/estimate'}
             className="ml-2 hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#C98E2A] text-[#1C1411] font-serif font-black text-xs hover:bg-[#F0B543] transition-colors shadow-sm cursor-pointer"
           >
-            <span>Book Now</span>
+            <span>{settings.countdown_button_text || 'Book Now'}</span>
           </Link>
         </div>
       </div>

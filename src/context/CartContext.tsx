@@ -1,7 +1,8 @@
-﻿"use client";
+"use client";
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Product } from '@/data/products';
+import { api } from '@/services/api';
 
 export interface CartItem {
   product: Product;
@@ -31,16 +32,15 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-const MOQ_LIMIT = 3000;
-
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [moqTarget, setMoqTarget] = useState<number>(3000);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [lastAddedItem, setLastAddedItem] = useState<{ product: Product; qty: number } | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // Load cart from localStorage on mount
+  // Load cart from localStorage and load dynamic minimum cart value from backend
   useEffect(() => {
     try {
       const saved = localStorage.getItem('sivaji_cart_v1');
@@ -51,6 +51,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.error('Failed to load cart from storage', e);
     }
     setIsInitialized(true);
+
+    api.getSettings().then((s) => {
+      if (s?.minimum_cart_value) {
+        setMoqTarget(s.minimum_cart_value);
+      }
+    }).catch(() => {});
   }, []);
 
   // Save cart to localStorage on changes
@@ -110,8 +116,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const totalWholesale = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
   const totalSavings = totalMRP - totalWholesale;
 
-  const moqMet = totalWholesale >= MOQ_LIMIT;
-  const moqProgress = Math.min(100, Math.round((totalWholesale / MOQ_LIMIT) * 100));
+  const moqMet = totalWholesale >= moqTarget;
+  const moqProgress = Math.min(100, Math.round((totalWholesale / moqTarget) * 100));
 
   return (
     <CartContext.Provider
@@ -131,7 +137,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isCheckoutOpen,
         setIsCheckoutOpen,
         lastAddedItem,
-        moqTarget: MOQ_LIMIT,
+        moqTarget,
         moqMet,
         moqProgress,
       }}

@@ -34,6 +34,28 @@ export interface StoreSettings {
   budget_builder_title: string;
   budget_builder_subtitle: string;
   budget_builder_description: string;
+  // Hero Trust Badges (4 cards below slider)
+  badge_1_num?: string;
+  badge_1_title?: string;
+  badge_1_subtitle?: string;
+  badge_2_num?: string;
+  badge_2_title?: string;
+  badge_2_subtitle?: string;
+  badge_3_title?: string;
+  badge_3_subtitle?: string;
+  badge_4_title?: string;
+  badge_4_subtitle?: string;
+  // Delivery Cutoff & Countdown Bar
+  countdown_enabled?: boolean;
+  countdown_title?: string;
+  countdown_subtitle?: string;
+  countdown_target_date?: string;
+  countdown_button_text?: string;
+  countdown_button_link?: string;
+  // Top Announcement Ribbon
+  announcement_text_1?: string;
+  announcement_text_2?: string;
+  announcement_text_3?: string;
 }
 
 export interface BudgetPackage {
@@ -201,6 +223,28 @@ export const api = {
         budget_builder_title: map['budget_builder_title'] || 'Smart Budget Builder For Families & Societies',
         budget_builder_subtitle: map['budget_builder_subtitle'] || 'Curated Diwali celebration bundles tailored for every budget',
         budget_builder_description: map['budget_builder_description'] || "Don't have time to pick 40 individual crackers? Select your celebration budget below. Our master packers have balanced sparklers, flower pots, and sky shots to give you the highest variety and savings.",
+        // Hero Trust Badges (4 cards below slider)
+        badge_1_num: map['badge_1_num'] || '15+',
+        badge_1_title: map['badge_1_title'] || 'Years Festive Craft',
+        badge_1_subtitle: map['badge_1_subtitle'] || 'Trusted Quality Since 2008',
+        badge_2_num: map['badge_2_num'] || '70%',
+        badge_2_title: map['badge_2_title'] || 'Direct Factory Rate',
+        badge_2_subtitle: map['badge_2_subtitle'] || 'Flat Discount on MRP',
+        badge_3_title: map['badge_3_title'] || '100% Green Certified',
+        badge_3_subtitle: map['badge_3_subtitle'] || 'CSIR-NEERI & PESO Lic',
+        badge_4_title: map['badge_4_title'] || 'Fast & Safe Delivery',
+        badge_4_subtitle: map['badge_4_subtitle'] || 'Tracked Dispatches',
+        // Delivery Cutoff & Countdown Bar
+        countdown_enabled: (map['countdown_enabled'] || 'true').toLowerCase() !== 'false',
+        countdown_title: map['countdown_title'] || 'Festival Dispatch & Delivery Cutoff',
+        countdown_subtitle: map['countdown_subtitle'] || 'Seasonal delivery slots filling fast to ensure timely festive arrival',
+        countdown_target_date: map['countdown_target_date'] || '2026-10-21T18:00:00',
+        countdown_button_text: map['countdown_button_text'] || 'Book Now',
+        countdown_button_link: map['countdown_button_link'] || '/estimate',
+        // Top Announcement Ribbon
+        announcement_text_1: map['announcement_text_1'] || 'Festival Specials & Seasonal Offers',
+        announcement_text_2: map['announcement_text_2'] || '100% CSIR-NEERI Green Certified',
+        announcement_text_3: map['announcement_text_3'] || 'Up to 80% Direct Wholesale Savings',
       };
     } catch (err) {
       console.warn('Supabase settings query error, falling back to defaults:', err);
@@ -222,14 +266,33 @@ export const api = {
         upi_id: 'sivajiduddempudi422@axl',
         upi_payee_name: 'Sivaji Duddempudi',
         currency_symbol: '₹',
-        shipping_charge: 150,
+        shipping_charge: 0,
         free_shipping_enabled: false,
-        free_shipping_threshold: 5000,
+        free_shipping_threshold: 0,
         budget_builder_enabled: true,
         budget_builder_badge: 'Instant 1-Click Bundle Calculator',
         budget_builder_title: 'Smart Budget Builder For Families & Societies',
         budget_builder_subtitle: 'Curated Diwali celebration bundles tailored for every budget',
-        budget_builder_description: "Don't have time to pick 40 individual crackers? Select your celebration budget below. Our master packers have balanced sparklers, flower pots, and sky shots to give you the highest variety and savings.",
+        budget_builder_description: "Don't have time to pick 40 individual crackers? Select your celebration budget below.",
+        badge_1_num: '15+',
+        badge_1_title: 'Years Festive Craft',
+        badge_1_subtitle: 'Trusted Quality Since 2008',
+        badge_2_num: '70%',
+        badge_2_title: 'Direct Factory Rate',
+        badge_2_subtitle: 'Flat Discount on MRP',
+        badge_3_title: '100% Green Certified',
+        badge_3_subtitle: 'CSIR-NEERI & PESO Lic',
+        badge_4_title: 'Fast & Safe Delivery',
+        badge_4_subtitle: 'Tracked Dispatches',
+        countdown_enabled: true,
+        countdown_title: 'Festival Dispatch & Delivery Cutoff',
+        countdown_subtitle: 'Seasonal delivery slots filling fast to ensure timely festive arrival',
+        countdown_target_date: '2026-10-21T18:00:00',
+        countdown_button_text: 'Book Now',
+        countdown_button_link: '/estimate',
+        announcement_text_1: 'Festival Specials & Seasonal Offers',
+        announcement_text_2: '100% CSIR-NEERI Green Certified',
+        announcement_text_3: 'Up to 80% Direct Wholesale Savings',
       };
     }
   },

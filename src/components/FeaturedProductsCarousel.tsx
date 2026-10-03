@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PRODUCTS, Product } from '@/data/products';
+import { api } from '@/services/api';
 import { useCart } from '@/context/CartContext';
 import {
   Sparkles,
@@ -45,10 +46,23 @@ export const FeaturedProductsCarousel: React.FC = () => {
   const [addedAnimation, setAddedAnimation] = useState<Record<string, boolean>>({});
   const [lightboxProduct, setLightboxProduct] = useState<Product | null>(null);
 
-  // Filter curated products or fallback to top products
-  const featuredProducts = FEATURED_IDS.map((id) => PRODUCTS.find((p) => p.id === id)).filter(
+  const fallbackFeatured = FEATURED_IDS.map((id) => PRODUCTS.find((p) => p.id === id)).filter(
     Boolean
   ) as Product[];
+
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>(fallbackFeatured);
+
+  useEffect(() => {
+    let isMounted = true;
+    api.getFeaturedProducts().then((data) => {
+      if (isMounted && data && data.length > 0) {
+        setFeaturedProducts(data);
+      }
+    }).catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {

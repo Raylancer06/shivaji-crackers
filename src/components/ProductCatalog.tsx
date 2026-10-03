@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { Product, PRODUCTS, CATEGORIES } from '@/data/products';
+import { api } from '@/services/api';
 import { useCart } from '@/context/CartContext';
 import { ImageLightboxModal } from './ImageLightboxModal';
 import {
@@ -29,6 +30,8 @@ interface ProductCatalogProps {
 
 export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = '' }) => {
   const { addToCart, updateQuantity, items } = useCart();
+  const [products, setProducts] = useState<Product[]>(PRODUCTS);
+  const [categories, setCategories] = useState<typeof CATEGORIES>(CATEGORIES);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>(initialSearch);
   const [sortBy, setSortBy] = useState<string>('popular');
@@ -36,6 +39,27 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [addedAnimation, setAddedAnimation] = useState<Record<string, boolean>>({});
   const [lightboxProduct, setLightboxProduct] = useState<Product | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    Promise.all([api.getProducts(), api.getCategories()])
+      .then(([dbProducts, dbCategories]) => {
+        if (!isMounted) return;
+        if (dbProducts && dbProducts.length > 0) {
+          setProducts(dbProducts);
+        }
+        if (dbCategories && dbCategories.length > 0) {
+          setCategories(dbCategories as any);
+        }
+      })
+      .catch((err) => {
+        console.warn('Failed to fetch dynamic products, using static fallback:', err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   React.useEffect(() => {
     if (initialSearch !== undefined) {
@@ -70,7 +94,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
   };
 
   const filteredProducts = useMemo(() => {
-    let result = [...PRODUCTS];
+    let result = [...products];
 
     if (selectedCategory !== 'all') {
       result = result.filter((p) => p.category === selectedCategory);
@@ -96,7 +120,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
     }
 
     return result;
-  }, [selectedCategory, searchQuery, sortBy]);
+  }, [products, selectedCategory, searchQuery, sortBy]);
 
   return (
     <section id="catalog" className="py-16 md:py-24 bg-[#FAF8F5] relative font-sans">
@@ -169,7 +193,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 className="w-full py-2.5 px-3 rounded-xl bg-[#FAF8F5] text-xs font-bold border border-[#E2D7C5] text-[#1C1411] outline-none"
               >
-                {CATEGORIES.map((cat) => (
+                {categories.map((cat) => (
                   <option key={cat.id} value={cat.id}>
                     {cat.label}
                   </option>
@@ -184,12 +208,12 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
                   Cracker Categories
                 </span>
                 <span className="text-[10px] font-bold text-[#B85D00] bg-[#FFF8ED] px-2 py-0.5 rounded-full border border-[#C98E2A]/30">
-                  {CATEGORIES.length} Categories
+                  {categories.length} Categories
                 </span>
               </div>
 
               <div className="max-h-[calc(100vh-190px)] overflow-y-auto pr-1 space-y-1 scrollbar-thin">
-                {CATEGORIES.map((cat) => {
+                {categories.map((cat) => {
                   const isActive = selectedCategory === cat.id;
                   return (
                     <button
@@ -254,7 +278,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
               <div className="mt-3 pt-3 border-t border-[#E2D7C5]/60 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <span className="font-bold text-[#550C12]">
-                    {CATEGORIES.find((c) => c.id === selectedCategory)?.label || 'All Crackers'}
+                    {categories.find((c) => c.id === selectedCategory)?.label || 'All Crackers'}
                   </span>
                   <span className="text-[#66574F]">({filteredProducts.length} items found)</span>
                 </div>

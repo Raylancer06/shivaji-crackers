@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
+import { api, StoreSettings } from '@/services/api';
 import {
   ShoppingBag,
   ShieldCheck,
@@ -29,16 +30,21 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
   const { totalBoxes, totalWholesale, setIsCartOpen } = useCart();
   const { user, logout } = useAuth();
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
   const [searchVal, setSearchVal] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [settings, setSettings] = useState<Partial<StoreSettings>>({
+    announcement_text_1: 'Festival Specials & Seasonal Offers',
+    announcement_text_2: '100% CSIR-NEERI Green Certified',
+    announcement_text_3: 'Up to 80% Direct Wholesale Savings',
+    support_phone: '+91 83740 44445',
+  });
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    let isMounted = true;
+    api.getSettings().then((s) => {
+      if (isMounted && s) setSettings(s);
+    }).catch(() => {});
+    return () => { isMounted = false; };
   }, []);
 
   // Close mobile menu whenever pathname changes
@@ -73,45 +79,40 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
   ];
 
   return (
-    <header className="sticky top-0 z-50 font-sans w-full bg-white shadow-xs">
-      {/* Top Luxury Announcement Ribbon */}
-      <div
-        className={`bg-[#3D060B] text-[#F3E7D3] text-[11px] px-3 sm:px-4 font-medium tracking-wider transition-all duration-300 overflow-hidden ${
-          scrolled ? 'max-h-0 py-0 opacity-0 pointer-events-none border-b-0' : 'max-h-12 py-1.5 opacity-100 border-b border-[#C98E2A]/20'
-        }`}
-      >
+    <>
+      {/* Top Luxury Announcement Ribbon (Flows naturally with scroll, completely eliminates header flickering) */}
+      <div className="w-full bg-[#3D060B] text-[#F3E7D3] text-[11px] px-3 sm:px-4 py-1.5 font-medium tracking-wider border-b border-[#C98E2A]/20">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
             <span className="flex h-1.5 w-1.5 rounded-full bg-[#10B981] shadow-[0_0_8px_#10B981] animate-pulse shrink-0" />
             <span className="text-[#F0B543] font-serif font-bold uppercase text-[10px] tracking-widest">
-              Festival Specials & Seasonal Offers
+              {settings.announcement_text_1 || 'Festival Specials & Seasonal Offers'}
             </span>
             <span className="text-white/30 hidden sm:inline">•</span>
-            <span className="text-white/80 hidden sm:inline">100% CSIR-NEERI Green Certified</span>
+            <span className="text-white/80 hidden sm:inline">
+              {settings.announcement_text_2 || '100% CSIR-NEERI Green Certified'}
+            </span>
             <span className="text-white/30 hidden md:inline">•</span>
-            <span className="text-[#F0B543] hidden md:inline">Up to 80% Direct Wholesale Savings</span>
+            <span className="text-[#F0B543] hidden md:inline">
+              {settings.announcement_text_3 || 'Up to 80% Direct Wholesale Savings'}
+            </span>
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
             <a
-              href="tel:+918374044445"
+              href={`tel:${(settings.support_phone || '+91 83740 44445').replace(/\s+/g, '')}`}
               className="inline-flex items-center gap-1.5 text-[#F0B543] hover:text-white transition-colors text-xs font-bold whitespace-nowrap"
             >
               <Phone className="w-3.5 h-3.5 text-[#F0B543]" />
-              <span className="hidden xs:inline">Helpline:</span> +91 83740 44445
+              <span className="hidden xs:inline">Helpline:</span> {settings.support_phone || '+91 83740 44445'}
             </a>
           </div>
         </div>
       </div>
 
-      {/* Main Solid Opaque Navbar */}
-      <nav
-        className={`w-full transition-all duration-300 border-b border-[#E2D7C5] bg-white ${
-          scrolled || mobileMenuOpen
-            ? 'shadow-md py-2'
-            : 'shadow-xs py-2.5 sm:py-3'
-        }`}
-      >
+      {/* Main Solid Opaque Sticky Header (Stable height, 100% solid white, 0 flicker) */}
+      <header className="sticky top-0 z-50 font-sans w-full bg-white shadow-xs">
+        <nav className="w-full border-b border-[#E2D7C5] bg-white shadow-xs py-2.5 sm:py-3">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 flex items-center justify-between gap-2 sm:gap-3 lg:gap-6">
           {/* Brand Emblem & Logo */}
           <Link href="/" className="flex items-center gap-2 group shrink-0">
@@ -460,5 +461,6 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
         )}
       </AnimatePresence>
     </header>
-  );
+  </>
+);
 };

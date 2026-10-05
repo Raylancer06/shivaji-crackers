@@ -15,6 +15,7 @@ import {
   Truck,
   Flame,
   Award,
+  FileDown,
 } from 'lucide-react';
 
 interface Slide {
@@ -228,10 +229,10 @@ export const Hero: React.FC = () => {
                 </div>
 
                 {/* Action CTA Buttons */}
-                <div className="flex flex-wrap items-center gap-3 pt-2">
+                <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 pt-2">
                   <button
                     onClick={() => handleCtaClick(slide)}
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#C98E2A] via-[#F0B543] to-[#C98E2A] text-[#1C1411] font-serif font-black text-xs sm:text-sm shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 rounded-xl bg-gradient-to-r from-[#C98E2A] via-[#F0B543] to-[#C98E2A] text-[#1C1411] font-serif font-black text-xs sm:text-sm shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all"
                   >
                     <Sparkles className="w-4 h-4" />
                     <span>{slide.ctaText}</span>
@@ -239,13 +240,26 @@ export const Hero: React.FC = () => {
                   </button>
 
                   <a
+                    href="/sivaji-firecracker-wholesale-price-list.pdf"
+                    download="Sivaji-Firecracker-Wholesale-Price-List-2026.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl bg-[#550C12]/80 hover:bg-[#7B141C] border border-[#C98E2A]/50 text-white font-bold text-xs sm:text-sm backdrop-blur-md transition-all shadow-md"
+                    title="Download 2026 Wholesale Price List (PDF)"
+                  >
+                    <FileDown className="w-4 h-4 text-[#F0B543]" />
+                    <span>PDF Price List</span>
+                  </a>
+
+                  <a
                     href="https://wa.me/918374044445?text=Hello%20Sivaji%20Firecracker%2C%20I%20would%20like%20to%20inquire%20about%20festival%20wholesale%20crackers%20and%20orders."
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs sm:text-sm backdrop-blur-md transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs sm:text-sm backdrop-blur-md transition-all"
                   >
                     <MessageCircle className="w-4 h-4 text-[#10B981]" />
-                    <span>WhatsApp Order (+91 83740 44445)</span>
+                    <span className="hidden sm:inline">WhatsApp Order</span>
+                    <span className="sm:hidden">WhatsApp</span>
                   </a>
                 </div>
               </motion.div>

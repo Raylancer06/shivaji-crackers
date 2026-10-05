@@ -22,6 +22,7 @@ import {
   TableProperties,
   Printer,
   Maximize2,
+  FileDown,
 } from 'lucide-react';
 
 interface ProductCatalogProps {
@@ -169,13 +170,30 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
               </button>
             </div>
 
-            <button
-              onClick={() => window.print()}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-[#E2D7C5] text-[#550C12] text-xs font-serif font-bold hover:bg-[#F2EBE0] shadow-sm transition-all"
-            >
-              <Printer className="w-3.5 h-3.5" />
-              <span>Print Price List</span>
-            </button>
+            {/* Price List Actions: Download Official PDF & Print */}
+            <div className="flex items-center gap-2">
+              <a
+                href="/sivaji-firecracker-wholesale-price-list.pdf"
+                download="Sivaji-Firecracker-Wholesale-Price-List-2026.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#C98E2A] via-[#F0B543] to-[#C98E2A] text-[#1C1411] text-xs font-serif font-black hover:brightness-105 shadow-sm transition-all"
+                title="Download Official 2026 Wholesale Price List (PDF)"
+              >
+                <FileDown className="w-3.5 h-3.5" />
+                <span>Download PDF</span>
+              </a>
+
+              <button
+                type="button"
+                onClick={() => window.print()}
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-[#E2D7C5] text-[#550C12] text-xs font-serif font-bold hover:bg-[#F2EBE0] shadow-sm transition-all"
+                title="Print Wholesale Price List"
+              >
+                <Printer className="w-3.5 h-3.5" />
+                <span>Print Price List</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -610,6 +628,71 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({ initialSearch = 
         allProducts={filteredProducts}
         onSelectProduct={(p) => setLightboxProduct(p)}
       />
+
+      {/* DEDICATED PRINTABLE PRICE LIST (Revealed ONLY during window.print()) */}
+      <div id="printable-price-list" className="hidden print:block p-6 bg-white text-black font-sans">
+        {/* Print Header */}
+        <div className="border-b-2 border-[#550C12] pb-4 mb-4 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-serif font-black text-[#550C12] tracking-wide">
+              SIVAJI FIRECRACKER
+            </h1>
+            <p className="text-xs font-bold text-[#B85D00] uppercase tracking-wider">
+              Official Festival Wholesale Price List • Diwali 2026
+            </p>
+            <p className="text-[10px] text-stone-600 mt-1">
+              100% CSIR-NEERI Green Certified • Sivakasi Factory Direct Rates • Hyderabad Express Delivery
+            </p>
+          </div>
+          <div className="text-right text-[11px] text-stone-700 space-y-0.5">
+            <p className="font-bold text-[#550C12]">Helpline / WhatsApp: +91 83740 44445</p>
+            <p>UPI ID: sivajiduddempudi422@axl (Sivaji Duddempudi)</p>
+            <p>Minimum Order: ₹2,000 | Free Delivery &gt; ₹5,000</p>
+          </div>
+        </div>
+
+        {/* Product Table */}
+        <table className="w-full text-left text-[9px] border-collapse border border-stone-300">
+          <thead>
+            <tr className="bg-[#550C12] text-white font-bold">
+              <th className="p-1.5 border-r border-stone-400 w-12 text-center">Code</th>
+              <th className="p-1.5 border-r border-stone-400">Product Name & Specifications</th>
+              <th className="p-1.5 border-r border-stone-400 w-28">Packing</th>
+              <th className="p-1.5 border-r border-stone-400 w-16 text-right">MRP (₹)</th>
+              <th className="p-1.5 border-r border-stone-400 w-16 text-right font-black text-[#F0B543]">Wholesale (₹)</th>
+              <th className="p-1.5 border-r border-stone-400 w-14 text-center">Discount</th>
+              <th className="p-1.5 w-16 text-center">Order Qty</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-stone-200">
+            {products.map((prod) => {
+              const discount = prod.mrp > 0 ? Math.round(((prod.mrp - prod.price) / prod.mrp) * 100) : 0;
+              return (
+                <tr key={prod.id} className="border-b border-stone-200">
+                  <td className="p-1 border-r border-stone-200 font-mono font-bold text-center">{prod.id}</td>
+                  <td className="p-1 border-r border-stone-200 font-semibold">{prod.name}</td>
+                  <td className="p-1 border-r border-stone-200 text-stone-600">{prod.pieces || `${prod.boxQuantity || 1} Box`}</td>
+                  <td className="p-1 border-r border-stone-200 text-right text-stone-500">₹{prod.mrp}</td>
+                  <td className="p-1 border-r border-stone-200 text-right font-bold text-[#550C12]">₹{prod.price}</td>
+                  <td className="p-1 border-r border-stone-200 text-center text-emerald-800 font-bold">{discount}%</td>
+                  <td className="p-1 text-center font-mono">______</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+
+        {/* Print Legal Notice & Footer */}
+        <div className="border-t-2 border-[#550C12] pt-3 mt-6 text-[9px] text-stone-600 space-y-1">
+          <p className="font-bold text-[#1C1411]">
+            Statutory Notice: As per 2018 Supreme Court Order, online sales of firecrackers are not permitted. Please submit your inquiry through our website estimate page or via WhatsApp +91 83740 44445. We will confirm your order via telephonic verification within 2 hours.
+          </p>
+          <div className="flex items-center justify-between text-[8px] text-stone-500 pt-1 border-t border-stone-200">
+            <span>© 2026 Sivaji Firecracker • Hyderabad, Telangana</span>
+            <span>sivajifirecracker.com</span>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

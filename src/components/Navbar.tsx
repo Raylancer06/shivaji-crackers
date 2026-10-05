@@ -23,6 +23,8 @@ import {
   Package,
   MessageCircle,
   ChevronRight,
+  FileText,
+  FileDown,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -73,6 +75,7 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
   const navLinks = [
     { label: 'Home', href: '/', icon: Home },
     { label: 'Estimate', href: '/estimate', icon: Calculator, badge: 'Wholesale' },
+    { label: 'Price List', href: '/price-list', icon: FileText, badge: 'PDF' },
     { label: 'Payment Info', href: '/payment', icon: CreditCard },
     { label: 'About Us', href: '/about', icon: Info },
     { label: 'Contact', href: '/contact', icon: PhoneCall },
@@ -98,7 +101,18 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
             </span>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+            <a
+              href="/sivaji-firecracker-wholesale-price-list.pdf"
+              download="Sivaji-Firecracker-Wholesale-Price-List-2026.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center gap-1 text-[#F0B543] hover:text-white transition-colors text-[10.5px] font-bold whitespace-nowrap bg-white/10 hover:bg-white/20 px-2 py-0.5 rounded border border-[#F0B543]/30"
+              title="Download Complete 2026 Wholesale Price List (PDF)"
+            >
+              <FileDown className="w-3 h-3 text-[#F0B543]" />
+              <span>PDF Price List</span>
+            </a>
             <a
               href={`tel:${(settings.support_phone || '+91 83740 44445').replace(/\s+/g, '')}`}
               className="inline-flex items-center gap-1.5 text-[#F0B543] hover:text-white transition-colors text-xs font-bold whitespace-nowrap"
@@ -427,6 +441,23 @@ export const Navbar: React.FC<{ onSearchChange?: (val: string) => void }> = ({ o
                     </div>
                   )}
                 </div>
+
+                {/* PDF Price List Download in Mobile Menu */}
+                <a
+                  href="/sivaji-firecracker-wholesale-price-list.pdf"
+                  download="Sivaji-Firecracker-Wholesale-Price-List-2026.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2.5 px-3.5 rounded-xl bg-gradient-to-r from-[#C98E2A] via-[#F0B543] to-[#C98E2A] text-[#1C1411] text-xs font-serif font-black flex items-center justify-between shadow-xs transition"
+                >
+                  <span className="flex items-center gap-2">
+                    <FileDown className="w-4 h-4" />
+                    <span>Download 2026 Price List (PDF)</span>
+                  </span>
+                  <span className="text-[10px] bg-[#1C1411] text-white px-2 py-0.5 rounded font-mono">
+                    150+ Items
+                  </span>
+                </a>
 
                 {/* Instant Support & WhatsApp */}
                 <div className="grid grid-cols-2 gap-2">

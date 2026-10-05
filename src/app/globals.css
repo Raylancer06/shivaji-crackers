@@ -42,18 +42,56 @@
   animation: shimmer 2.5s infinite;
 }
 
-/* Print styling for Invoice */
+/* Print styling for Invoice & Official Price List */
 @media print {
-  body * {
+  /* Hide navigation, buttons, footers and interactive chrome */
+  nav, header, footer, button, .no-print, [role="dialog"], .floating-bar {
+    display: none !important;
+  }
+
+  /* When printing invoice on order confirmation */
+  body:has(#printable-invoice) * {
     visibility: hidden;
   }
-  #printable-invoice, #printable-invoice * {
+  body:has(#printable-invoice) #printable-invoice,
+  body:has(#printable-invoice) #printable-invoice * {
     visibility: visible;
   }
-  #printable-invoice {
+  body:has(#printable-invoice) #printable-invoice {
     position: absolute;
     left: 0;
     top: 0;
     width: 100%;
+    background: #ffffff !important;
+  }
+
+  /* When printing price list */
+  body:has(#printable-price-list) * {
+    visibility: hidden;
+  }
+  body:has(#printable-price-list) #printable-price-list,
+  body:has(#printable-price-list) #printable-price-list * {
+    visibility: visible;
+  }
+  body:has(#printable-price-list) #printable-price-list {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: #ffffff !important;
+  }
+
+  /* Ensure pure white background and clean text on paper */
+  body {
+    background: #ffffff !important;
+    color: #1c1411 !important;
+  }
+
+  .page-break-inside-avoid {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 }
+

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { ShieldCheck, MapPin, Scale, Truck, Phone, Mail } from 'lucide-react';
+import { ShieldCheck, MapPin, Scale, Truck, Phone, Mail, FileDown, FileText } from 'lucide-react';
 import { api } from '@/services/api';
 
 export const Footer: React.FC = () => {
@@ -72,8 +72,26 @@ export const Footer: React.FC = () => {
                 </a>
               </li>
               <li>
+                <a
+                  href="/sivaji-firecracker-wholesale-price-list.pdf"
+                  download="Sivaji-Firecracker-Wholesale-Price-List-2026.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#B85D00] hover:text-[#550C12] transition-colors flex items-center gap-1.5 font-bold"
+                >
+                  <FileDown className="w-3.5 h-3.5 text-[#C98E2A]" />
+                  <span>Download PDF Price List (2026)</span>
+                </a>
+              </li>
+              <li>
+                <a href="/price-list" className="text-[#66574F] hover:text-[#550C12] transition-colors flex items-center gap-1.5">
+                  <FileText className="w-3.5 h-3.5 text-stone-400" />
+                  <span>Online Price List Sheet</span>
+                </a>
+              </li>
+              <li>
                 <a href="/estimate" className="text-[#66574F] hover:text-[#550C12] transition-colors">
-                  Estimate Price List (150+ Items)
+                  Estimate & Order Sheet (150+ Items)
                 </a>
               </li>
               <li>

@@ -19,6 +19,8 @@ import {
   ArrowRight,
   SlidersHorizontal,
   Maximize2,
+  FileDown,
+  FileText,
 } from 'lucide-react';
 import Link from 'next/link';
 import { ImageLightboxModal } from './ImageLightboxModal';
@@ -313,13 +315,27 @@ export const FeaturedProductsCarousel: React.FC = () => {
             </p>
           </div>
 
-          <Link
-            href="/estimate"
-            className="shrink-0 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#C98E2A] via-[#F0B543] to-[#C98E2A] text-[#1C1411] font-black text-xs sm:text-sm shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
-          >
-            <span>View More Products & Price List</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <a
+              href="/sivaji-firecracker-wholesale-price-list.pdf"
+              download="Sivaji-Firecracker-Wholesale-Price-List-2026.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs sm:text-sm backdrop-blur-md transition-all flex items-center gap-2"
+              title="Download Complete 2026 Wholesale Price List (PDF)"
+            >
+              <FileDown className="w-4 h-4 text-[#F0B543]" />
+              <span>Download PDF Price List</span>
+            </a>
+
+            <Link
+              href="/estimate"
+              className="px-6 py-3 rounded-2xl bg-gradient-to-r from-[#C98E2A] via-[#F0B543] to-[#C98E2A] text-[#1C1411] font-black text-xs sm:text-sm shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
+            >
+              <span>Instant Estimate Sheet</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </div>
 
